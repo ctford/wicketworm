@@ -158,9 +158,9 @@ export class WormChart {
       .attr('transform', `translate(${this.chartWidth + 10}, 0)`);
 
     const legendData = [
-      { label: 'Win', color: '#22c55e' },
+      { label: 'Australia', color: '#22c55e' },
       { label: 'Draw', color: '#6b7280' },
-      { label: 'Loss', color: '#ef4444' }
+      { label: 'England', color: '#ef4444' }
     ];
 
     legendData.forEach((item, i) => {
