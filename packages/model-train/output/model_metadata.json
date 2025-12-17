@@ -7,9 +7,7 @@
     "first_team_is_home",
     "first_team_won_toss",
     "first_team_rating",
-    "second_team_rating",
-    "chase_ease",
-    "required_run_rate"
+    "second_team_rating"
   ],
   "label_classes": [
     "draw",

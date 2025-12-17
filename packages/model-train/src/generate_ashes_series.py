@@ -62,27 +62,7 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
     # Determine if first team is home team
     first_team_is_home = 1 if (home_team and first_team == home_team) else 0
 
-    # Calculate chase-specific features (only for innings 4)
-    chase_ease = 0.0
-    required_run_rate = 0.0
-
-    # Check if we're in innings 4 using the current_innings field
-    current_innings = full_match_state.get('current_innings', 0)
-
-    if current_innings == 4 and first_team_lead > 0:
-        # Innings 4: Second team is chasing
-        runs_to_win = first_team_lead
-        chasing_wickets = second_team_wickets_remaining
-
-        if chasing_wickets > 0:
-            runs_required_per_wicket = runs_to_win / chasing_wickets
-            # Inverse transformation: lower runs/wicket = higher ease
-            chase_ease = 1.0 / max(runs_required_per_wicket, 0.5)
-
-        if overs_left > 0:
-            required_run_rate = runs_to_win / overs_left
-
-    # 10 features: overs_left, wickets_remaining x2, lead, is_home, won_toss, ratings x2, chase features x2
+    # 8 features: overs_left, wickets_remaining x2, lead, is_home, won_toss, ratings x2
     features = np.array([[
         overs_left,
         first_team_wickets_remaining,
@@ -91,9 +71,7 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
         first_team_is_home,
         first_team_won_toss,
         first_team_rating,
-        second_team_rating,
-        chase_ease,
-        required_run_rate
+        second_team_rating
     ]])
 
     # XGBoost prediction (from first team's perspective)

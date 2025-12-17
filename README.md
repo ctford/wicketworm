@@ -16,23 +16,19 @@ WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilit
 
 ## Model features
 
-The XGBoost model uses **10 features** to predict match outcomes (Win/Draw/Loss) with **83.5% accuracy**:
+The XGBoost model uses **8 features** to predict match outcomes (Win/Draw/Loss) with **83.5% accuracy**:
 
-### Core match state (50.8%)
-- **Wickets remaining** (22.2%): First and second team wickets left (20 → 0 each)
-- **First team lead** (7.2%): Run lead/deficit
-- **Overs left** (9.7%): Match time remaining (450 → 0)
-- **Home advantage** (11.8%): Whether first batting team plays at home
+### Core match state
+- **Wickets remaining**: First and second team wickets left (20 → 0 each)
+- **First team lead**: Run lead/deficit
+- **Overs left**: Match time remaining (450 → 0)
+- **Home advantage**: Whether first batting team plays at home
 
-### Team context (51.3%)
-- **Team ratings** (29.8%): ELO ratings for both teams built from match history
-- **Toss advantage** (10.9%): Whether first batting team won the toss
+### Team context
+- **Team ratings**: ELO ratings for both teams built from match history
+- **Toss advantage**: Whether first batting team won the toss
 
-### Chase dynamics (8.3%)
-- **Chase ease** (4.2%): Inverse of runs required per wicket (4th innings only)
-- **Required run rate** (4.1%): Runs per over needed to win (4th innings only)
-
-**→ See [FEATURES.md](FEATURES.md) for detailed explanations of all 10 features, value ranges, and examples.**
+**→ See [FEATURES.md](FEATURES.md) for detailed explanations of all 8 features, value ranges, and examples.**
 
 ## Architecture
 

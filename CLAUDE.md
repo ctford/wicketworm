@@ -109,20 +109,16 @@ Each test match has:
 
 The system uses an XGBoost model with **83.5% test accuracy** on 277,401 game states.
 
-#### Model Features (10 features)
+#### Model Features (8 features)
 
-Features with importance percentages:
-
-1. **first_team_rating** (15.2%) - ELO rating of first batting team
-2. **second_team_rating** (14.6%) - ELO rating of second batting team
-3. **first_team_is_home** (11.8%) - Home advantage
-4. **first_team_wickets_remaining** (11.1%) - Wickets left (20 → 0)
-5. **second_team_wickets_remaining** (11.1%) - Wickets left (20 → 0)
-6. **first_team_won_toss** (10.9%) - Toss advantage
-7. **overs_left** (9.7%) - Match time remaining (450 → 0)
-8. **first_team_lead** (7.2%) - Run lead/deficit
-9. **chase_ease** (4.2%) - Inverse of runs per wicket (4th innings only)
-10. **required_run_rate** (4.1%) - Runs per over needed (4th innings only)
+1. **overs_left** - Match time remaining (450 → 0)
+2. **first_team_wickets_remaining** - Wickets left (20 → 0)
+3. **second_team_wickets_remaining** - Wickets left (20 → 0)
+4. **first_team_lead** - Run lead/deficit
+5. **first_team_is_home** - Home advantage (1 = home, 0 = away)
+6. **first_team_won_toss** - Toss advantage (1 = won, 0 = lost)
+7. **first_team_rating** - ELO rating of first batting team
+8. **second_team_rating** - ELO rating of second batting team
 
 Training data: 277,401 game states from 865 Test matches (1970s-2025)
 - Ashes 2025-26 excluded from training (used for ELO only) to ensure out-of-sample predictions

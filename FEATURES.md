@@ -1,6 +1,6 @@
 # WicketWorm Model Features
 
-The XGBoost model uses **10 features** to predict Test match outcomes (Win/Draw/Loss) with **83.5% accuracy**.
+The XGBoost model uses **8 features** to predict Test match outcomes (Win/Draw/Loss) with **83.5% accuracy**.
 
 ## Feature Categories
 
@@ -83,30 +83,6 @@ The XGBoost model uses **10 features** to predict Test match outcomes (Win/Draw/
   - -177 runs: Significant deficit, difficult to recover
   - +300 runs: Dominant position, very high win probability
 
-### 7. Chase Dynamics (8.3% importance)
-
-These features are **only non-zero during 4th innings chases**, otherwise 0.
-
-#### `chase_ease` (4.2%)
-- **Description**: Inverse measure of runs required per wicket (higher = easier chase)
-- **Range**: 0 when not chasing, 0-2+ when chasing
-- **Calculation**: `1.0 / max(runs_to_win / wickets_remaining, 0.5)`
-- **Why it matters**: Captures difficulty of chase. 3 runs/wicket is harder than 30 runs/wicket.
-- **Examples**:
-  - 65 runs, 20 wickets → 3.25 runs/wicket → chase_ease = 0.308 (easy)
-  - 205 runs, 10 wickets → 20.5 runs/wicket → chase_ease = 0.049 (hard)
-
-#### `required_run_rate` (4.1%)
-- **Description**: Runs per over needed to win
-- **Range**: 0 when not chasing, 0-10+ when chasing
-- **Calculation**: `runs_to_win / overs_left`
-- **Why it matters**: Time pressure vs run pressure. 0.54 RRR is trivial, 6.0 RRR is difficult.
-- **Examples**:
-  - 65 runs in 120 overs → RRR = 0.54 (very easy)
-  - 100 runs in 10 overs → RRR = 10.0 (nearly impossible in Tests)
-
-**Note**: These features are mathematically derived from other features (`first_team_lead`, `overs_left`, `wickets_remaining`), but XGBoost uses them to learn chase-specific patterns more efficiently.
-
 ## Feature Importance Interpretation
 
 Feature importance shows **how much the model relies on each feature** when making predictions:
@@ -115,17 +91,12 @@ Feature importance shows **how much the model relies on each feature** when maki
 - **Medium importance** (5-10%): Important context, especially in specific situations
 - **Low importance** (<5%): Useful but not decisive on their own
 
-The chase features have lower importance because:
-1. They're zero most of the time (only 4th innings)
-2. They're derived from other features the model already has
-3. But they still help the model converge faster on chase scenarios
-
 ## Why These Features Work
 
 ### Covers All Match Phases
 - **Early match**: Team ratings, home advantage, toss predict starting probabilities
 - **Mid-match**: Wickets remaining, lead, overs left track match development
-- **Late match**: Chase features capture 4th innings dynamics
+- **Late match**: Combination of lead, wickets, and overs captures chase dynamics naturally
 
 ### Balances Different Aspects
 - **Quality** (ratings): Who's better?
@@ -155,8 +126,9 @@ The model has evolved through several iterations:
 3. **v3**: +2 team ratings → 83.3% accuracy (+25.4% 🚀)
 4. **v4**: +1 toss advantage → 83.7% accuracy (+0.4%)
 5. **v5**: Excluded Ashes 2025-26 → 83.5% accuracy (clean out-of-sample)
+6. **v6**: Removed chase dynamics (redundant features) → 83.5% accuracy (maintained)
 
-The massive jump from v2 to v3 shows that **team strength ratings are crucial** for accurate predictions.
+The massive jump from v2 to v3 shows that **team strength ratings are crucial** for accurate predictions. The v6 simplification confirms that chase_ease and required_run_rate were redundant—XGBoost learns these patterns from the base features (lead, overs, wickets) without explicit calculation.
 
 ## See Also
 

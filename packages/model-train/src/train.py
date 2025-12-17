@@ -19,7 +19,7 @@ from parse_cricsheet import load_all_matches, GameState
 
 def extract_features(states: List[GameState]) -> pd.DataFrame:
     """
-    Extract 10 features representing full match state
+    Extract 8 features representing full match state
 
     Features:
     - overs_left: Total match overs remaining (450 → 0)
@@ -30,8 +30,6 @@ def extract_features(states: List[GameState]) -> pd.DataFrame:
     - first_team_won_toss: 1 if first batting team won the toss, 0 otherwise
     - first_team_rating: ELO rating of first team at match time
     - second_team_rating: ELO rating of second team at match time
-    - chase_ease: 1 / max(runs_per_wicket, 0.5) - higher = easier chase (0 if not chasing)
-    - required_run_rate: Required run rate to win (0 if not chasing)
     """
     records = []
 
@@ -45,8 +43,6 @@ def extract_features(states: List[GameState]) -> pd.DataFrame:
             'first_team_won_toss': state.first_team_won_toss,
             'first_team_rating': state.first_team_rating,
             'second_team_rating': state.second_team_rating,
-            'chase_ease': state.chase_ease,
-            'required_run_rate': state.required_run_rate,
             'match_id': state.match_id,
             'outcome': state.outcome
         })
@@ -242,9 +238,7 @@ def main():
         'first_team_is_home',
         'first_team_won_toss',
         'first_team_rating',
-        'second_team_rating',
-        'chase_ease',
-        'required_run_rate'
+        'second_team_rating'
     ]
 
     X = df[feature_cols].values
