@@ -373,12 +373,39 @@ export class WormChart {
       const tooltip = tooltipGroup.append('g')
         .attr('transform', `translate(${tooltipX}, ${tooltipY})`);
 
-      // Find wicket info for this over
+      // Find wicket info for this block - count all wickets in the highlighted range
       let wicketInfo = '';
       if (this.wicketFalls) {
-        const wicket = this.wicketFalls.find(w => w.xOver === dataPoint.xOver);
-        if (wicket) {
-          wicketInfo = `${wicket.wickets} wickets`;
+        // Count wickets that fell in the highlighted region
+        const startXOver = xScale.invert(stepStart);
+        const endXOver = xScale.invert(stepEnd);
+
+        const wicketsInBlock = this.wicketFalls.filter(w =>
+          w.innings === dataPoint.innings &&
+          w.xOver > startXOver &&
+          w.xOver <= endXOver
+        );
+
+        let totalWicketsFell = 0;
+        let prevWickets = 0;
+
+        // Find wickets before this block
+        const wicketsBefore = this.wicketFalls
+          .filter(w => w.innings === dataPoint.innings && w.xOver <= startXOver)
+          .sort((a, b) => b.xOver - a.xOver)[0];
+
+        if (wicketsBefore) {
+          prevWickets = wicketsBefore.wickets;
+        }
+
+        // Count wickets in this block
+        if (wicketsInBlock.length > 0) {
+          const lastWicketInBlock = wicketsInBlock.sort((a, b) => b.xOver - a.xOver)[0];
+          totalWicketsFell = lastWicketInBlock.wickets - prevWickets;
+        }
+
+        if (totalWicketsFell > 0) {
+          wicketInfo = totalWicketsFell === 1 ? '1 wicket' : `${totalWicketsFell} wickets`;
         }
       }
 
