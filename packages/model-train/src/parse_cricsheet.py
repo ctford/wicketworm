@@ -5,8 +5,82 @@ Parse Cricsheet JSON files and extract game states
 
 import json
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
+
+
+# Map cities to their home countries/teams
+CITY_TO_COUNTRY = {
+    # Australia
+    'Perth': 'Australia', 'Melbourne': 'Australia', 'Sydney': 'Australia',
+    'Adelaide': 'Australia', 'Brisbane': 'Australia', 'Hobart': 'Australia',
+    'Canberra': 'Australia',
+    # England
+    'London': 'England', 'Birmingham': 'England', 'Manchester': 'England',
+    'Leeds': 'England', 'Nottingham': 'England', 'Southampton': 'England',
+    'Cardiff': 'England', 'Durham': 'England',
+    # India
+    'Mumbai': 'India', 'Delhi': 'India', 'Kolkata': 'India', 'Chennai': 'India',
+    'Bangalore': 'India', 'Hyderabad': 'India', 'Ahmedabad': 'India',
+    'Pune': 'India', 'Kanpur': 'India', 'Nagpur': 'India', 'Rajkot': 'India',
+    'Bengaluru': 'India', 'Mohali': 'India', 'Chandigarh': 'India',
+    # Pakistan
+    'Karachi': 'Pakistan', 'Lahore': 'Pakistan', 'Rawalpindi': 'Pakistan',
+    'Multan': 'Pakistan', 'Faisalabad': 'Pakistan', 'Peshawar': 'Pakistan',
+    # South Africa
+    'Cape Town': 'South Africa', 'Johannesburg': 'South Africa', 'Durban': 'South Africa',
+    'Centurion': 'South Africa', 'Port Elizabeth': 'South Africa', 'Bloemfontein': 'South Africa',
+    'East London': 'South Africa', 'Potchefstroom': 'South Africa', 'Kimberley': 'South Africa',
+    # New Zealand
+    'Auckland': 'New Zealand', 'Wellington': 'New Zealand', 'Christchurch': 'New Zealand',
+    'Hamilton': 'New Zealand', 'Dunedin': 'New Zealand', 'Napier': 'New Zealand',
+    'Mount Maunganui': 'New Zealand',
+    # West Indies
+    'Kingston': 'West Indies', 'Bridgetown': 'West Indies', 'Port of Spain': 'West Indies',
+    'Georgetown': 'West Indies', 'St John\'s': 'West Indies', 'Gros Islet': 'West Indies',
+    'Basseterre': 'West Indies', 'Roseau': 'West Indies', 'North Sound': 'West Indies',
+    # Sri Lanka
+    'Colombo': 'Sri Lanka', 'Kandy': 'Sri Lanka', 'Galle': 'Sri Lanka',
+    'Pallekele': 'Sri Lanka', 'Dambulla': 'Sri Lanka',
+    # Bangladesh
+    'Dhaka': 'Bangladesh', 'Chittagong': 'Bangladesh', 'Sylhet': 'Bangladesh',
+    'Mirpur': 'Bangladesh',
+    # Zimbabwe
+    'Harare': 'Zimbabwe', 'Bulawayo': 'Zimbabwe',
+    # Afghanistan
+    'Kabul': 'Afghanistan',
+    # Ireland
+    'Dublin': 'Ireland', 'Belfast': 'Ireland',
+    # UAE (neutral venue for Pakistan)
+    'Dubai': 'United Arab Emirates', 'Abu Dhabi': 'United Arab Emirates',
+    'Sharjah': 'United Arab Emirates',
+}
+
+
+def determine_home_team(city: Optional[str], teams: List[str]) -> Optional[str]:
+    """
+    Determine the home team based on the city where the match is played.
+
+    Args:
+        city: City name from match info
+        teams: List of two teams playing (e.g., ["Australia", "England"])
+
+    Returns:
+        Name of the home team, or None if can't be determined
+    """
+    if not city or len(teams) != 2:
+        return None
+
+    home_country = CITY_TO_COUNTRY.get(city)
+    if not home_country:
+        return None
+
+    # Check if home country matches one of the teams
+    for team in teams:
+        if team == home_country or home_country in team:
+            return team
+
+    return None
 
 
 @dataclass
@@ -21,6 +95,9 @@ class GameState:
 
     # Match position
     first_team_lead: int  # First team's lead (positive) or deficit (negative)
+
+    # Home advantage
+    first_team_is_home: int  # 1 if first batting team is playing at home, 0 otherwise
 
     # Chase-specific features (only non-zero during innings 4 when chasing)
     chase_ease: float  # 1 / max(runs_required_per_wicket, 0.5) - higher = easier chase (0 if not chasing)
@@ -53,6 +130,11 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
         return []  # Invalid match
 
     first_team = teams[0]
+
+    # Determine home team based on city
+    city = data['info'].get('city')
+    home_team = determine_home_team(city, teams)
+    first_team_is_home = 1 if (home_team and first_team == home_team) else 0
 
     # Track all innings states
     innings_data_by_num = {}
@@ -166,6 +248,7 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
                 first_team_wickets_remaining=first_team_wickets_remaining,
                 second_team_wickets_remaining=second_team_wickets_remaining,
                 first_team_lead=first_team_lead,
+                first_team_is_home=first_team_is_home,
                 chase_ease=chase_ease,
                 required_run_rate=required_run_rate,
                 outcome=outcome_first_team
