@@ -19,7 +19,7 @@ from parse_cricsheet import load_all_matches, GameState
 
 def extract_features(states: List[GameState]) -> pd.DataFrame:
     """
-    Extract 7 features representing full match state
+    Extract 9 features representing full match state
 
     Features:
     - overs_left: Total match overs remaining (450 → 0)
@@ -27,6 +27,8 @@ def extract_features(states: List[GameState]) -> pd.DataFrame:
     - second_team_wickets_remaining: Wickets second team has left (20 → 0)
     - first_team_lead: First team's lead (positive) or deficit (negative)
     - first_team_is_home: 1 if first batting team is playing at home, 0 otherwise
+    - first_team_rating: ELO rating of first team at match time
+    - second_team_rating: ELO rating of second team at match time
     - chase_ease: 1 / max(runs_per_wicket, 0.5) - higher = easier chase (0 if not chasing)
     - required_run_rate: Required run rate to win (0 if not chasing)
     """
@@ -39,6 +41,8 @@ def extract_features(states: List[GameState]) -> pd.DataFrame:
             'second_team_wickets_remaining': state.second_team_wickets_remaining,
             'first_team_lead': state.first_team_lead,
             'first_team_is_home': state.first_team_is_home,
+            'first_team_rating': state.first_team_rating,
+            'second_team_rating': state.second_team_rating,
             'chase_ease': state.chase_ease,
             'required_run_rate': state.required_run_rate,
             'match_id': state.match_id,
@@ -230,6 +234,8 @@ def main():
         'second_team_wickets_remaining',
         'first_team_lead',
         'first_team_is_home',
+        'first_team_rating',
+        'second_team_rating',
         'chase_ease',
         'required_run_rate'
     ]

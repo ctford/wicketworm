@@ -99,6 +99,10 @@ class GameState:
     # Home advantage
     first_team_is_home: int  # 1 if first batting team is playing at home, 0 otherwise
 
+    # Team strength (ELO-style ratings before match)
+    first_team_rating: float  # ELO rating of first team at match time
+    second_team_rating: float  # ELO rating of second team at match time
+
     # Chase-specific features (only non-zero during innings 4 when chasing)
     chase_ease: float  # 1 / max(runs_required_per_wicket, 0.5) - higher = easier chase (0 if not chasing)
     required_run_rate: float  # runs_to_win / overs_left (0 if not chasing)
@@ -106,13 +110,14 @@ class GameState:
     outcome: str  # "win", "draw", "loss" (from first team's perspective)
 
 
-def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
+def parse_match(file_path: Path, max_overs: int = 450, team_ratings: Tuple[float, float] = (1500.0, 1500.0)) -> List[GameState]:
     """
     Parse a single Cricsheet JSON file and extract game states per over
 
     Args:
         file_path: Path to Cricsheet JSON file
         max_overs: Maximum overs for match (default 450 for 5-day Test)
+        team_ratings: Tuple of (first_team_rating, second_team_rating) at match time
     """
     with open(file_path) as f:
         data = json.load(f)
@@ -249,6 +254,8 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
                 second_team_wickets_remaining=second_team_wickets_remaining,
                 first_team_lead=first_team_lead,
                 first_team_is_home=first_team_is_home,
+                first_team_rating=team_ratings[0],
+                second_team_rating=team_ratings[1],
                 chase_ease=chase_ease,
                 required_run_rate=required_run_rate,
                 outcome=outcome_first_team
@@ -263,9 +270,29 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
 
 def load_all_matches(data_dir: Path, max_matches: int = None) -> List[GameState]:
     """
-    Load and parse all Cricsheet JSON files
+    Load and parse all Cricsheet JSON files with team ratings
     """
-    json_files = sorted(data_dir.glob('*.json'))
+    from team_ratings import build_rating_system
+
+    print("Building team rating system from match history...")
+    rating_system = build_rating_system(data_dir)
+    print(f"✓ Built rating system from {len(rating_system.rating_history)} matches\n")
+
+    # Load matches sorted by date to process in chronological order
+    json_files = []
+    for file_path in sorted(data_dir.glob('*.json')):
+        try:
+            with open(file_path) as f:
+                data = json.load(f)
+            dates = data.get('info', {}).get('dates', [])
+            if dates:
+                json_files.append((dates[0], file_path))
+        except Exception:
+            continue
+
+    # Sort by date
+    json_files.sort(key=lambda x: x[0])
+    json_files = [fp for _, fp in json_files]
 
     if max_matches:
         json_files = json_files[:max_matches]
@@ -277,7 +304,19 @@ def load_all_matches(data_dir: Path, max_matches: int = None) -> List[GameState]
             print(f"Processing match {i+1}/{len(json_files)}...")
 
         try:
-            states = parse_match(file_path)
+            # Get team names
+            with open(file_path) as f:
+                data = json.load(f)
+            teams = list(data.get('info', {}).get('players', {}).keys())
+            if len(teams) != 2:
+                continue
+
+            # Get ratings for this match (before it was played)
+            first_team_rating, second_team_rating = rating_system.get_match_ratings(
+                file_path.stem, teams[0], teams[1]
+            )
+
+            states = parse_match(file_path, team_ratings=(first_team_rating, second_team_rating))
             all_states.extend(states)
         except Exception as e:
             print(f"Error parsing {file_path.name}: {e}")

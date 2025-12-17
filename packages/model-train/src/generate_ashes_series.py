@@ -34,7 +34,8 @@ mc_predictor.load(mc_model_path)
 print(f"Loaded Monte Carlo model for hybrid predictions")
 
 
-def predict_probabilities(full_match_state, overs_left, first_team='England', home_team=None):
+def predict_probabilities(full_match_state, overs_left, first_team='England', home_team=None,
+                         first_team_rating=1500.0, second_team_rating=1500.0):
     """
     Predict win/draw/loss probabilities from first team's perspective using XGBoost
 
@@ -47,6 +48,8 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
         overs_left: Total match overs remaining
         first_team: Which team bats innings 1 and 3 ('England' or 'Australia')
         home_team: Which team is playing at home (e.g., 'Australia' for Ashes in Australia)
+        first_team_rating: ELO rating of first team
+        second_team_rating: ELO rating of second team
 
     Returns probabilities from Australia's perspective (flips if needed)
     """
@@ -92,13 +95,15 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
         if overs_left > 0:
             required_run_rate = runs_to_win / overs_left
 
-    # 7 features: overs_left, wickets_remaining x2, lead, is_home, chase features x2
+    # 9 features: overs_left, wickets_remaining x2, lead, is_home, ratings x2, chase features x2
     features = np.array([[
         overs_left,
         first_team_wickets_remaining,
         second_team_wickets_remaining,
         first_team_lead,
         first_team_is_home,
+        first_team_rating,
+        second_team_rating,
         chase_ease,
         required_run_rate
     ]])
@@ -548,10 +553,12 @@ def main():
                     probs = {'pWin': 0.0, 'pDraw': 0.0, 'pLoss': 1.0}
                 else:
                     # Shouldn't happen, but use actual prediction
-                    probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name, home_team='Australia')
+                    probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
+                                                 home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3)
             else:
                 # Match still in progress - predict normally
-                probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name, home_team='Australia')
+                probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
+                                             home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3)
 
             # xOver = cumulative overs from previous innings + current over
             xOver = cumulative_overs + state['over']
