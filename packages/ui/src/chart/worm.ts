@@ -137,17 +137,17 @@ export class WormChart {
         const startXOver = prevPoint ? prevPoint.xOver : 0;
         const endXOver = point.xOver;
 
-        // Find all wickets in this bucket
+        // Find all wickets in this bucket (use same logic as tooltip)
         const wicketsInBucket = this.wicketFalls.filter(w =>
           w.innings === point.innings &&
-          w.xOver > startXOver &&
+          w.xOver >= startXOver &&
           w.xOver <= endXOver
         );
 
         if (wicketsInBucket.length > 0) {
           // Calculate total wickets that fell in this bucket
           const wicketsBefore = this.wicketFalls
-            .filter(w => w.innings === point.innings && w.xOver <= startXOver)
+            .filter(w => w.innings === point.innings && w.xOver < startXOver)
             .sort((a, b) => b.xOver - a.xOver)[0];
 
           const prevWickets = wicketsBefore ? wicketsBefore.wickets : 0;
