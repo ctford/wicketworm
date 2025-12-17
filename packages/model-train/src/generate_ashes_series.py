@@ -538,10 +538,20 @@ def main():
                 'second_team_wickets_inn4': wickets_inn4
             }
 
-            # Determine toss winner for this match
-            # Perth: England won toss, Brisbane: England won toss, Adelaide: Australia won toss
+            # Determine toss winner and ratings for this match
+            # Perth: England won toss (batted first), Brisbane: England won toss (batted first)
+            # Adelaide: Australia won toss (batted first)
             # In all three matches, the team that batted first won the toss
             first_team_won_toss = 1
+
+            # Set ratings based on which team bats first
+            # England rating: 1593.1, Australia rating: 1757.3
+            if first_team_name == 'England':
+                first_team_rating = 1593.1
+                second_team_rating = 1757.3
+            else:  # Australia bats first
+                first_team_rating = 1757.3
+                second_team_rating = 1593.1
 
             # Check if target has been reached in innings 4
             target_reached = False
@@ -561,12 +571,14 @@ def main():
                 else:
                     # Shouldn't happen, but use actual prediction
                     probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
-                                                 home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3,
+                                                 home_team='Australia', first_team_rating=first_team_rating,
+                                                 second_team_rating=second_team_rating,
                                                  first_team_won_toss=first_team_won_toss)
             else:
                 # Match still in progress - predict normally
                 probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
-                                             home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3,
+                                             home_team='Australia', first_team_rating=first_team_rating,
+                                             second_team_rating=second_team_rating,
                                              first_team_won_toss=first_team_won_toss)
 
             # xOver = cumulative overs from previous innings + current over
