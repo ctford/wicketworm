@@ -4,20 +4,11 @@
 
 WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilities** for live Test cricket matches as an interactive worm chart. It uses only **anonymized scorecard state** (no team strength modeling) to provide real-time insights into match dynamics.
 
-## Features
-
-- **Team-agnostic predictions**: Based purely on match state, not team reputation
-- **Over-based visualization**: X-axis tracks overs, not real time
-- **Browser-based inference**: ML model runs entirely in your browser
-- **Offline replay mode**: Review historical matches without live data
-- **Open source**: MIT licensed, built with modern web standards
-
 ## How it works
 
-1. **Model training** (Python): Train a multinomial logistic regression model on historical Test match data from Cricsheet
-2. **Live proxy** (Node/Bun): Normalize live match data from various providers into a canonical format
-3. **Browser inference** (TypeScript): Run the trained model in-browser to compute probabilities
-4. **Visualization** (D3): Render an interactive worm chart showing probability evolution over overs
+1. **Model training** (Python): Train hybrid XGBoost + Monte Carlo model on historical Test match data from Cricsheet
+2. **Probability generation** (Python): Generate predictions for match states using the hybrid model
+3. **Visualization** (D3): Render an interactive worm chart showing probability evolution over overs with smooth curves and wicket markers
 
 ## Architecture
 
@@ -25,9 +16,8 @@ WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilit
 wicketworm/
   packages/
     shared-types/    # Shared TypeScript types
-    model-train/     # Python: train + export model.json
-    live-proxy/      # Node/Bun: live match data normalization
-    ui/              # Vite + TS + D3: HTML worm chart
+    model-train/     # Python: XGBoost + Monte Carlo model training
+    ui/              # Vite + TS + D3: Interactive worm chart visualization
 ```
 
 ## Key principles
@@ -50,31 +40,18 @@ wicketworm/
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/wicketworm.git
+git clone https://github.com/ctford/wicketworm.git
 cd wicketworm
 
 # Install dependencies
 pnpm install
 
-# Train the model
-cd packages/model-train
-python train.py
-
-# Start the UI in offline mode
-cd ../ui
+# Start the visualization
+cd packages/ui
 pnpm dev
 ```
 
-## Roadmap
-
-- [x] Project structure and planning
-- [ ] Offline replay mode
-- [ ] Model training and validation
-- [ ] Browser inference engine
-- [ ] Live proxy server
-- [ ] Live updates
-- [ ] Annotations and milestones
-- [ ] Documentation and polish
+The visualization will show pre-generated probability data for The Ashes 2025-26 series.
 
 ## Data sources
 
