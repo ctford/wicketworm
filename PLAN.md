@@ -25,9 +25,13 @@ Create a monorepo:
 ```
 wicketworm/
   packages/
+    shared-types/       # Shared TypeScript types
     model-train/        # Python: train + export model.json
     live-proxy/         # Node/Bun: live match data normalisation
     ui/                 # Vite + TS + D3: HTML worm
+  .gitignore
+  package.json          # pnpm workspace root
+  pnpm-workspace.yaml
   README.md
   LICENSE (MIT)
 ```
@@ -102,32 +106,64 @@ xOver = (innings - 1) * OVER_OFFSET + over;
 
 ## 4. Model training (Python)
 
-- Use Cricsheet Test data
-- Aggregate per over
-- Train multinomial logistic regression
-- Export model.json with coefficients, means, stds
+### Data source
+- Use Cricsheet Test data (YAML ball-by-ball files)
+- Parse and aggregate per over
+
+### Features
+Key features for each game state:
+- `innings` (1-4, categorical)
+- `wicketsDown` (0-10)
+- `runRate` (runs per over)
+- `lead` (signed)
+- `ballsRemaining` (in match)
+- `runsPerWicket` (runs / (wickets + 1))
+- `isChasing` (boolean)
+- `requiredRunRate` (if chasing)
+- Interaction terms as needed
+
+### Model
+- Multinomial logistic regression (Win/Draw/Loss)
+- Standardize numeric features
+- Export model.json with:
+  - `coefficients`: weight matrix
+  - `intercepts`: bias terms
+  - `featureMeans`, `featureStds`: for normalization
+  - `featureNames`: for documentation
 
 ---
 
 ## 5. Browser inference
 
-- Load model.json
-- Compute features
-- Apply softmax
-- Output pWin / pDraw / pLoss
+- Load model.json (fetch once, cache)
+- For each GameState:
+  - Compute feature vector (same as training)
+  - Standardize: `(x - mean) / std`
+  - Compute logits: `W·x + b`
+  - Apply softmax: `exp(logit) / sum(exp(logits))`
+- Output: `{pWin, pDraw, pLoss}` where `pWin + pDraw + pLoss = 1`
+- No ML library needed, pure TypeScript math
 
 ---
 
 ## 6. Live proxy
 
-Endpoints:
+### Endpoints
 
 ```
 GET /api/match/:id/state
 GET /api/match/:id/balls?since=<cursor>
 ```
 
-Normalise provider payloads into canonical types.
+### Data providers
+- Start with Cricsheet (recent matches)
+- Later: ESPN Cricinfo JSON endpoints (with appropriate rate limiting)
+- Provider-agnostic: normalize all payloads to canonical types
+
+### Implementation
+- Bun/Node server
+- Cache responses per over
+- Handle rate limiting gracefully
 
 ---
 
@@ -146,7 +182,31 @@ Must work without live data.
 
 ---
 
-## 9. Milestones
+## 9. Testing strategy
+
+### model-train
+- Unit tests for feature extraction
+- Validate model export format
+- Test with known historical match outcomes
+
+### live-proxy
+- Unit tests for data normalization
+- Mock provider responses
+- Test rate limiting and caching
+
+### ui
+- Test probability computation (sum to 1)
+- Test xOver calculation
+- Visual regression tests for worm chart
+- Test offline replay mode
+
+### Integration
+- End-to-end test with historical match data
+- Verify probabilities are reasonable
+
+---
+
+## 10. Milestones
 
 1. Offline replay works
 2. Model validated in browser
