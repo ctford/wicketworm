@@ -84,24 +84,24 @@ export class WormChart {
       .range([this.chartHeight, 0]);
 
     // Define areas - stack from bottom (Win) to top (Loss)
-    // Use curveStepAfter to show discontinuities at wicket falls (no smoothing)
+    // Use curveMonotoneX for light smoothing while preserving monotonicity
     const areaWin = d3.area<ProbPoint>()
       .x(d => xScale(d.xOver))
       .y0(this.chartHeight)  // Bottom of chart
       .y1(d => yScale(d.pWin))  // Top of win area
-      .curve(d3.curveStepAfter);
+      .curve(d3.curveMonotoneX);
 
     const areaDraw = d3.area<ProbPoint>()
       .x(d => xScale(d.xOver))
       .y0(d => yScale(d.pWin))  // Where win area ended
       .y1(d => yScale(d.pWin + d.pDraw))  // Top of draw area
-      .curve(d3.curveStepAfter);
+      .curve(d3.curveMonotoneX);
 
     const areaLoss = d3.area<ProbPoint>()
       .x(d => xScale(d.xOver))
       .y0(d => yScale(d.pWin + d.pDraw))  // Where draw area ended
       .y1(0)  // Top of chart
-      .curve(d3.curveStepAfter);
+      .curve(d3.curveMonotoneX);
 
     // Clear previous render
     this.svg.selectAll('*').remove();
