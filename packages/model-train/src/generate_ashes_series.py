@@ -35,7 +35,7 @@ print(f"Loaded Monte Carlo model for hybrid predictions")
 
 
 def predict_probabilities(full_match_state, overs_left, first_team='England', home_team=None,
-                         first_team_rating=1500.0, second_team_rating=1500.0):
+                         first_team_rating=1500.0, second_team_rating=1500.0, first_team_won_toss=0):
     """
     Predict win/draw/loss probabilities from first team's perspective using XGBoost
 
@@ -50,6 +50,7 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
         home_team: Which team is playing at home (e.g., 'Australia' for Ashes in Australia)
         first_team_rating: ELO rating of first team
         second_team_rating: ELO rating of second team
+        first_team_won_toss: 1 if first team won toss, 0 otherwise
 
     Returns probabilities from Australia's perspective (flips if needed)
     """
@@ -95,13 +96,14 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
         if overs_left > 0:
             required_run_rate = runs_to_win / overs_left
 
-    # 9 features: overs_left, wickets_remaining x2, lead, is_home, ratings x2, chase features x2
+    # 10 features: overs_left, wickets_remaining x2, lead, is_home, won_toss, ratings x2, chase features x2
     features = np.array([[
         overs_left,
         first_team_wickets_remaining,
         second_team_wickets_remaining,
         first_team_lead,
         first_team_is_home,
+        first_team_won_toss,
         first_team_rating,
         second_team_rating,
         chase_ease,
@@ -536,6 +538,11 @@ def main():
                 'second_team_wickets_inn4': wickets_inn4
             }
 
+            # Determine toss winner for this match
+            # Perth: England won toss, Brisbane: England won toss, Adelaide: Australia won toss
+            # In all three matches, the team that batted first won the toss
+            first_team_won_toss = 1
+
             # Check if target has been reached in innings 4
             target_reached = False
             if state['innings'] == 4 and score_inn4 > 0:
@@ -554,11 +561,13 @@ def main():
                 else:
                     # Shouldn't happen, but use actual prediction
                     probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
-                                                 home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3)
+                                                 home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3,
+                                                 first_team_won_toss=first_team_won_toss)
             else:
                 # Match still in progress - predict normally
                 probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
-                                             home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3)
+                                             home_team='Australia', first_team_rating=1593.1, second_team_rating=1757.3,
+                                             first_team_won_toss=first_team_won_toss)
 
             # xOver = cumulative overs from previous innings + current over
             xOver = cumulative_overs + state['over']
