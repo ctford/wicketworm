@@ -19,8 +19,12 @@ coefficients = np.array(model_data['coefficients'])
 intercepts = np.array(model_data['intercepts'])
 
 
-def predict_probabilities(state):
-    """Predict win/draw/loss probabilities"""
+def predict_probabilities(state, batting_team='Australia'):
+    """
+    Predict win/draw/loss probabilities from Australia's perspective
+
+    Model predicts from batting team's perspective, so we flip when England is batting.
+    """
     run_rate = (state['runsFor'] / state['ballsBowled']) * 6 if state['ballsBowled'] > 0 else 0
     runs_per_wicket = state['runsFor'] / (state['wicketsDown'] + 1)
 
@@ -49,11 +53,33 @@ def predict_probabilities(state):
     exp_logits = np.exp(logits - np.max(logits))
     probs = exp_logits / np.sum(exp_logits)
 
-    return {
-        'pWin': float(probs[0][0]),
-        'pDraw': float(probs[0][1]),
-        'pLoss': float(probs[0][2])
-    }
+    # Model predicts from batting team's perspective
+    # If England is batting, flip win/loss to show Australia's perspective
+    if batting_team == 'England':
+        return {
+            'pWin': float(probs[0][2]),  # England's loss = Australia's win
+            'pDraw': float(probs[0][1]),
+            'pLoss': float(probs[0][0])  # England's win = Australia's loss
+        }
+    else:
+        return {
+            'pWin': float(probs[0][0]),  # Australia's win
+            'pDraw': float(probs[0][1]),
+            'pLoss': float(probs[0][2])  # Australia's loss
+        }
+
+
+def add_batting_teams(states, first_batting='England'):
+    """Add batting team to each state based on innings"""
+    for state in states:
+        innings = state['innings']
+        if first_batting == 'England':
+            # England: innings 1, 3; Australia: innings 2, 4
+            state['battingTeam'] = 'England' if innings in [1, 3] else 'Australia'
+        else:
+            # Australia: innings 1, 3; England: innings 2, 4
+            state['battingTeam'] = 'Australia' if innings in [1, 3] else 'England'
+    return states
 
 
 def generate_perth_test():
@@ -171,6 +197,9 @@ def generate_perth_test():
             'completedInnings': 3,
             'isChasing': True
         })
+
+    # Add batting teams (England batted first)
+    states = add_batting_teams(states, first_batting='England')
 
     return {
         'matchId': 'perth-test-2025',
@@ -301,6 +330,9 @@ def generate_brisbane_test():
             'isChasing': True
         })
 
+    # Add batting teams (England batted first)
+    states = add_batting_teams(states, first_batting='England')
+
     return {
         'matchId': 'brisbane-test-2025',
         'city': 'Brisbane',
@@ -321,13 +353,16 @@ def main():
     with open(adelaide_path) as f:
         adelaide = json.load(f)
 
+    # Add batting teams to Adelaide (Australia batted first)
+    adelaide_states = add_batting_teams(adelaide['states'], first_batting='Australia')
+
     adelaide_match = {
         'matchId': 'adelaide-test-2025',
         'city': 'Adelaide',
         'dates': 'Dec 17-21, 2025',
         'result': 'In progress (Day 1)',
         'days': 1,
-        'states': adelaide['states']
+        'states': adelaide_states
     }
 
     # Calculate probabilities for all states
@@ -336,7 +371,9 @@ def main():
         last_over = 0
 
         for state in test_data['states']:
-            probs = predict_probabilities(state)
+            # Get batting team from state, or determine from match
+            batting_team = state.get('battingTeam', 'Australia')
+            probs = predict_probabilities(state, batting_team=batting_team)
             prob_points.append({
                 'xOver': state['over'],
                 'innings': state['innings'],
