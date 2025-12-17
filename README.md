@@ -1,5 +1,7 @@
 # WicketWorm
 
+[![CI](https://github.com/ctford/wicketworm/actions/workflows/ci.yml/badge.svg)](https://github.com/ctford/wicketworm/actions/workflows/ci.yml)
+
 > Test cricket match probability visualizer
 
 WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilities** for Test cricket matches as an interactive worm chart. It uses only **anonymized scorecard state** (no team strength modeling) to provide insights into match dynamics.
