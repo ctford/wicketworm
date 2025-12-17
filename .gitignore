@@ -42,10 +42,10 @@ env/
 ENV/
 .venv
 
-# Model artifacts
+# Model artifacts (training outputs, not UI)
 *.pkl
 *.joblib
-model.json
+packages/model-train/output/model.json
 
 # OS
 Thumbs.db
