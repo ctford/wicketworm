@@ -1,0 +1,20 @@
+{
+  "name": "wicketworm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Live Test cricket match probability visualizer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/wicketworm.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "pnpm --filter ui dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
