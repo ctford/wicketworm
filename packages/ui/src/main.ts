@@ -4,6 +4,9 @@ import ashesSeriesData from './data/ashes-series-2025.json';
 
 const statusEl = document.getElementById('status');
 
+// Store chart instances for re-rendering on resize
+const charts: Array<{ chart: WormChart; data: ProbPoint[] }> = [];
+
 function updateStatus(message: string): void {
   if (statusEl) {
     statusEl.textContent = message;
@@ -74,8 +77,9 @@ async function main() {
       container.appendChild(testDiv);
 
       // Render chart
+      const chartContainer = document.querySelector(`#chart-${test.matchId}`) as HTMLElement;
       const chart = new WormChart(`#chart-${test.matchId}`, {
-        height: 200,
+        height: chartContainer?.clientHeight || 200,
         maxOvers: 450,  // Show 450 overs (5 days * 90 overs/day)
         inningsBoundaries: test.inningsBoundaries,
         wicketFalls: test.wicketFalls,
@@ -114,10 +118,26 @@ async function main() {
 
       chart.render(probPoints);
 
+      // Store chart instance and data for re-rendering on resize
+      charts.push({ chart, data: probPoints });
+
       console.log(`${test.city}: ${probPoints.length} points, ${test.days} day(s)`);
     }
 
     updateStatus(`${seriesData.series} - ${seriesData.tests.length} tests loaded`);
+
+    // Handle window resize and orientation changes
+    let resizeTimeout: number;
+    window.addEventListener('resize', () => {
+      // Debounce resize events
+      clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(() => {
+        // Re-render all charts with new dimensions
+        charts.forEach(({ chart, data }) => {
+          chart.render(data);
+        });
+      }, 250);
+    });
 
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';

@@ -36,8 +36,10 @@ export class WormChart {
   private inningsBoundaries?: InningsBoundary[];
   private wicketFalls?: WicketFall[];
   private matchEndOver?: number;
+  private container: string;
 
   constructor(container: string, options: WormChartOptions = {}) {
+    this.container = container;
     this.margin = options.margin ?? { top: 20, right: 120, bottom: 50, left: 50 };
     this.maxOvers = options.maxOvers;
     this.inningsBoundaries = options.inningsBoundaries;
@@ -69,6 +71,20 @@ export class WormChart {
   render(data: ProbPoint[]): void {
     if (data.length === 0) {
       return;
+    }
+
+    // Recalculate dimensions based on current container size
+    const containerEl = document.querySelector(this.container);
+    if (containerEl) {
+      this.width = containerEl.clientWidth;
+      this.height = containerEl.clientHeight;
+      this.chartWidth = this.width - this.margin.left - this.margin.right;
+      this.chartHeight = this.height - this.margin.top - this.margin.bottom;
+
+      // Update SVG size
+      d3.select(this.container).select('svg')
+        .attr('width', this.width)
+        .attr('height', this.height);
     }
 
     // Detect mobile/small screens
