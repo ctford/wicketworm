@@ -151,8 +151,8 @@ export class WormChart {
           const wicketsFell = wicket.wickets - prevWickets;
           prevWickets = wicket.wickets;
 
-          // Scale stroke width: 1 wicket = 0.75px, 2 = 1.25px, 3 = 1.75px, etc.
-          const strokeWidth = 0.75 + (wicketsFell - 1) * 0.5;
+          // Scale stroke width as direct multiple: 1 wicket = 2px, 2 = 4px, 3 = 6px
+          const strokeWidth = wicketsFell * 2;
 
           this.svg.append('line')
             .attr('x1', xPos)
@@ -427,10 +427,12 @@ export class WormChart {
         const startXOver = xScale.invert(stepStart);
         const endXOver = xScale.invert(stepEnd);
 
+        // Use tolerance for floating point comparison
+        const tolerance = 0.1;
         const wicketsInBlock = this.wicketFalls.filter(w =>
           w.innings === dataPoint.innings &&
-          w.xOver >= startXOver &&
-          w.xOver <= endXOver
+          w.xOver >= startXOver - tolerance &&
+          w.xOver <= endXOver + tolerance
         );
 
         let totalWicketsFell = 0;
@@ -438,7 +440,7 @@ export class WormChart {
 
         // Find wickets before this block
         const wicketsBefore = this.wicketFalls
-          .filter(w => w.innings === dataPoint.innings && w.xOver < startXOver)
+          .filter(w => w.innings === dataPoint.innings && w.xOver < startXOver - tolerance)
           .sort((a, b) => b.xOver - a.xOver)[0];
 
         if (wicketsBefore) {
