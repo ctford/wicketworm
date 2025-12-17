@@ -404,7 +404,7 @@ export class WormChart {
 
         const wicketsInBlock = this.wicketFalls.filter(w =>
           w.innings === dataPoint.innings &&
-          w.xOver > startXOver &&
+          w.xOver >= startXOver &&
           w.xOver <= endXOver
         );
 
@@ -413,7 +413,7 @@ export class WormChart {
 
         // Find wickets before this block
         const wicketsBefore = this.wicketFalls
-          .filter(w => w.innings === dataPoint.innings && w.xOver <= startXOver)
+          .filter(w => w.innings === dataPoint.innings && w.xOver < startXOver)
           .sort((a, b) => b.xOver - a.xOver)[0];
 
         if (wicketsBefore) {
