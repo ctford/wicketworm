@@ -4,6 +4,8 @@
 
 WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilities** for Test cricket matches as an interactive worm chart. It uses only **anonymized scorecard state** (no team strength modeling) to provide insights into match dynamics.
 
+**[View Demo →](https://ctford.github.io/wicketworm/)**
+
 ## How it works
 
 1. **Model training** (Python): Train hybrid XGBoost + Monte Carlo model on historical Test match data from Cricsheet

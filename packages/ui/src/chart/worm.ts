@@ -26,7 +26,7 @@ export interface WormChartOptions {
 }
 
 export class WormChart {
-  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private width: number;
   private height: number;
   private margin: { top: number; right: number; bottom: number; left: number };
@@ -309,10 +309,11 @@ export class WormChart {
     // Match end marker (drawn last as the strongest line)
     if (this.matchEndOver !== undefined) {
       // Find the next data point after match end to calculate bucket midpoint
-      const nextPoint = data.find(d => d.xOver > this.matchEndOver);
+      const matchEndOver = this.matchEndOver;  // Store in local variable for TypeScript
+      const nextPoint = data.find(d => d.xOver > matchEndOver);
       const midXOver = nextPoint
-        ? (this.matchEndOver + nextPoint.xOver) / 2
-        : this.matchEndOver;
+        ? (matchEndOver + nextPoint.xOver) / 2
+        : matchEndOver;
 
       const xPos = xScale(midXOver);
       if (xPos >= 0 && xPos <= this.chartWidth) {
