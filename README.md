@@ -32,6 +32,8 @@ The XGBoost model uses **10 features** to predict match outcomes (Win/Draw/Loss)
 - **Chase ease** (4.2%): Inverse of runs required per wicket (4th innings only)
 - **Required run rate** (4.1%): Runs per over needed to win (4th innings only)
 
+**→ See [FEATURES.md](FEATURES.md) for detailed explanations of all 10 features, value ranges, and examples.**
+
 ## Architecture
 
 ```
@@ -77,6 +79,11 @@ The visualization will show pre-generated probability data for The Ashes 2025-26
 ## Data sources
 
 - **Training data**: [Cricsheet](https://cricsheet.org/) (Test match ball-by-ball data)
+
+## Documentation
+
+- **[FEATURES.md](FEATURES.md)** - Detailed explanation of all 10 model features with examples and value ranges
+- **[CLAUDE.md](CLAUDE.md)** - Development guide for updating match data and maintaining the model
 
 ## License
 
