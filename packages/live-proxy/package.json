@@ -1,0 +1,21 @@
+{
+  "name": "@wicketworm/live-proxy",
+  "version": "0.1.0",
+  "description": "Live match data normalization proxy",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@wicketworm/shared-types": "workspace:*",
+    "hono": "^3.11.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
