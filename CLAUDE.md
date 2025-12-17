@@ -292,3 +292,41 @@ This will update:
 - `output/model.pkl` - XGBoost model
 - `output/model_metadata.json` - Feature names and labels
 - `output/monte_carlo_model.pkl` - Partnership distributions
+
+#### IMPORTANT: Excluding Ashes 2025-26 from Training
+
+To avoid data leakage, Ashes 2025-26 matches must be excluded from training but included in ELO calculation.
+
+**When new Ashes tests appear in Cricsheet**, add them to the exclusion list in `src/train.py`:
+
+```python
+# Around line 207 in train.py
+exclude_matches = [
+    '1455611',  # Perth Test (Nov 21-22, 2025)
+    '1455612',  # Brisbane Test (Dec 4-7, 2025) - ADD WHEN AVAILABLE
+    '1455613',  # Adelaide Test (Dec 17-21, 2025) - ADD WHEN AVAILABLE
+    # Add Melbourne, Sydney when they appear in data/
+]
+```
+
+**How to find match IDs**:
+```bash
+python3 -c "
+import json
+from pathlib import Path
+for file in Path('data').glob('*.json'):
+    with open(file) as f:
+        data = json.load(f)
+    dates = data.get('info', {}).get('dates', [])
+    teams = list(data.get('info', {}).get('players', {}).keys())
+    if dates and 'England' in teams and 'Australia' in teams and dates[0] >= '2025-11-21':
+        print(f'{dates[0]}  {file.stem}')
+"
+```
+
+**Why this matters**:
+- ✓ ELO ratings stay current (uses all matches including Ashes 2025-26)
+- ✓ Model predictions are out-of-sample (hasn't seen game states)
+- ✓ True validation of model performance
+
+Current exclusions: Perth (1455611)
