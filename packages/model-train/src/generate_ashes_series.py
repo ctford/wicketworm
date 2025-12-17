@@ -587,10 +587,11 @@ def main():
         test_data['wicketFalls'] = wicket_falls
 
         # Find match end over (last real state before "Match Complete" extension)
-        # This is where the final ball was bowled
-        real_states = [p for p in prob_points if p['score'] != 'Match Complete']
-        if real_states:
-            test_data['matchEndOver'] = real_states[-1]['xOver']
+        # Only set for completed matches, not matches in progress
+        if 'won' in test_data['result'].lower():
+            real_states = [p for p in prob_points if p['score'] != 'Match Complete']
+            if real_states:
+                test_data['matchEndOver'] = real_states[-1]['xOver']
 
     # Save all three tests
     output = {
