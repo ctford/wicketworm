@@ -107,19 +107,38 @@ Each test match has:
 
 ### Hybrid Prediction Model
 
-The system uses a hybrid XGBoost + Monte Carlo model:
+The system uses a hybrid XGBoost + Monte Carlo model with **83.7% test accuracy**.
 
-- **XGBoost**: Used for most situations, learns from historical Test match data
-- **Monte Carlo**: Used for close chases when:
-  - 4th innings AND
-  - (≤3 wickets remaining OR ≤80 runs needed) AND
-  - >30 overs remaining
+#### XGBoost Model (10 features)
 
-Monte Carlo uses partnership distributions learned from historical data:
+Used for most situations. Features with importance percentages:
+
+1. **first_team_rating** (15.2%) - ELO rating of first batting team
+2. **second_team_rating** (14.6%) - ELO rating of second batting team
+3. **first_team_is_home** (11.8%) - Home advantage
+4. **first_team_wickets_remaining** (11.1%) - Wickets left (20 → 0)
+5. **second_team_wickets_remaining** (11.1%) - Wickets left (20 → 0)
+6. **first_team_won_toss** (10.9%) - Toss advantage
+7. **overs_left** (9.7%) - Match time remaining (450 → 0)
+8. **first_team_lead** (7.2%) - Run lead/deficit
+9. **chase_ease** (4.2%) - Inverse of runs per wicket (4th innings only)
+10. **required_run_rate** (4.1%) - Runs per over needed (4th innings only)
+
+Training data: 277,544 game states from 866 Test matches (1970s-2025)
+Recency weighting: 10-year exponential decay (recent matches weighted higher)
+
+#### Monte Carlo Simulator
+
+Used for close chases when:
+- 4th innings AND
+- (≤3 wickets remaining OR ≤80 runs needed) AND
+- >30 overs remaining
+
+Uses partnership distributions learned from historical data:
 - 1st wicket: avg 38.5 runs in 11.0 overs
 - 10th wicket: avg 17.0 runs in 3.7 overs
 
-This gives more optimistic/realistic probabilities for easy chases while maintaining the same overall accuracy (57.4%) as pure XGBoost.
+This gives more realistic probabilities for tight finishes when the outcome depends on specific wicket/run pressure rather than time pressure.
 
 ### Key Files
 
@@ -129,22 +148,127 @@ This gives more optimistic/realistic probabilities for easy chases while maintai
 - `packages/ui/src/data/ashes-series-2025.json` - Generated visualization data
 - `packages/ui/src/chart/worm.ts` - D3.js visualization logic
 
-### Adding New Tests
+### Adding New Tests (e.g., Melbourne Test)
 
-To add a new test match:
+To add a new test match to the series:
 
-1. Create a new `generate_CITY_test()` function in `generate_ashes_series.py`
-2. Follow the same structure as existing tests
-3. Add to the main generation:
+#### 1. Gather Match Information
+
+Before coding, collect:
+- **Toss winner**: Who won the toss and which team batted first
+- **Match scorecard**: Runs and wickets for each innings at regular intervals
+- **Match venue**: City (e.g., Melbourne)
+- **Match dates**: e.g., "Dec 26-30, 2025"
+
+**Important**: The team that bats first determines how ratings are assigned:
+- If England bats first: `first_team_rating=1593.1`, `second_team_rating=1757.3`
+- If Australia bats first: `first_team_rating=1757.3`, `second_team_rating=1593.1`
+
+The prediction function will automatically handle this in `generate_ashes_series.py` at line 549-554.
+
+#### 2. Create Generation Function
+
+Add a new function in `packages/model-train/src/generate_ashes_series.py`:
+
 ```python
-tests = [
-    generate_perth_test(),
-    generate_brisbane_test(),
-    generate_adelaide_test(),
-    generate_YOUR_NEW_test(),  # Add here
-]
+def generate_melbourne_test():
+    """
+    Melbourne Test (Dec 26-30, 2025)
+    [Add final result when known]
+    England: XXX & XXX
+    Australia: XXX & XXX
+    """
+    states = []
+
+    # Innings 1: [TEAM] batting (estimate overs based on run rate)
+    for over in range(0, FINAL_OVER + 1, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over == 20:
+            runs, wickets = 67, 1  # From actual scorecard
+        elif over == 40:
+            runs, wickets = 142, 3  # From actual scorecard
+        # Add more data points as match progresses
+        else:
+            # Interpolate for intermediate overs
+            runs = int(over * 3.0)  # Adjust run rate
+            wickets = min(10, over // 15)  # Adjust wicket fall rate
+
+        states.append({
+            'matchId': 'melbourne-test-2025',
+            'innings': 1,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': runs,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - over * 6,
+            'completedInnings': 0,
+            'isChasing': False
+        })
+
+    # Add innings 2, 3, 4 following the same pattern...
+
+    # Add batting teams (specify which team batted first)
+    states = add_batting_teams(states, first_batting='England')  # or 'Australia'
+
+    return {
+        'matchId': 'melbourne-test-2025',
+        'city': 'Melbourne',
+        'dates': 'Dec 26-30, 2025',
+        'result': 'In progress (Day 1)',  # Update as match progresses
+        'days': 1,
+        'states': states
+    }
 ```
-4. Regenerate: `python src/generate_ashes_series.py`
+
+#### 3. Add to Main Generation
+
+In the `main()` function around line 446, add the new test:
+
+```python
+def main():
+    # Generate data for all tests
+    perth = generate_perth_test()
+    brisbane = generate_brisbane_test()
+    adelaide = generate_adelaide_test()
+    melbourne = generate_melbourne_test()  # Add new test
+
+    # Add to output around line 660
+    output = {
+        'series': 'The Ashes 2025-26',
+        'tests': [perth, brisbane, adelaide, melbourne]  # Add here
+    }
+```
+
+#### 4. Regenerate Predictions
+
+```bash
+cd packages/model-train
+source venv/bin/activate
+python src/generate_ashes_series.py
+```
+
+This automatically:
+- Determines which team bats first from the `first_batting` parameter
+- Assigns correct team ratings (England: 1593.1, Australia: 1757.3)
+- Sets home team (all Ashes 2025-26 matches in Australia)
+- Sets toss winner (assumes team batting first won toss)
+- Calculates probabilities using the 10-feature model
+
+#### 5. Verify Output
+
+```bash
+cd ../ui
+pnpm dev
+# Visit http://localhost:5173/
+```
+
+Check that:
+- Melbourne test appears in the visualization
+- Probabilities look reasonable at the start (home team with toss should be favored)
+- All four tests display correctly
 
 ### Model Retraining
 
