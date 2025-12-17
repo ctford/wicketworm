@@ -5,67 +5,65 @@ Perth, Brisbane, and Adelaide (in progress)
 """
 
 import json
+import pickle
 from pathlib import Path
 import numpy as np
 
-# Load model
-model_path = Path(__file__).parent.parent / "output" / "model.json"
-with open(model_path) as f:
-    model_data = json.load(f)
+# Import OVER_OFFSET from shared types
+OVER_OFFSET = 500
 
-means = np.array(model_data['featureMeans'])
-stds = np.array(model_data['featureStds'])
-coefficients = np.array(model_data['coefficients'])
-intercepts = np.array(model_data['intercepts'])
+# Load XGBoost model
+model_path = Path(__file__).parent.parent / "output" / "model.pkl"
+with open(model_path, 'rb') as f:
+    model_data = pickle.load(f)
+
+model = model_data['model']
+label_encoder = model_data['label_encoder']
+
+print(f"Loaded XGBoost model with label mapping: {dict(zip(label_encoder.classes_, range(len(label_encoder.classes_))))}")
 
 
-def predict_probabilities(state, batting_team='Australia'):
+def predict_probabilities(state, overs_left, batting_team='Australia'):
     """
-    Predict win/draw/loss probabilities from Australia's perspective
+    Predict win/draw/loss probabilities from Australia's perspective using XGBoost
+
+    Args:
+        state: Game state dict with innings, runsFor, wicketsDown, lead
+        overs_left: Total match overs remaining (450 - cumulative_overs_bowled)
+        batting_team: Which team is batting ('Australia' or 'England')
 
     Model predicts from batting team's perspective, so we flip when England is batting.
     """
-    run_rate = (state['runsFor'] / state['ballsBowled']) * 6 if state['ballsBowled'] > 0 else 0
-    runs_per_wicket = state['runsFor'] / (state['wicketsDown'] + 1)
-
-    # Calculate lead properly based on innings
-    lead = state['lead']
-
-    # Required run rate for chasing
-    required_run_rate = 0
-    if state['isChasing'] and lead < 0 and state['ballsRemaining'] > 0:
-        runs_needed = abs(lead) + 1
-        required_run_rate = (runs_needed / state['ballsRemaining']) * 6
-
+    # 5 features: overs_left, innings, runs, wickets, lead
     features = np.array([[
+        overs_left,
         state['innings'],
+        state['runsFor'],
         state['wicketsDown'],
-        run_rate,
-        lead,
-        state['ballsRemaining'],
-        runs_per_wicket,
-        1 if state['isChasing'] else 0,
-        required_run_rate
+        state['lead']
     ]])
 
-    features_scaled = (features - means) / stds
-    logits = np.dot(features_scaled, coefficients.T) + intercepts
-    exp_logits = np.exp(logits - np.max(logits))
-    probs = exp_logits / np.sum(exp_logits)
+    # XGBoost prediction
+    probs = model.predict_proba(features)[0]  # Shape: (3,) for [draw, loss, win]
+
+    # Label mapping: {'draw': 0, 'loss': 1, 'win': 2}
+    p_draw = float(probs[0])
+    p_loss = float(probs[1])
+    p_win = float(probs[2])
 
     # Model predicts from batting team's perspective
     # If England is batting, flip win/loss to show Australia's perspective
     if batting_team == 'England':
         return {
-            'pWin': float(probs[0][2]),  # England's loss = Australia's win
-            'pDraw': float(probs[0][1]),
-            'pLoss': float(probs[0][0])  # England's win = Australia's loss
+            'pWin': p_loss,  # England's loss = Australia's win
+            'pDraw': p_draw,
+            'pLoss': p_win   # England's win = Australia's loss
         }
     else:
         return {
-            'pWin': float(probs[0][0]),  # Australia's win
-            'pDraw': float(probs[0][1]),
-            'pLoss': float(probs[0][2])  # Australia's loss
+            'pWin': p_win,   # Australia's win
+            'pDraw': p_draw,
+            'pLoss': p_loss  # Australia's loss
         }
 
 
@@ -92,18 +90,22 @@ def generate_perth_test():
     states = []
 
     # Innings 1: England 172 all out (estimate ~65 overs)
+    # Slower scoring, early collapse: 172/65 = 2.65 run rate
     for over in range(0, 66, 5):
         if over == 0:
             runs, wickets = 0, 0
         elif over <= 20:
-            runs = int(over * 2.5)
-            wickets = min(2, over // 10)
+            # Decent start then wickets
+            runs = int(over * 3.0)
+            wickets = min(3, over // 8)
         elif over <= 40:
-            runs = 50 + int((over - 20) * 2.0)
-            wickets = min(5, 2 + (over - 20) // 10)
+            # Middle collapse, slow scoring
+            runs = 60 + int((over - 20) * 2.2)
+            wickets = min(7, 3 + (over - 20) // 7)
         else:
-            runs = int(90 + (172 - 90) * (over - 40) / 25)
-            wickets = min(10, 5 + (over - 40) // 5)
+            # Tail wagging slightly
+            runs = int(104 + (172 - 104) * (over - 40) / 25)
+            wickets = min(10, 7 + (over - 40) // 5)
 
         states.append({
             'matchId': 'perth-test-2025',
@@ -221,17 +223,21 @@ def generate_brisbane_test():
     states = []
 
     # Innings 1: England 334 (~105 overs, Root 138*)
+    # Use realistic run rate: 334/105 = 3.18 runs per over
     for over in range(0, 106, 5):
         if over == 0:
             runs, wickets = 0, 0
         elif over <= 50:
-            runs = int(over * 2.5)
-            wickets = min(4, over // 15)
+            # Early phase: 3.2 run rate, steady batting
+            runs = int(over * 3.2)
+            wickets = min(3, over // 20)
         elif over <= 90:
-            runs = int(125 + (over - 50) * 3.2)
-            wickets = min(7, 4 + (over - 50) // 15)
+            # Middle phase: Root building, 3.3 run rate
+            runs = int(160 + (over - 50) * 3.3)
+            wickets = min(7, 3 + (over - 50) // 15)
         else:
-            runs = int(253 + (334 - 253) * (over - 90) / 15)
+            # Late phase: acceleration to 334
+            runs = int(292 + (334 - 292) * (over - 90) / 15)
             wickets = min(10, 7 + (over - 90) // 5)
 
         states.append({
@@ -287,7 +293,9 @@ def generate_brisbane_test():
             runs = int(125 + (241 - 125) * (over - 50) / 30)
             wickets = min(10, 5 + (over - 50) // 6)
 
-        lead = 511 - 334 - runs
+        # Lead from England's perspective (batting team)
+        # England: 334 (inn1) + runs (inn3), Australia: 511 (inn2)
+        lead = 334 + runs - 511
         states.append({
             'matchId': 'brisbane-test-2025',
             'innings': 3,
@@ -368,20 +376,48 @@ def main():
     # Calculate probabilities for all states
     for test_data in [perth, brisbane, adelaide_match]:
         prob_points = []
-        last_over = 0
+        cumulative_overs = 0
+        innings_boundaries = [0]  # Track where each innings starts
+
+        # First pass: calculate cumulative overs for each innings
+        prev_innings = 1
+        for state in test_data['states']:
+            if state['innings'] != prev_innings:
+                innings_boundaries.append(cumulative_overs)
+                prev_innings = state['innings']
+            cumulative_overs = max(cumulative_overs, state['over'])
+
+        # Reset for second pass
+        cumulative_overs = 0
+        prev_innings = 1
 
         for state in test_data['states']:
-            # Get batting team from state, or determine from match
+            # When innings changes, add the previous innings' total overs
+            if state['innings'] != prev_innings:
+                cumulative_overs += max(s['over'] for s in test_data['states']
+                                       if s['innings'] == prev_innings)
+                prev_innings = state['innings']
+
+            # Calculate overs_left (match-level time remaining)
+            total_overs_bowled = cumulative_overs + state['over']
+            overs_left = max(0, 450 - total_overs_bowled)
+
+            # Get batting team from state
             batting_team = state.get('battingTeam', 'Australia')
-            probs = predict_probabilities(state, batting_team=batting_team)
+            probs = predict_probabilities(state, overs_left, batting_team=batting_team)
+
+            # xOver = cumulative overs from previous innings + current over
+            xOver = cumulative_overs + state['over']
             prob_points.append({
-                'xOver': state['over'],
+                'xOver': xOver,
                 'innings': state['innings'],
                 'over': state['over'],
                 'score': f"{state['runsFor']}/{state['wicketsDown']}",
                 **probs
             })
-            last_over = max(last_over, state['over'])
+
+        last_over = cumulative_overs + max(s['over'] for s in test_data['states']
+                                           if s['innings'] == prev_innings)
 
         # If match is complete, extend to 450 overs showing final result
         if 'Australia won' in test_data['result']:
@@ -399,16 +435,59 @@ def main():
 
         # Extend visualization to 450 overs if match is complete
         if final_probs and last_over < 450:
-            for over in range(last_over + 5, 451, 10):
+            final_innings = test_data['states'][-1]['innings']
+            for xover in range(last_over + 10, 451, 10):
                 prob_points.append({
-                    'xOver': over,
-                    'innings': test_data['states'][-1]['innings'],
-                    'over': over,
+                    'xOver': xover,
+                    'innings': final_innings,
+                    'over': xover - cumulative_overs,
                     'score': 'Match Complete',
                     **final_probs
                 })
 
         test_data['probabilities'] = prob_points
+
+        # Add innings boundaries for x-axis labels
+        boundaries = []
+        cumulative = 0
+        for i in range(1, 5):
+            innings_states = [s for s in test_data['states'] if s['innings'] == i]
+            if innings_states:
+                batting_team = innings_states[0].get('battingTeam', 'Unknown')
+                boundaries.append({
+                    'innings': i,
+                    'xOver': cumulative,
+                    'battingTeam': batting_team
+                })
+                cumulative += max(s['over'] for s in innings_states)
+        test_data['inningsBoundaries'] = boundaries
+
+        # Track fall of wickets
+        wicket_falls = []
+        cumulative = 0
+        prev_innings = 1
+        prev_wickets = 0
+
+        for state in test_data['states']:
+            # When innings changes, reset
+            if state['innings'] != prev_innings:
+                cumulative += max(s['over'] for s in test_data['states']
+                                 if s['innings'] == prev_innings)
+                prev_wickets = 0
+                prev_innings = state['innings']
+
+            # Check if wicket fell
+            if state['wicketsDown'] > prev_wickets:
+                xOver = cumulative + state['over']
+                wicket_falls.append({
+                    'innings': state['innings'],
+                    'xOver': xOver,
+                    'wickets': state['wicketsDown'],
+                    'score': f"{state['runsFor']}/{state['wicketsDown']}"
+                })
+                prev_wickets = state['wicketsDown']
+
+        test_data['wicketFalls'] = wicket_falls
 
     # Save all three tests
     output = {

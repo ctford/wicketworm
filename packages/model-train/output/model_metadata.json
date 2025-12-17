@@ -1,0 +1,15 @@
+{
+  "feature_names": [
+    "overs_left",
+    "innings",
+    "runs",
+    "wickets",
+    "lead"
+  ],
+  "label_classes": [
+    "draw",
+    "loss",
+    "win"
+  ],
+  "model_type": "xgboost"
+}

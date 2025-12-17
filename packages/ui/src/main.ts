@@ -63,11 +63,13 @@ async function main() {
       // Render chart
       const chart = new WormChart(`#chart-${test.matchId}`, {
         height: 200,
-        maxOvers: 450  // Always show full 5 days
+        maxOvers: 450,  // Show 450 overs (5 days * 90 overs/day)
+        inningsBoundaries: test.inningsBoundaries,
+        wicketFalls: test.wicketFalls
       });
 
       const probPoints: ProbPoint[] = test.probabilities.map((p: any) => ({
-        xOver: p.over,
+        xOver: p.xOver,  // Use xOver with innings offset, not raw over number
         innings: p.innings,
         over: p.over,
         pWin: p.pWin,

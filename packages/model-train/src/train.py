@@ -1,108 +1,140 @@
 #!/usr/bin/env python3
 """
-Train multinomial logistic regression model for Test match W/D/L prediction
+Train XGBoost model for Test match W/D/L prediction
 """
 
 import json
+import pickle
+import re
 from pathlib import Path
 from typing import List, Tuple
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
+import xgboost as xgb
+from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 
 from parse_cricsheet import load_all_matches, GameState
 
 
-def extract_features(states: List[GameState], max_overs: int = 450) -> pd.DataFrame:
+def extract_features(states: List[GameState]) -> pd.DataFrame:
     """
-    Extract features from game states
+    Extract 5 raw features from game states
 
     Features:
-    - innings (1-4)
-    - wicketsDown
-    - runRate
-    - lead
-    - ballsRemaining (estimated)
-    - runsPerWicket
-    - isChasing (innings 3 or 4)
-    - requiredRunRate (if chasing)
+    - overs_left: Total match overs remaining (450 - total_overs_bowled)
+    - innings: Current innings (1-4)
+    - runs: Current innings runs
+    - wickets: Current innings wickets
+    - lead: Current lead/deficit
     """
     records = []
 
     for state in states:
-        # Basic stats
-        run_rate = (state.runs_for / state.balls_bowled) * 6 if state.balls_bowled > 0 else 0
-        runs_per_wicket = state.runs_for / (state.wickets_down + 1)
-
-        # Estimate balls remaining (rough estimate: 450 overs = 2700 balls for a Test)
-        # Adjust based on innings progression
-        max_balls = max_overs * 6
-        balls_used = (state.innings - 1) * 540 + state.balls_bowled  # Rough: 90 overs per innings
-        balls_remaining = max(0, max_balls - balls_used)
-
-        # Chasing indicator
-        is_chasing = state.innings >= 3
-        required_run_rate = 0
-        if is_chasing and state.lead < 0 and balls_remaining > 0:
-            runs_needed = abs(state.lead) + 1
-            required_run_rate = (runs_needed / balls_remaining) * 6
-
         records.append({
+            'overs_left': state.overs_left,
             'innings': state.innings,
-            'wicketsDown': state.wickets_down,
-            'runRate': run_rate,
+            'runs': state.runs_for,
+            'wickets': state.wickets_down,
             'lead': state.lead,
-            'ballsRemaining': balls_remaining,
-            'runsPerWicket': runs_per_wicket,
-            'isChasing': 1 if is_chasing else 0,
-            'requiredRunRate': required_run_rate,
+            'match_id': state.match_id,
             'outcome': state.outcome
         })
 
     return pd.DataFrame(records)
 
 
-def train_model(X: np.ndarray, y: np.ndarray) -> Tuple[LogisticRegression, StandardScaler]:
+def extract_year_from_match_id(match_id: str) -> int:
+    """Extract year from Cricsheet match ID (format: NNNNNNNN where first 4 digits are year)"""
+    # Match IDs are typically like "20230201" (YYYYMMDD format)
+    match = re.match(r'^(\d{4})', match_id)
+    if match:
+        return int(match.group(1))
+    return 2000  # Default fallback
+
+
+def calculate_sample_weights(match_ids: pd.Series, decay_years: float = 10.0) -> np.ndarray:
     """
-    Train multinomial logistic regression model with train/val/test split
+    Calculate exponential decay weights based on match year
+
+    Args:
+        match_ids: Series of match IDs
+        decay_years: Half-life for exponential decay (default 10 years)
 
     Returns:
-    - Trained model
-    - Feature scaler
+        Array of sample weights (recent matches weighted higher)
     """
+    current_year = 2025
+    weights = []
+
+    for match_id in match_ids:
+        match_year = extract_year_from_match_id(match_id)
+        years_ago = max(0, current_year - match_year)
+
+        # Exponential decay: weight = exp(-years_ago / decay_years)
+        # Cap years_ago at 50 to avoid numerical overflow
+        years_ago = min(years_ago, 50)
+
+        # Match from 2025: weight = 1.0
+        # Match from 2015: weight ≈ 0.37
+        # Match from 2005: weight ≈ 0.14
+        # Match from 1975: weight ≈ 0.007
+        weight = np.exp(-years_ago / decay_years)
+        weights.append(weight)
+
+    return np.array(weights)
+
+
+def train_model(X: np.ndarray, y: np.ndarray, sample_weights: np.ndarray) -> Tuple[xgb.XGBClassifier, LabelEncoder]:
+    """
+    Train XGBoost classifier with train/val/test split and sample weighting
+
+    Returns:
+    - Trained XGBoost model
+    - Label encoder
+    """
+    # Encode outcomes: 0=draw, 1=loss, 2=win (alphabetical)
+    label_encoder = LabelEncoder()
+    y_encoded = label_encoder.fit_transform(y)
+
+    print(f"Label mapping: {dict(zip(label_encoder.classes_, range(len(label_encoder.classes_))))}")
+
     # Split: 70% train, 15% validation, 15% test
-    X_temp, X_test, y_temp, y_test = train_test_split(
-        X, y, test_size=0.15, random_state=42, stratify=y
+    X_temp, X_test, y_temp, y_test, w_temp, w_test = train_test_split(
+        X, y_encoded, sample_weights, test_size=0.15, random_state=42, stratify=y_encoded
     )
-    X_train, X_val, y_train, y_val = train_test_split(
-        X_temp, y_temp, test_size=0.176, random_state=42, stratify=y_temp  # 0.176 of 85% ≈ 15%
+    X_train, X_val, y_train, y_val, w_train, w_val = train_test_split(
+        X_temp, y_temp, w_temp, test_size=0.176, random_state=42, stratify=y_temp  # 0.176 of 85% ≈ 15%
     )
 
-    print(f"Train set: {len(X_train)} samples")
+    print(f"\nTrain set: {len(X_train)} samples")
     print(f"Validation set: {len(X_val)} samples")
     print(f"Test set: {len(X_test)} samples")
 
-    # Standardize features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_val_scaled = scaler.transform(X_val)
-    X_test_scaled = scaler.transform(X_test)
-
-    # Train model
-    model = LogisticRegression(
-        solver='lbfgs',
-        max_iter=1000,
+    # Train XGBoost model
+    model = xgb.XGBClassifier(
+        objective='multi:softprob',
+        num_class=len(label_encoder.classes_),
+        max_depth=6,
+        learning_rate=0.1,
+        n_estimators=100,
         random_state=42,
-        C=1.0
+        eval_metric='mlogloss'
     )
-    model.fit(X_train_scaled, y_train)
+
+    # Fit with sample weights
+    model.fit(
+        X_train, y_train,
+        sample_weight=w_train,
+        eval_set=[(X_train, y_train), (X_val, y_val)],
+        sample_weight_eval_set=[w_train, w_val],
+        verbose=False
+    )
 
     # Evaluate on all three sets
-    train_score = model.score(X_train_scaled, y_train)
-    val_score = model.score(X_val_scaled, y_val)
-    test_score = model.score(X_test_scaled, y_test)
+    train_score = model.score(X_train, y_train)
+    val_score = model.score(X_val, y_val)
+    test_score = model.score(X_test, y_test)
 
     print(f"\nModel performance:")
     print(f"  Train accuracy: {train_score:.3f}")
@@ -112,38 +144,45 @@ def train_model(X: np.ndarray, y: np.ndarray) -> Tuple[LogisticRegression, Stand
     # Class distribution
     print(f"\nOutcome distribution in test set:")
     unique, counts = np.unique(y_test, return_counts=True)
-    for outcome, count in zip(unique, counts):
-        print(f"  {outcome}: {count} ({count/len(y_test)*100:.1f}%)")
+    for outcome_idx, count in zip(unique, counts):
+        outcome_name = label_encoder.inverse_transform([outcome_idx])[0]
+        print(f"  {outcome_name}: {count} ({count/len(y_test)*100:.1f}%)")
 
-    return model, scaler
+    return model, label_encoder
 
 
 def export_model(
-    model: LogisticRegression,
-    scaler: StandardScaler,
+    model: xgb.XGBClassifier,
+    label_encoder: LabelEncoder,
     feature_names: List[str],
-    output_path: Path
+    output_dir: Path
 ) -> None:
     """
-    Export model to JSON for browser inference
+    Export XGBoost model for server-side inference
     """
-    model_data = {
-        "coefficients": model.coef_.tolist(),
-        "intercepts": model.intercept_.tolist(),
-        "featureMeans": scaler.mean_.tolist(),
-        "featureStds": scaler.scale_.tolist(),
-        "featureNames": feature_names
+    # Save model and label encoder using pickle
+    model_path = output_dir / "model.pkl"
+    with open(model_path, 'wb') as f:
+        pickle.dump({'model': model, 'label_encoder': label_encoder}, f)
+    print(f"✓ Model and label encoder saved to {model_path}")
+
+    # Save feature names as metadata
+    metadata = {
+        "feature_names": feature_names,
+        "label_classes": label_encoder.classes_.tolist(),
+        "model_type": "xgboost"
     }
 
-    with open(output_path, 'w') as f:
-        json.dump(model_data, f, indent=2)
+    metadata_path = output_dir / "model_metadata.json"
+    with open(metadata_path, 'w') as f:
+        json.dump(metadata, f, indent=2)
 
-    print(f"✓ Model exported to {output_path}")
+    print(f"✓ Model metadata saved to {metadata_path}")
 
 
 def main():
     """Main training pipeline"""
-    print("WicketWorm Model Training")
+    print("WicketWorm Model Training (XGBoost)")
     print("=" * 50)
 
     # Paths
@@ -163,84 +202,41 @@ def main():
     # Extract features
     print("\n2. Extracting features...")
     df = extract_features(states)
-    df['match_id'] = [s.match_id for s in states]
     print(f"Extracted features for {len(df)} game states")
 
-    # Split at MATCH level to avoid data leakage
-    print("\n3. Splitting data by match (to avoid leakage)...")
-    unique_matches = df['match_id'].unique()
-    print(f"Total matches: {len(unique_matches)}")
+    # Filter out ties (user requested to exclude ties, not count as draws)
+    print("\n3. Filtering out ties...")
+    before_count = len(df)
+    df = df[df['outcome'] != 'tie'].copy()
+    after_count = len(df)
+    print(f"Removed {before_count - after_count} tie states")
+    print(f"Remaining: {after_count} states")
 
-    # Shuffle and split matches
-    np.random.seed(42)
-    shuffled_matches = np.random.permutation(unique_matches)
-
-    n_train = int(0.70 * len(shuffled_matches))
-    n_val = int(0.15 * len(shuffled_matches))
-
-    train_matches = shuffled_matches[:n_train]
-    val_matches = shuffled_matches[n_train:n_train+n_val]
-    test_matches = shuffled_matches[n_train+n_val:]
-
-    print(f"Train matches: {len(train_matches)}")
-    print(f"Validation matches: {len(val_matches)}")
-    print(f"Test matches: {len(test_matches)}")
-
-    # Split dataframe by matches
-    train_df = df[df['match_id'].isin(train_matches)]
-    val_df = df[df['match_id'].isin(val_matches)]
-    test_df = df[df['match_id'].isin(test_matches)]
+    # Calculate sample weights
+    print("\n4. Calculating sample weights (recent matches weighted higher)...")
+    sample_weights = calculate_sample_weights(df['match_id'])
+    print(f"Weight range: {sample_weights.min():.3f} to {sample_weights.max():.3f}")
 
     # Prepare training data
-    print("\n4. Preparing training data...")
-    feature_cols = ['innings', 'wicketsDown', 'runRate', 'lead', 'ballsRemaining',
-                    'runsPerWicket', 'isChasing', 'requiredRunRate']
+    print("\n5. Preparing training data...")
+    feature_cols = ['overs_left', 'innings', 'runs', 'wickets', 'lead']
 
-    X_train = train_df[feature_cols].values
-    y_train = train_df['outcome'].values
-    X_val = val_df[feature_cols].values
-    y_val = val_df['outcome'].values
-    X_test = test_df[feature_cols].values
-    y_test = test_df['outcome'].values
+    X = df[feature_cols].values
+    y = df['outcome'].values
 
-    print(f"Train states: {len(X_train)}")
-    print(f"Validation states: {len(X_val)}")
-    print(f"Test states: {len(X_test)}")
-
+    print(f"Total states: {len(X)}")
     print(f"\nOutcome distribution:")
-    for name, y_set in [('Train', y_train), ('Val', y_val), ('Test', y_test)]:
-        unique, counts = np.unique(y_set, return_counts=True)
-        dist = {outcome: f"{count} ({count/len(y_set)*100:.1f}%)" for outcome, count in zip(unique, counts)}
-        print(f"  {name}: {dist}")
+    unique, counts = np.unique(y, return_counts=True)
+    for outcome, count in zip(unique, counts):
+        print(f"  {outcome}: {count} ({count/len(y)*100:.1f}%)")
 
     # Train model
-    print("\n5. Training model...")
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_val_scaled = scaler.transform(X_val)
-    X_test_scaled = scaler.transform(X_test)
-
-    model = LogisticRegression(
-        solver='lbfgs',
-        max_iter=1000,
-        random_state=42,
-        C=1.0
-    )
-    model.fit(X_train_scaled, y_train)
-
-    # Evaluate
-    train_score = model.score(X_train_scaled, y_train)
-    val_score = model.score(X_val_scaled, y_val)
-    test_score = model.score(X_test_scaled, y_test)
-
-    print(f"\nModel performance:")
-    print(f"  Train accuracy: {train_score:.3f}")
-    print(f"  Validation accuracy: {val_score:.3f}")
-    print(f"  Test accuracy: {test_score:.3f}")
+    print("\n6. Training XGBoost model...")
+    model, label_encoder = train_model(X, y, sample_weights)
 
     # Export
-    print("\n6. Exporting model...")
-    export_model(model, scaler, feature_cols, output_dir / "model.json")
+    print("\n7. Exporting model...")
+    export_model(model, label_encoder, feature_cols, output_dir)
 
     print("\n✓ Training complete!")
 

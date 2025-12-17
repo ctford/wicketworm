@@ -19,12 +19,17 @@ class GameState:
     runs_for: int
     wickets_down: int
     lead: int
+    overs_left: float  # Total match overs remaining (450 - total_overs_bowled)
     outcome: str  # "win", "draw", "loss" (from batting team perspective)
 
 
-def parse_match(file_path: Path) -> List[GameState]:
+def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
     """
     Parse a single Cricsheet JSON file and extract game states per over
+
+    Args:
+        file_path: Path to Cricsheet JSON file
+        max_overs: Maximum overs for match (default 450 for 5-day Test)
     """
     with open(file_path) as f:
         data = json.load(f)
@@ -43,8 +48,9 @@ def parse_match(file_path: Path) -> List[GameState]:
 
     team_a, team_b = teams[0], teams[1]
 
-    # Track innings scores
+    # Track innings scores and overs
     innings_scores = []
+    innings_overs = []  # Track overs bowled in each completed innings
 
     states = []
     match_id = file_path.stem
@@ -78,6 +84,11 @@ def parse_match(file_path: Path) -> List[GameState]:
                 else:  # Team B innings
                     lead += -prev_score if is_team_a else prev_score
 
+            # Calculate overs_left (match-level time remaining)
+            # Total overs = completed innings overs + current over (over_num is 0-indexed, so +1)
+            total_overs_bowled = sum(innings_overs) + (over_num + 1)
+            overs_left = max(0, max_overs - total_overs_bowled)
+
             # Determine outcome from this batting team's perspective
             if is_draw:
                 outcome = "draw"
@@ -95,6 +106,7 @@ def parse_match(file_path: Path) -> List[GameState]:
                 runs_for=runs,
                 wickets_down=wickets,
                 lead=lead,
+                overs_left=overs_left,
                 outcome=outcome
             )
             states.append(state)
@@ -103,8 +115,11 @@ def parse_match(file_path: Path) -> List[GameState]:
             if wickets >= 10:
                 break
 
-        # Record final innings score
+        # Record final innings score and overs
         innings_scores.append(runs)
+        # Calculate actual overs bowled (convert balls to overs)
+        final_overs = balls / 6.0 if balls > 0 else 0
+        innings_overs.append(final_overs)
 
     return states
 
