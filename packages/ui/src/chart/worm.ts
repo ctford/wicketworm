@@ -292,10 +292,10 @@ export class WormChart {
 
     // Match end marker (drawn last as the strongest line)
     if (this.matchEndOver !== undefined) {
-      // Find the previous data point to calculate step midpoint
-      const prevPoint = [...data].reverse().find(d => d.xOver < this.matchEndOver);
-      const midXOver = prevPoint
-        ? (prevPoint.xOver + this.matchEndOver) / 2
+      // Find the next data point after match end to calculate bucket midpoint
+      const nextPoint = data.find(d => d.xOver > this.matchEndOver);
+      const midXOver = nextPoint
+        ? (this.matchEndOver + nextPoint.xOver) / 2
         : this.matchEndOver;
 
       const xPos = xScale(midXOver);
@@ -331,9 +331,27 @@ export class WormChart {
       const [mouseX] = d3.pointer(event);
       const xOver = xScale.invert(mouseX);
 
-      // Find the data point whose step we're over (curveStepAfter means use previous point)
+      // Find the data point whose step we're over
+      // With curveStepAfter, the bar extends TO this point, so show this point's xOver (end of bucket)
       const index = bisect(data, xOver);
-      const dataPoint = data[Math.max(0, index - 1)];
+
+      // If we're past all data points, use the last one
+      let dataPoint: ProbPoint;
+      let prevPoint: ProbPoint | null;
+
+      if (index >= data.length) {
+        // Past the end - use last data point
+        dataPoint = data[data.length - 1];
+        prevPoint = data.length > 1 ? data[data.length - 2] : null;
+      } else if (index === 0) {
+        // Before first point - use first data point
+        dataPoint = data[0];
+        prevPoint = null;
+      } else {
+        // Normal case - use the point we're moving towards (end of bucket)
+        dataPoint = data[index];
+        prevPoint = data[index - 1];
+      }
 
       if (!dataPoint) return;
 
@@ -341,17 +359,22 @@ export class WormChart {
       highlightGroup.selectAll('*').remove();
       tooltipGroup.selectAll('*').remove();
 
-      // Calculate step boundaries (from this point to next point)
-      let stepStart = xScale(dataPoint.xOver);
+      // Calculate step boundaries (from previous point to this point)
+      let stepStart: number;
       let stepEnd: number;
 
       // If we're after the match end, highlight entire post-match region as one block
       if (this.matchEndOver !== undefined && xOver >= this.matchEndOver) {
         stepStart = xScale(this.matchEndOver);
         stepEnd = this.chartWidth;
+      } else if (index >= data.length) {
+        // Past the end - highlight from last point to edge
+        stepStart = xScale(dataPoint.xOver);
+        stepEnd = this.chartWidth;
       } else {
-        const nextPoint = data[index];
-        stepEnd = nextPoint ? xScale(nextPoint.xOver) : this.chartWidth;
+        // Normal case - highlight from previous to current point
+        stepEnd = xScale(dataPoint.xOver);
+        stepStart = prevPoint ? xScale(prevPoint.xOver) : 0;
       }
 
       // Draw highlighted areas with brighter colors and borders

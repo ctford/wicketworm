@@ -133,14 +133,16 @@ def predict_probabilities(full_match_state, overs_left, first_team='England'):
         return {
             'pWin': p_loss,  # England's loss = Australia's win
             'pDraw': p_draw,
-            'pLoss': p_win   # England's win = Australia's loss
+            'pLoss': p_win,  # England's win = Australia's loss
+            'usedMonteCarlo': use_mc
         }
     else:
         # Australia is first team, use directly
         return {
             'pWin': p_win,   # Australia's win
             'pDraw': p_draw,
-            'pLoss': p_loss  # Australia's loss
+            'pLoss': p_loss,  # Australia's loss
+            'usedMonteCarlo': use_mc
         }
 
 
@@ -524,15 +526,27 @@ def main():
                 'second_team_wickets_inn4': wickets_inn4
             }
 
-            # Skip states in innings 4 where target has been reached
+            # Check if target has been reached in innings 4
+            target_reached = False
             if state['innings'] == 4 and score_inn4 > 0:
                 target = (score_inn1 + score_inn3) - score_inn2 + 1
                 runs_to_win = target - score_inn4
                 if runs_to_win <= 0:
-                    # Target reached, match is over - skip this state
-                    continue
+                    # Target reached, match is over - use final probabilities
+                    target_reached = True
 
-            probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name)
+            if target_reached:
+                # Match ended - use final result probabilities
+                if 'Australia won' in test_data['result']:
+                    probs = {'pWin': 1.0, 'pDraw': 0.0, 'pLoss': 0.0}
+                elif 'England won' in test_data['result']:
+                    probs = {'pWin': 0.0, 'pDraw': 0.0, 'pLoss': 1.0}
+                else:
+                    # Shouldn't happen, but use actual prediction
+                    probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name)
+            else:
+                # Match still in progress - predict normally
+                probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name)
 
             # xOver = cumulative overs from previous innings + current over
             xOver = cumulative_overs + state['over']
