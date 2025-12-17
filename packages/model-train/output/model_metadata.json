@@ -5,6 +5,7 @@
     "second_team_wickets_remaining",
     "first_team_lead",
     "first_team_is_home",
+    "first_team_won_toss",
     "first_team_rating",
     "second_team_rating",
     "chase_ease",

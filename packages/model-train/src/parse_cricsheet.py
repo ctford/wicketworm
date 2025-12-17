@@ -99,6 +99,9 @@ class GameState:
     # Home advantage
     first_team_is_home: int  # 1 if first batting team is playing at home, 0 otherwise
 
+    # Toss advantage
+    first_team_won_toss: int  # 1 if first batting team won the toss, 0 otherwise
+
     # Team strength (ELO-style ratings before match)
     first_team_rating: float  # ELO rating of first team at match time
     second_team_rating: float  # ELO rating of second team at match time
@@ -140,6 +143,11 @@ def parse_match(file_path: Path, max_overs: int = 450, team_ratings: Tuple[float
     city = data['info'].get('city')
     home_team = determine_home_team(city, teams)
     first_team_is_home = 1 if (home_team and first_team == home_team) else 0
+
+    # Determine toss winner
+    toss_info = data['info'].get('toss', {})
+    toss_winner = toss_info.get('winner')
+    first_team_won_toss = 1 if (toss_winner and first_team == toss_winner) else 0
 
     # Track all innings states
     innings_data_by_num = {}
@@ -254,6 +262,7 @@ def parse_match(file_path: Path, max_overs: int = 450, team_ratings: Tuple[float
                 second_team_wickets_remaining=second_team_wickets_remaining,
                 first_team_lead=first_team_lead,
                 first_team_is_home=first_team_is_home,
+                first_team_won_toss=first_team_won_toss,
                 first_team_rating=team_ratings[0],
                 second_team_rating=team_ratings[1],
                 chase_ease=chase_ease,
