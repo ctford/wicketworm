@@ -16,6 +16,19 @@ async function main() {
     updateStatus('Loading Ashes series data...');
 
     const seriesData = ashesSeriesData as any;
+
+    // Expose data globally for debugging
+    (window as any).ashesData = seriesData;
+
+    // Debug: Log Perth innings 4 data
+    const perth = seriesData.tests.find((t: any) => t.city === 'Perth');
+    if (perth) {
+      const inn4_177 = perth.probabilities.find((p: any) => p.score === '177/1');
+      if (inn4_177) {
+        console.log('🏏 Perth 177/1 prediction:', (inn4_177.pWin * 100).toFixed(1) + '% AUS');
+      }
+    }
+
     const container = document.getElementById('charts-container');
 
     if (!container) {
@@ -65,10 +78,32 @@ async function main() {
         height: 200,
         maxOvers: 450,  // Show 450 overs (5 days * 90 overs/day)
         inningsBoundaries: test.inningsBoundaries,
-        wicketFalls: test.wicketFalls
+        wicketFalls: test.wicketFalls,
+        matchEndOver: test.matchEndOver
       });
 
-      const probPoints: ProbPoint[] = test.probabilities.map((p: any) => ({
+      // Keep real probabilities, add transition at match end, then extend with winner's color
+      const realProbabilities = test.probabilities.filter((p: any) => p.score !== 'Match Complete');
+      const matchCompletePoints = test.probabilities.filter((p: any) => p.score === 'Match Complete');
+
+      let probsToRender = [...realProbabilities];
+
+      // If match is complete, add final result at match end line, then extend to fill chart
+      if (test.matchEndOver !== undefined && matchCompletePoints.length > 0) {
+        const finalProbs = matchCompletePoints[0];
+
+        // Add transition point at match end line with final probabilities
+        probsToRender.push({
+          ...finalProbs,
+          xOver: test.matchEndOver
+        });
+
+        // Add all Match Complete extension points to fill the rest of the chart
+        // with the winning team's color
+        probsToRender.push(...matchCompletePoints);
+      }
+
+      const probPoints: ProbPoint[] = probsToRender.map((p: any) => ({
         xOver: p.xOver,  // Use xOver with innings offset, not raw over number
         innings: p.innings,
         over: p.over,

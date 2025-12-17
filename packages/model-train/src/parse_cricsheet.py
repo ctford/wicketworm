@@ -11,16 +11,28 @@ from dataclasses import dataclass
 
 @dataclass
 class GameState:
-    """Represents the state of a Test match at a specific point"""
+    """Represents the full state of a Test match at a specific point"""
     match_id: str
-    innings: int
+    current_innings: int
     over: int
-    balls_bowled: int
-    runs_for: int
-    wickets_down: int
-    lead: int
     overs_left: float  # Total match overs remaining (450 - total_overs_bowled)
-    outcome: str  # "win", "draw", "loss" (from batting team perspective)
+
+    # First team (bats innings 1 and 3)
+    first_team_score_inn1: int
+    first_team_wickets_inn1: int
+    first_team_score_inn3: int
+    first_team_wickets_inn3: int
+
+    # Second team (bats innings 2 and 4)
+    second_team_score_inn2: int
+    second_team_wickets_inn2: int
+    second_team_score_inn4: int
+    second_team_wickets_inn4: int
+
+    current_lead: int  # First team's lead (positive) or deficit (negative)
+    runs_to_win: int   # In innings 4 chase: runs still needed to win (0 if not chasing)
+
+    outcome: str  # "win", "draw", "loss" (from first team's perspective)
 
 
 def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
@@ -41,32 +53,33 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
     # Determine if match was drawn
     is_draw = winner is None
 
-    # Get teams
+    # Get teams - first team in list bats innings 1 and 3
     teams = list(data['info']['players'].keys())
     if len(teams) != 2:
         return []  # Invalid match
 
-    team_a, team_b = teams[0], teams[1]
+    first_team = teams[0]
 
-    # Track innings scores and overs
-    innings_scores = []
+    # Track all innings states
+    innings_data_by_num = {}
     innings_overs = []  # Track overs bowled in each completed innings
 
     states = []
     match_id = file_path.stem
 
-    for innings_idx, innings_data in enumerate(data.get('innings', [])):
+    # First pass: collect all innings data
+    for innings_idx, innings_info in enumerate(data.get('innings', [])):
         innings_num = innings_idx + 1
-        batting_team = innings_data.get('team')
-
-        # Determine which team is batting
-        is_team_a = batting_team == team_a
+        innings_data_by_num[innings_num] = {
+            'team': innings_info.get('team'),
+            'states': []  # Will store (over, runs, wickets, balls) tuples
+        }
 
         runs = 0
         wickets = 0
         balls = 0
 
-        for over_data in innings_data.get('overs', []):
+        for over_data in innings_info.get('overs', []):
             over_num = over_data['over']
 
             for delivery in over_data.get('deliveries', []):
@@ -76,50 +89,94 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
                 if 'wickets' in delivery:
                     wickets += len(delivery['wickets'])
 
-            # Calculate lead after this over
-            lead = runs
-            for i, prev_score in enumerate(innings_scores):
-                if i % 2 == 0:  # Team A innings
-                    lead += prev_score if is_team_a else -prev_score
-                else:  # Team B innings
-                    lead += -prev_score if is_team_a else prev_score
-
-            # Calculate overs_left (match-level time remaining)
-            # Total overs = completed innings overs + current over (over_num is 0-indexed, so +1)
-            total_overs_bowled = sum(innings_overs) + (over_num + 1)
-            overs_left = max(0, max_overs - total_overs_bowled)
-
-            # Determine outcome from this batting team's perspective
-            if is_draw:
-                outcome = "draw"
-            elif winner == batting_team:
-                outcome = "win"
-            else:
-                outcome = "loss"
-
-            # Create game state for this over
-            state = GameState(
-                match_id=match_id,
-                innings=innings_num,
-                over=over_num,
-                balls_bowled=balls,
-                runs_for=runs,
-                wickets_down=wickets,
-                lead=lead,
-                overs_left=overs_left,
-                outcome=outcome
-            )
-            states.append(state)
+            innings_data_by_num[innings_num]['states'].append((over_num, runs, wickets, balls))
 
             # Stop if all out
             if wickets >= 10:
                 break
 
-        # Record final innings score and overs
-        innings_scores.append(runs)
-        # Calculate actual overs bowled (convert balls to overs)
+        # Record final overs for this innings
         final_overs = balls / 6.0 if balls > 0 else 0
         innings_overs.append(final_overs)
+
+    # Determine outcome from first team's perspective
+    if is_draw:
+        outcome_first_team = "draw"
+    elif winner == first_team:
+        outcome_first_team = "win"
+    else:
+        outcome_first_team = "loss"
+
+    # Second pass: create GameState for each over with full match context
+    cumulative_overs = 0
+
+    for innings_num in sorted(innings_data_by_num.keys()):
+        innings_info = innings_data_by_num[innings_num]
+
+        for state_idx, (over_num, runs, wickets, balls) in enumerate(innings_info['states']):
+            # Calculate overs_left
+            total_overs_bowled = cumulative_overs + (over_num + 1)
+            overs_left = max(0, max_overs - total_overs_bowled)
+
+            # Helper function to get innings state
+            def get_innings_state(inn_num):
+                """Get score/wickets for an innings at this point in time"""
+                if inn_num not in innings_data_by_num or not innings_data_by_num[inn_num]['states']:
+                    return 0, 0  # Innings hasn't happened
+
+                if inn_num < innings_num:
+                    # Past innings - use final state
+                    final_state = innings_data_by_num[inn_num]['states'][-1]
+                    return final_state[1], final_state[2]  # runs, wickets
+                elif inn_num == innings_num:
+                    # Current innings - use current state
+                    return runs, wickets
+                else:
+                    # Future innings - hasn't happened yet
+                    return 0, 0
+
+            # Get state for all 4 innings
+            score_inn1, wickets_inn1 = get_innings_state(1)
+            score_inn2, wickets_inn2 = get_innings_state(2)
+            score_inn3, wickets_inn3 = get_innings_state(3)
+            score_inn4, wickets_inn4 = get_innings_state(4)
+
+            # Calculate current lead: first team total - second team total
+            # Positive = first team ahead, Negative = first team behind
+            current_lead = (score_inn1 + score_inn3) - (score_inn2 + score_inn4)
+
+            # Calculate runs_to_win for innings 4 chase
+            # Standard match: innings 1=first_team, 2=second_team, 3=first_team, 4=second_team chases
+            if innings_num == 4 and score_inn4 > 0:
+                # second_team needs to overcome the deficit from innings 2
+                # Target = (first_team's total) - (second_team's inn2) + 1
+                target = (score_inn1 + score_inn3) - score_inn2 + 1
+                runs_to_win = target - score_inn4
+            else:
+                # Not in a chase situation
+                runs_to_win = 0
+
+            state = GameState(
+                match_id=match_id,
+                current_innings=innings_num,
+                over=over_num,
+                overs_left=overs_left,
+                first_team_score_inn1=score_inn1,
+                first_team_wickets_inn1=wickets_inn1,
+                second_team_score_inn2=score_inn2,
+                second_team_wickets_inn2=wickets_inn2,
+                first_team_score_inn3=score_inn3,
+                first_team_wickets_inn3=wickets_inn3,
+                second_team_score_inn4=score_inn4,
+                second_team_wickets_inn4=wickets_inn4,
+                current_lead=current_lead,
+                runs_to_win=runs_to_win,
+                outcome=outcome_first_team
+            )
+
+            states.append(state)
+
+        cumulative_overs += innings_overs[innings_num - 1]
 
     return states
 

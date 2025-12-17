@@ -23,43 +23,71 @@ label_encoder = model_data['label_encoder']
 print(f"Loaded XGBoost model with label mapping: {dict(zip(label_encoder.classes_, range(len(label_encoder.classes_))))}")
 
 
-def predict_probabilities(state, overs_left, batting_team='Australia'):
+def predict_probabilities(full_match_state, overs_left, first_team='England'):
     """
-    Predict win/draw/loss probabilities from Australia's perspective using XGBoost
+    Predict win/draw/loss probabilities from first team's perspective using XGBoost
 
     Args:
-        state: Game state dict with innings, runsFor, wicketsDown, lead
-        overs_left: Total match overs remaining (450 - cumulative_overs_bowled)
-        batting_team: Which team is batting ('Australia' or 'England')
+        full_match_state: Dict with all innings states:
+            - current_innings (1-4)
+            - first_team_score_inn1, first_team_wickets_inn1
+            - second_team_score_inn2, second_team_wickets_inn2
+            - first_team_score_inn3, first_team_wickets_inn3
+            - second_team_score_inn4, second_team_wickets_inn4
+        overs_left: Total match overs remaining
+        first_team: Which team bats innings 1 and 3 ('England' or 'Australia')
 
-    Model predicts from batting team's perspective, so we flip when England is batting.
+    Returns probabilities from Australia's perspective (flips if needed)
     """
-    # 5 features: overs_left, innings, runs, wickets, lead
+    # Calculate current lead: first team total - second team total
+    current_lead = (
+        full_match_state['first_team_score_inn1'] + full_match_state['first_team_score_inn3']
+    ) - (
+        full_match_state['second_team_score_inn2'] + full_match_state['second_team_score_inn4']
+    )
+
+    # Calculate runs_to_win for innings 4 chase
+    if full_match_state['current_innings'] == 4 and full_match_state['second_team_score_inn4'] > 0:
+        # Target = deficit from innings 2 + 1
+        target = (full_match_state['first_team_score_inn1'] + full_match_state['first_team_score_inn3']) - full_match_state['second_team_score_inn2'] + 1
+        runs_to_win = target - full_match_state['second_team_score_inn4']
+    else:
+        runs_to_win = 0
+
+    # 12 features: overs_left, current_innings, 8 innings states, current_lead, runs_to_win
     features = np.array([[
         overs_left,
-        state['innings'],
-        state['runsFor'],
-        state['wicketsDown'],
-        state['lead']
+        full_match_state['current_innings'],
+        full_match_state['first_team_score_inn1'],
+        full_match_state['first_team_wickets_inn1'],
+        full_match_state['second_team_score_inn2'],
+        full_match_state['second_team_wickets_inn2'],
+        full_match_state['first_team_score_inn3'],
+        full_match_state['first_team_wickets_inn3'],
+        full_match_state['second_team_score_inn4'],
+        full_match_state['second_team_wickets_inn4'],
+        current_lead,
+        runs_to_win
     ]])
 
-    # XGBoost prediction
+    # XGBoost prediction (from first team's perspective)
     probs = model.predict_proba(features)[0]  # Shape: (3,) for [draw, loss, win]
 
     # Label mapping: {'draw': 0, 'loss': 1, 'win': 2}
     p_draw = float(probs[0])
-    p_loss = float(probs[1])
-    p_win = float(probs[2])
+    p_loss = float(probs[1])  # First team loss
+    p_win = float(probs[2])   # First team win
 
-    # Model predicts from batting team's perspective
-    # If England is batting, flip win/loss to show Australia's perspective
-    if batting_team == 'England':
+    # Convert to Australia's perspective
+    if first_team == 'England':
+        # England is first team, so flip for Australia's perspective
         return {
             'pWin': p_loss,  # England's loss = Australia's win
             'pDraw': p_draw,
             'pLoss': p_win   # England's win = Australia's loss
         }
     else:
+        # Australia is first team, use directly
         return {
             'pWin': p_win,   # Australia's win
             'pDraw': p_draw,
@@ -391,9 +419,21 @@ def main():
         cumulative_overs = 0
         prev_innings = 1
 
+        # Track final scores/wickets for completed innings
+        innings_final_states = {}  # {innings_num: {'score': X, 'wickets': Y}}
+
         for state in test_data['states']:
-            # When innings changes, add the previous innings' total overs
+            # When innings changes, record final state of previous innings
             if state['innings'] != prev_innings:
+                # Get final state of previous innings
+                prev_innings_states = [s for s in test_data['states'] if s['innings'] == prev_innings]
+                if prev_innings_states:
+                    final = prev_innings_states[-1]
+                    innings_final_states[prev_innings] = {
+                        'score': final['runsFor'],
+                        'wickets': final['wicketsDown']
+                    }
+
                 cumulative_overs += max(s['over'] for s in test_data['states']
                                        if s['innings'] == prev_innings)
                 prev_innings = state['innings']
@@ -402,9 +442,48 @@ def main():
             total_overs_bowled = cumulative_overs + state['over']
             overs_left = max(0, 450 - total_overs_bowled)
 
-            # Get batting team from state
-            batting_team = state.get('battingTeam', 'Australia')
-            probs = predict_probabilities(state, overs_left, batting_team=batting_team)
+            # Build full match state
+            # Determine first team (who bats innings 1 and 3)
+            first_team_name = test_data['states'][0].get('battingTeam', 'England')
+
+            # Helper to get innings state
+            def get_innings_state(inn_num):
+                if inn_num in innings_final_states:
+                    # Completed innings - use final state
+                    return innings_final_states[inn_num]['score'], innings_final_states[inn_num]['wickets']
+                elif inn_num == state['innings']:
+                    # Current innings - use current state
+                    return state['runsFor'], state['wicketsDown']
+                else:
+                    # Future innings - hasn't happened yet
+                    return 0, 0
+
+            score_inn1, wickets_inn1 = get_innings_state(1)
+            score_inn2, wickets_inn2 = get_innings_state(2)
+            score_inn3, wickets_inn3 = get_innings_state(3)
+            score_inn4, wickets_inn4 = get_innings_state(4)
+
+            full_match_state = {
+                'current_innings': state['innings'],
+                'first_team_score_inn1': score_inn1,
+                'first_team_wickets_inn1': wickets_inn1,
+                'second_team_score_inn2': score_inn2,
+                'second_team_wickets_inn2': wickets_inn2,
+                'first_team_score_inn3': score_inn3,
+                'first_team_wickets_inn3': wickets_inn3,
+                'second_team_score_inn4': score_inn4,
+                'second_team_wickets_inn4': wickets_inn4
+            }
+
+            # Skip states in innings 4 where target has been reached
+            if state['innings'] == 4 and score_inn4 > 0:
+                target = (score_inn1 + score_inn3) - score_inn2 + 1
+                runs_to_win = target - score_inn4
+                if runs_to_win <= 0:
+                    # Target reached, match is over - skip this state
+                    continue
+
+            probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name)
 
             # xOver = cumulative overs from previous innings + current over
             xOver = cumulative_overs + state['over']
@@ -488,6 +567,12 @@ def main():
                 prev_wickets = state['wicketsDown']
 
         test_data['wicketFalls'] = wicket_falls
+
+        # Find match end over (last real state before "Match Complete" extension)
+        # This is where the final ball was bowled
+        real_states = [p for p in prob_points if p['score'] != 'Match Complete']
+        if real_states:
+            test_data['matchEndOver'] = real_states[-1]['xOver']
 
     # Save all three tests
     output = {

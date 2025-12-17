@@ -1,10 +1,17 @@
 {
   "feature_names": [
     "overs_left",
-    "innings",
-    "runs",
-    "wickets",
-    "lead"
+    "current_innings",
+    "first_team_score_inn1",
+    "first_team_wickets_inn1",
+    "second_team_score_inn2",
+    "second_team_wickets_inn2",
+    "first_team_score_inn3",
+    "first_team_wickets_inn3",
+    "second_team_score_inn4",
+    "second_team_wickets_inn4",
+    "current_lead",
+    "runs_to_win"
   ],
   "label_classes": [
     "draw",

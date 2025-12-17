@@ -19,24 +19,38 @@ from parse_cricsheet import load_all_matches, GameState
 
 def extract_features(states: List[GameState]) -> pd.DataFrame:
     """
-    Extract 5 raw features from game states
+    Extract 12 features representing full match state
 
     Features:
-    - overs_left: Total match overs remaining (450 - total_overs_bowled)
-    - innings: Current innings (1-4)
-    - runs: Current innings runs
-    - wickets: Current innings wickets
-    - lead: Current lead/deficit
+    - overs_left: Total match overs remaining
+    - current_innings: Which innings is currently being played (1-4)
+    - first_team_score_inn1: First team's score in innings 1
+    - first_team_wickets_inn1: First team's wickets in innings 1
+    - second_team_score_inn2: Second team's score in innings 2
+    - second_team_wickets_inn2: Second team's wickets in innings 2
+    - first_team_score_inn3: First team's score in innings 3
+    - first_team_wickets_inn3: First team's wickets in innings 3
+    - second_team_score_inn4: Second team's score in innings 4
+    - second_team_wickets_inn4: Second team's wickets in innings 4
+    - current_lead: First team's lead (positive) or deficit (negative)
+    - runs_to_win: In innings 4 chase, runs still needed to win (0 if not chasing)
     """
     records = []
 
     for state in states:
         records.append({
             'overs_left': state.overs_left,
-            'innings': state.innings,
-            'runs': state.runs_for,
-            'wickets': state.wickets_down,
-            'lead': state.lead,
+            'current_innings': state.current_innings,
+            'first_team_score_inn1': state.first_team_score_inn1,
+            'first_team_wickets_inn1': state.first_team_wickets_inn1,
+            'second_team_score_inn2': state.second_team_score_inn2,
+            'second_team_wickets_inn2': state.second_team_wickets_inn2,
+            'first_team_score_inn3': state.first_team_score_inn3,
+            'first_team_wickets_inn3': state.first_team_wickets_inn3,
+            'second_team_score_inn4': state.second_team_score_inn4,
+            'second_team_wickets_inn4': state.second_team_wickets_inn4,
+            'current_lead': state.current_lead,
+            'runs_to_win': state.runs_to_win,
             'match_id': state.match_id,
             'outcome': state.outcome
         })
@@ -213,13 +227,33 @@ def main():
     print(f"Remaining: {after_count} states")
 
     # Calculate sample weights
-    print("\n4. Calculating sample weights (recent matches weighted higher)...")
+    print("\n4. Calculating sample weights (recent matches + innings 4 boost)...")
     sample_weights = calculate_sample_weights(df['match_id'])
+
+    # Boost innings 4 samples (chase situations are underrepresented)
+    innings_4_boost = 5.0  # Increase importance of innings 4 by 5x
+    innings_4_mask = df['current_innings'] == 4
+    sample_weights[innings_4_mask] *= innings_4_boost
+
     print(f"Weight range: {sample_weights.min():.3f} to {sample_weights.max():.3f}")
+    print(f"Innings 4 states: {innings_4_mask.sum()} ({innings_4_mask.sum()/len(df)*100:.1f}%) - weighted {innings_4_boost}x higher")
 
     # Prepare training data
     print("\n5. Preparing training data...")
-    feature_cols = ['overs_left', 'innings', 'runs', 'wickets', 'lead']
+    feature_cols = [
+        'overs_left',
+        'current_innings',
+        'first_team_score_inn1',
+        'first_team_wickets_inn1',
+        'second_team_score_inn2',
+        'second_team_wickets_inn2',
+        'first_team_score_inn3',
+        'first_team_wickets_inn3',
+        'second_team_score_inn4',
+        'second_team_wickets_inn4',
+        'current_lead',
+        'runs_to_win'
+    ]
 
     X = df[feature_cols].values
     y = df['outcome'].values

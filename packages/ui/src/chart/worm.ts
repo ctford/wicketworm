@@ -22,6 +22,7 @@ export interface WormChartOptions {
   maxOvers?: number;
   inningsBoundaries?: InningsBoundary[];
   wicketFalls?: WicketFall[];
+  matchEndOver?: number;  // xOver where match ended
 }
 
 export class WormChart {
@@ -34,12 +35,14 @@ export class WormChart {
   private maxOvers?: number;
   private inningsBoundaries?: InningsBoundary[];
   private wicketFalls?: WicketFall[];
+  private matchEndOver?: number;
 
   constructor(container: string, options: WormChartOptions = {}) {
     this.margin = options.margin ?? { top: 20, right: 120, bottom: 50, left: 50 };
     this.maxOvers = options.maxOvers;
     this.inningsBoundaries = options.inningsBoundaries;
     this.wicketFalls = options.wicketFalls;
+    this.matchEndOver = options.matchEndOver;
 
     const containerEl = document.querySelector(container);
     if (!containerEl) {
@@ -123,17 +126,34 @@ export class WormChart {
       .attr('fill', '#ef4444');
 
     // Wicket fall markers (drawn on top of areas)
+    // Line thickness scales with number of wickets that fell
     if (this.wicketFalls) {
+      let prevWickets = 0;
+      let prevInnings = 0;
+
       for (const wicket of this.wicketFalls) {
         const xPos = xScale(wicket.xOver);
         if (xPos >= 0 && xPos <= this.chartWidth) {
+          // Reset wicket count when innings changes
+          if (wicket.innings !== prevInnings) {
+            prevWickets = 0;
+            prevInnings = wicket.innings;
+          }
+
+          // Calculate how many wickets fell in this over
+          const wicketsFell = wicket.wickets - prevWickets;
+          prevWickets = wicket.wickets;
+
+          // Scale stroke width: 1 wicket = 0.75px, 2 = 1.25px, 3 = 1.75px, etc.
+          const strokeWidth = 0.75 + (wicketsFell - 1) * 0.5;
+
           this.svg.append('line')
             .attr('x1', xPos)
             .attr('x2', xPos)
             .attr('y1', 0)
             .attr('y2', this.chartHeight)
             .attr('stroke', '#9ca3af')
-            .attr('stroke-width', 0.75)
+            .attr('stroke-width', strokeWidth)
             .attr('opacity', 0.6);
         }
       }
@@ -254,6 +274,21 @@ export class WormChart {
             .attr('stroke-width', 1)
             .attr('stroke-dasharray', '4,4');
         }
+      }
+    }
+
+    // Match end marker (drawn last as the strongest line)
+    if (this.matchEndOver !== undefined) {
+      const xPos = xScale(this.matchEndOver);
+      if (xPos >= 0 && xPos <= this.chartWidth) {
+        this.svg.append('line')
+          .attr('x1', xPos)
+          .attr('x2', xPos)
+          .attr('y1', 0)
+          .attr('y2', this.chartHeight)
+          .attr('stroke', '#1f2937')  // Dark gray, strongest
+          .attr('stroke-width', 2.5)   // Thickest line
+          .attr('opacity', 1);
       }
     }
   }
