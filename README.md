@@ -4,19 +4,19 @@
 
 > Test cricket match probability visualizer
 
-WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilities** for Test cricket matches as an interactive worm chart. It uses a hybrid XGBoost + Monte Carlo model trained on historical match data from Cricsheet.
+WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilities** for Test cricket matches as an interactive worm chart. It uses an XGBoost model trained on historical match data from Cricsheet.
 
 **[View Demo →](https://ctford.github.io/wicketworm/)**
 
 ## How it works
 
-1. **Model training** (Python): Train hybrid XGBoost + Monte Carlo model on 866 historical Test matches from Cricsheet
-2. **Probability generation** (Python): Generate predictions for match states using the hybrid model
+1. **Model training** (Python): Train XGBoost model on 865 historical Test matches from Cricsheet (277,401 game states)
+2. **Probability generation** (Python): Generate predictions for match states using the trained model
 3. **Visualization** (D3): Render an interactive worm chart showing probability evolution over overs with smooth curves and wicket markers
 
 ## Model features
 
-The XGBoost model uses **10 features** to predict match outcomes (Win/Draw/Loss) with **83.7% accuracy**:
+The XGBoost model uses **10 features** to predict match outcomes (Win/Draw/Loss) with **83.5% accuracy**:
 
 ### Core match state (50.8%)
 - **Wickets remaining** (22.2%): First and second team wickets left (20 → 0 each)
@@ -38,16 +38,16 @@ The XGBoost model uses **10 features** to predict match outcomes (Win/Draw/Loss)
 wicketworm/
   packages/
     shared-types/    # Shared TypeScript types
-    model-train/     # Python: XGBoost + Monte Carlo model training
+    model-train/     # Python: XGBoost model training and prediction generation
     ui/              # Vite + TS + D3: Interactive worm chart visualization
 ```
 
 ## Model performance
 
-- **Training data**: 277,544 game states from 866 Test matches (1970s-2025)
-- **Test accuracy**: 83.7%
-- **Hybrid approach**: XGBoost for time pressure scenarios, Monte Carlo for tight finishes
+- **Training data**: 277,401 game states from 865 Test matches (1970s-2025)
+- **Test accuracy**: 83.5%
 - **Recency weighting**: Recent matches weighted higher (10-year exponential decay)
+- **Out-of-sample validation**: Ashes 2025-26 excluded from training for genuine predictions
 
 ## Getting started
 

@@ -62,7 +62,7 @@ python src/generate_ashes_series.py
 ```
 
 This will:
-- Calculate probabilities for each game state using the hybrid XGBoost + Monte Carlo model
+- Calculate probabilities for each game state using the XGBoost model
 - Save updated data to `packages/ui/src/data/ashes-series-2025.json`
 - The dev server will automatically reload with new data
 
@@ -105,13 +105,13 @@ Each test match has:
 }
 ```
 
-### Hybrid Prediction Model
+### XGBoost Prediction Model
 
-The system uses a hybrid XGBoost + Monte Carlo model with **83.7% test accuracy**.
+The system uses an XGBoost model with **83.5% test accuracy** on 277,401 game states.
 
-#### XGBoost Model (10 features)
+#### Model Features (10 features)
 
-Used for most situations. Features with importance percentages:
+Features with importance percentages:
 
 1. **first_team_rating** (15.2%) - ELO rating of first batting team
 2. **second_team_rating** (14.6%) - ELO rating of second batting team
@@ -124,27 +124,16 @@ Used for most situations. Features with importance percentages:
 9. **chase_ease** (4.2%) - Inverse of runs per wicket (4th innings only)
 10. **required_run_rate** (4.1%) - Runs per over needed (4th innings only)
 
-Training data: 277,544 game states from 866 Test matches (1970s-2025)
-Recency weighting: 10-year exponential decay (recent matches weighted higher)
-
-#### Monte Carlo Simulator
-
-Used for close chases when:
-- 4th innings AND
-- (≤3 wickets remaining OR ≤80 runs needed) AND
-- >30 overs remaining
-
-Uses partnership distributions learned from historical data:
-- 1st wicket: avg 38.5 runs in 11.0 overs
-- 10th wicket: avg 17.0 runs in 3.7 overs
-
-This gives more realistic probabilities for tight finishes when the outcome depends on specific wicket/run pressure rather than time pressure.
+Training data: 277,401 game states from 865 Test matches (1970s-2025)
+- Ashes 2025-26 excluded from training (used for ELO only) to ensure out-of-sample predictions
+- Recency weighting: 10-year exponential decay (recent matches weighted higher)
 
 ### Key Files
 
 - `packages/model-train/src/generate_ashes_series.py` - Match data and probability generation
 - `packages/model-train/src/train.py` - XGBoost model training
-- `packages/model-train/src/monte_carlo_model.py` - Monte Carlo partnership simulator
+- `packages/model-train/src/parse_cricsheet.py` - Cricsheet data parser with ELO system
+- `packages/model-train/src/team_ratings.py` - ELO rating system implementation
 - `packages/ui/src/data/ashes-series-2025.json` - Generated visualization data
 - `packages/ui/src/chart/worm.ts` - D3.js visualization logic
 
@@ -272,7 +261,7 @@ Check that:
 
 ### Model Retraining
 
-If you want to retrain the models with updated historical data:
+If you want to retrain the model with updated historical data:
 
 ```bash
 cd packages/model-train
@@ -283,15 +272,11 @@ source venv/bin/activate
 
 # Train XGBoost model
 python src/train.py
-
-# Train Monte Carlo model
-python src/monte_carlo_model.py
 ```
 
 This will update:
 - `output/model.pkl` - XGBoost model
 - `output/model_metadata.json` - Feature names and labels
-- `output/monte_carlo_model.pkl` - Partnership distributions
 
 #### IMPORTANT: Excluding Ashes 2025-26 from Training
 

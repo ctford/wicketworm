@@ -2266,30 +2266,30 @@
           "innings": 4,
           "over": 0,
           "score": "0/0",
-          "pWin": 0.895,
-          "pDraw": 0.0,
-          "pLoss": 0.105,
-          "usedMonteCarlo": true
+          "pWin": 0.9564964771270752,
+          "pDraw": 0.0044317771680653095,
+          "pLoss": 0.03907177969813347,
+          "usedMonteCarlo": false
         },
         {
           "xOver": 335,
           "innings": 4,
           "over": 5,
           "score": "23/0",
-          "pWin": 0.93,
-          "pDraw": 0.0,
-          "pLoss": 0.07,
-          "usedMonteCarlo": true
+          "pWin": 0.9601222276687622,
+          "pDraw": 0.004638906102627516,
+          "pLoss": 0.035238876938819885,
+          "usedMonteCarlo": false
         },
         {
           "xOver": 340,
           "innings": 4,
           "over": 10,
           "score": "46/1",
-          "pWin": 0.98,
-          "pDraw": 0.005,
-          "pLoss": 0.015,
-          "usedMonteCarlo": true
+          "pWin": 0.9665746092796326,
+          "pDraw": 0.003831682028248906,
+          "pLoss": 0.029593754559755325,
+          "usedMonteCarlo": false
         },
         {
           "xOver": 345,
@@ -3681,20 +3681,20 @@
           "innings": 4,
           "over": 25,
           "score": "147/1",
-          "pWin": 0.96,
-          "pDraw": 0.0,
-          "pLoss": 0.04,
-          "usedMonteCarlo": true
+          "pWin": 0.9585552215576172,
+          "pDraw": 0.0036944211460649967,
+          "pLoss": 0.03775039315223694,
+          "usedMonteCarlo": false
         },
         {
           "xOver": 200,
           "innings": 4,
           "over": 30,
           "score": "177/1",
-          "pWin": 0.97,
-          "pDraw": 0.0,
-          "pLoss": 0.03,
-          "usedMonteCarlo": true
+          "pWin": 0.9635555744171143,
+          "pDraw": 0.0032486768905073404,
+          "pLoss": 0.03319568186998367,
+          "usedMonteCarlo": false
         },
         {
           "xOver": 205,
