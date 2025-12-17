@@ -1,8 +1,8 @@
 # WicketWorm
 
-> Live Test cricket match probability visualizer
+> Test cricket match probability visualizer
 
-WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilities** for live Test cricket matches as an interactive worm chart. It uses only **anonymized scorecard state** (no team strength modeling) to provide real-time insights into match dynamics.
+WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilities** for Test cricket matches as an interactive worm chart. It uses only **anonymized scorecard state** (no team strength modeling) to provide insights into match dynamics.
 
 ## How it works
 
@@ -56,7 +56,6 @@ The visualization will show pre-generated probability data for The Ashes 2025-26
 ## Data sources
 
 - **Training data**: [Cricsheet](https://cricsheet.org/) (Test match ball-by-ball data)
-- **Live data**: Cricsheet recent matches, ESPN Cricinfo (with rate limiting)
 
 ## License
 
