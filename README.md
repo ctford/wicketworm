@@ -14,6 +14,16 @@ WicketWorm is an open-source tool that visualizes **Win / Draw / Loss probabilit
 2. **Probability generation** (Python): Generate predictions for match states using the trained model
 3. **Visualization** (D3): Render an interactive worm chart showing probability evolution over overs with smooth curves and wicket markers
 
+## Ashes 2025-26 Match Reports
+
+Detailed scorecards and day-by-day summaries for the current Ashes series:
+
+- **[PERTH.md](PERTH.md)** - 1st Test: Australia won by 8 wickets (Nov 21-22, 2025) - Travis Head's 69-ball century in a two-day thriller
+- **[BRISBANE.md](BRISBANE.md)** - 2nd Test: Australia won by 8 wickets (Dec 4-7, 2025) - Joe Root's maiden Ashes century in Australia
+- **[ADELAIDE.md](ADELAIDE.md)** - 3rd Test: In Progress (Dec 17-21, 2025) - Alex Carey's maiden Ashes century
+
+**Series Status:** Australia leads 2-0 with 3 Tests remaining
+
 ## Model features
 
 The XGBoost model uses **8 features** to predict match outcomes (Win/Draw/Loss) with **83.5% accuracy**:
