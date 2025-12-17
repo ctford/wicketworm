@@ -132,10 +132,11 @@ export class WormChart {
       let prevInnings = 0;
 
       for (const wicket of this.wicketFalls) {
-        // Find the next data point to calculate step midpoint
-        const nextPoint = data.find(d => d.xOver > wicket.xOver);
-        const midXOver = nextPoint
-          ? (wicket.xOver + nextPoint.xOver) / 2
+        // Find the previous data point to calculate step midpoint
+        // With curveStepAfter, wicket at xOver 20 fell during the bar from 15→20
+        const prevPoint = [...data].reverse().find(d => d.xOver < wicket.xOver);
+        const midXOver = prevPoint
+          ? (prevPoint.xOver + wicket.xOver) / 2
           : wicket.xOver;
 
         const xPos = xScale(midXOver);
@@ -269,10 +270,10 @@ export class WormChart {
     // Innings boundaries (drawn on top of areas)
     if (this.inningsBoundaries) {
       for (const boundary of this.inningsBoundaries.slice(1)) {  // Skip first boundary at 0
-        // Find the next data point to calculate step midpoint
-        const nextPoint = data.find(d => d.xOver > boundary.xOver);
-        const midXOver = nextPoint
-          ? (boundary.xOver + nextPoint.xOver) / 2
+        // Find the previous data point to calculate step midpoint
+        const prevPoint = [...data].reverse().find(d => d.xOver < boundary.xOver);
+        const midXOver = prevPoint
+          ? (prevPoint.xOver + boundary.xOver) / 2
           : boundary.xOver;
 
         const xPos = xScale(midXOver);
@@ -291,10 +292,10 @@ export class WormChart {
 
     // Match end marker (drawn last as the strongest line)
     if (this.matchEndOver !== undefined) {
-      // Find the next data point to calculate step midpoint
-      const nextPoint = data.find(d => d.xOver > this.matchEndOver);
-      const midXOver = nextPoint
-        ? (this.matchEndOver + nextPoint.xOver) / 2
+      // Find the previous data point to calculate step midpoint
+      const prevPoint = [...data].reverse().find(d => d.xOver < this.matchEndOver);
+      const midXOver = prevPoint
+        ? (prevPoint.xOver + this.matchEndOver) / 2
         : this.matchEndOver;
 
       const xPos = xScale(midXOver);
