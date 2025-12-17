@@ -175,7 +175,7 @@ export class WormChart {
         const xOver = d.valueOf();
         const boundary = this.inningsBoundaries?.find(b => b.xOver === xOver);
         if (boundary) {
-          const team = boundary.battingTeam === 'Australia' ? 'Aus' : 'Eng';
+          const team = boundary.battingTeam === 'Australia' ? 'AUS' : 'ENG';
           return `${team} bat`;
         }
         // Show every 20 overs
