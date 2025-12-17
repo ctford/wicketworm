@@ -1,8 +1,6 @@
-import type { GameState, ProbPoint } from '@wicketworm/shared-types';
-import { calculateXOver } from '@wicketworm/shared-types';
-import { loadModel, predict } from './inference/model';
+import type { ProbPoint } from '@wicketworm/shared-types';
 import { WormChart } from './chart/worm';
-import adelaideTestData from './data/adelaide-test.json';
+import ashesSeriesData from './data/ashes-series-2025.json';
 
 const statusEl = document.getElementById('status');
 
@@ -15,45 +13,74 @@ function updateStatus(message: string): void {
 
 async function main() {
   try {
-    updateStatus('Loading model...');
+    updateStatus('Loading Ashes series data...');
 
-    // Load trained model
-    const model = await loadModel();
-    updateStatus('Model loaded successfully');
+    const seriesData = ashesSeriesData as any;
+    const container = document.getElementById('charts-container');
 
-    // Load Adelaide Test match data
-    const states = adelaideTestData.states as GameState[];
-    updateStatus(`Loaded Adelaide Ashes Test - ${states.length} match states`);
+    if (!container) {
+      throw new Error('Charts container not found');
+    }
 
-    // Compute probabilities for each state
-    updateStatus('Computing probabilities...');
-    const probPoints: ProbPoint[] = states.map(state => {
-      const probs = predict(model, state);
-      return {
-        xOver: calculateXOver(state.innings, state.ballsBowled / 6),
-        innings: state.innings,
-        over: state.ballsBowled / 6,
-        pWin: probs.pWin,
-        pDraw: probs.pDraw,
-        pLoss: probs.pLoss
-      };
-    });
+    // Clear loading message
+    container.innerHTML = '';
 
-    updateStatus('Rendering worm chart...');
+    // Create a chart for each test
+    for (const test of seriesData.tests) {
+      // Create test container
+      const testDiv = document.createElement('div');
+      testDiv.className = 'test-chart';
 
-    // Create and render chart
-    const chart = new WormChart('#chart', {
-      height: 500
-    });
-    chart.render(probPoints);
+      // Add header
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'test-header';
 
-    updateStatus(`${adelaideTestData.description} (${probPoints.length} points)`);
+      const cityDiv = document.createElement('div');
+      cityDiv.className = 'test-city';
+      cityDiv.textContent = test.city;
 
-    // Log sample probabilities
-    console.log('Sample probabilities:');
-    console.log(`Start of match:`, probPoints[0]);
-    console.log(`Mid-match:`, probPoints[Math.floor(probPoints.length / 2)]);
-    console.log(`End of match:`, probPoints[probPoints.length - 1]);
+      const datesDiv = document.createElement('div');
+      datesDiv.className = 'test-dates';
+      datesDiv.textContent = test.dates;
+
+      const resultDiv = document.createElement('div');
+      resultDiv.className = 'test-result';
+      resultDiv.textContent = test.result;
+
+      headerDiv.appendChild(cityDiv);
+      headerDiv.appendChild(datesDiv);
+      headerDiv.appendChild(resultDiv);
+
+      // Add chart container
+      const chartDiv = document.createElement('div');
+      chartDiv.className = 'chart-svg';
+      chartDiv.id = `chart-${test.matchId}`;
+
+      testDiv.appendChild(headerDiv);
+      testDiv.appendChild(chartDiv);
+      container.appendChild(testDiv);
+
+      // Render chart
+      const chart = new WormChart(`#chart-${test.matchId}`, {
+        height: 200,
+        maxOvers: 450  // Always show full 5 days
+      });
+
+      const probPoints: ProbPoint[] = test.probabilities.map((p: any) => ({
+        xOver: p.over,
+        innings: p.innings,
+        over: p.over,
+        pWin: p.pWin,
+        pDraw: p.pDraw,
+        pLoss: p.pLoss
+      }));
+
+      chart.render(probPoints);
+
+      console.log(`${test.city}: ${probPoints.length} points, ${test.days} day(s)`);
+    }
+
+    updateStatus(`${seriesData.series} - ${seriesData.tests.length} tests loaded`);
 
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';

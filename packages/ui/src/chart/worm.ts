@@ -6,6 +6,7 @@ export interface WormChartOptions {
   width?: number;
   height?: number;
   margin?: { top: number; right: number; bottom: number; left: number };
+  maxOvers?: number;
 }
 
 export class WormChart {
@@ -15,9 +16,11 @@ export class WormChart {
   private margin: { top: number; right: number; bottom: number; left: number };
   private chartWidth: number;
   private chartHeight: number;
+  private maxOvers?: number;
 
   constructor(container: string, options: WormChartOptions = {}) {
     this.margin = options.margin ?? { top: 20, right: 120, bottom: 50, left: 50 };
+    this.maxOvers = options.maxOvers;
 
     const containerEl = document.querySelector(container);
     if (!containerEl) {
@@ -46,8 +49,10 @@ export class WormChart {
       return;
     }
 
-    // Scales
-    const xExtent = d3.extent(data, d => d.xOver) as [number, number];
+    // Scales - use fixed domain if maxOvers provided
+    const xExtent = this.maxOvers
+      ? [0, this.maxOvers] as [number, number]
+      : d3.extent(data, d => d.xOver) as [number, number];
     const xScale = d3.scaleLinear()
       .domain(xExtent)
       .range([0, this.chartWidth]);

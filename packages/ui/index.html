@@ -38,12 +38,44 @@
         padding: 2rem;
       }
 
-      #chart {
+      #charts-container {
         width: 100%;
-        height: 500px;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .test-chart {
         background: #111;
         border-radius: 8px;
         border: 1px solid #333;
+        padding: 1rem;
+      }
+
+      .test-header {
+        margin-bottom: 0.5rem;
+      }
+
+      .test-city {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .test-dates {
+        font-size: 0.875rem;
+        color: #888;
+      }
+
+      .test-result {
+        font-size: 0.875rem;
+        color: #aaa;
+        margin-top: 0.25rem;
+      }
+
+      .chart-svg {
+        width: 100%;
+        height: 200px;
       }
 
       .status {
@@ -65,15 +97,15 @@
   <body>
     <header>
       <h1>WicketWorm</h1>
-      <div class="subtitle">Adelaide Ashes Test 2025 - Day 1</div>
+      <div class="subtitle">The Ashes 2025-26</div>
     </header>
 
     <main>
-      <div id="chart">
-        <div class="loading">Loading worm chart...</div>
+      <div id="charts-container">
+        <div class="loading">Loading Ashes series...</div>
       </div>
       <div class="status" id="status">
-        Offline replay mode
+        Loading...
       </div>
     </main>
 
