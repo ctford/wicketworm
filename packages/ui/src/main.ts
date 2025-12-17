@@ -2,7 +2,7 @@ import type { GameState, ProbPoint } from '@wicketworm/shared-types';
 import { calculateXOver } from '@wicketworm/shared-types';
 import { loadModel, predict } from './inference/model';
 import { WormChart } from './chart/worm';
-import sampleMatchData from './data/sample-match.json';
+import adelaideTestData from './data/adelaide-test.json';
 
 const statusEl = document.getElementById('status');
 
@@ -21,9 +21,9 @@ async function main() {
     const model = await loadModel();
     updateStatus('Model loaded successfully');
 
-    // Load sample match data
-    const states = sampleMatchData.states as GameState[];
-    updateStatus(`Loaded ${states.length} match states`);
+    // Load Adelaide Test match data
+    const states = adelaideTestData.states as GameState[];
+    updateStatus(`Loaded Adelaide Ashes Test - ${states.length} match states`);
 
     // Compute probabilities for each state
     updateStatus('Computing probabilities...');
@@ -47,7 +47,7 @@ async function main() {
     });
     chart.render(probPoints);
 
-    updateStatus(`Offline replay: ${sampleMatchData.description} (${probPoints.length} points)`);
+    updateStatus(`${adelaideTestData.description} (${probPoints.length} points)`);
 
     // Log sample probabilities
     console.log('Sample probabilities:');
