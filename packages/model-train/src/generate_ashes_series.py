@@ -584,14 +584,17 @@ def main():
                 })
                 prev_wickets = state['wicketsDown']
 
-        test_data['wicketFalls'] = wicket_falls
-
         # Find match end over (last real state before "Match Complete" extension)
         # Only set for completed matches, not matches in progress
         if 'won' in test_data['result'].lower():
             real_states = [p for p in prob_points if p['score'] != 'Match Complete']
             if real_states:
-                test_data['matchEndOver'] = real_states[-1]['xOver']
+                match_end_over = real_states[-1]['xOver']
+                test_data['matchEndOver'] = match_end_over
+                # Filter out wickets that occurred after match ended
+                wicket_falls = [w for w in wicket_falls if w['xOver'] <= match_end_over]
+
+        test_data['wicketFalls'] = wicket_falls
 
     # Save all three tests
     output = {

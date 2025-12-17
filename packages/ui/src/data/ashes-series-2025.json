@@ -2313,6 +2313,7 @@
           "battingTeam": "Australia"
         }
       ],
+      "matchEndOver": 340,
       "wicketFalls": [
         {
           "innings": 1,
@@ -2487,15 +2488,8 @@
           "xOver": 340,
           "wickets": 1,
           "score": "46/1"
-        },
-        {
-          "innings": 4,
-          "xOver": 345,
-          "wickets": 2,
-          "score": "69/2"
         }
-      ],
-      "matchEndOver": 340
+      ]
     },
     {
       "matchId": "perth-test-2025",
@@ -3791,6 +3785,7 @@
           "battingTeam": "Australia"
         }
       ],
+      "matchEndOver": 200,
       "wicketFalls": [
         {
           "innings": 1,
@@ -3953,15 +3948,8 @@
           "xOver": 190,
           "wickets": 1,
           "score": "118/1"
-        },
-        {
-          "innings": 4,
-          "xOver": 205,
-          "wickets": 2,
-          "score": "205/2"
         }
-      ],
-      "matchEndOver": 200
+      ]
     }
   ]
 }
