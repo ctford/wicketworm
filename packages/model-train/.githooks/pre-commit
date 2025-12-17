@@ -1,0 +1,35 @@
+#!/bin/bash
+
+echo "Running pre-commit build check..."
+
+# Check Python compilation
+echo "Checking Python compilation..."
+cd packages/model-train
+python3 -m py_compile src/*.py
+if [ $? -ne 0 ]; then
+  echo "❌ Python compilation failed"
+  exit 1
+fi
+cd ../..
+
+# Build shared-types
+echo "Building shared-types..."
+cd packages/shared-types
+pnpm build
+if [ $? -ne 0 ]; then
+  echo "❌ shared-types build failed"
+  exit 1
+fi
+cd ../..
+
+# Build UI
+echo "Building UI..."
+cd packages/ui
+pnpm build
+if [ $? -ne 0 ]; then
+  echo "❌ UI build failed"
+  exit 1
+fi
+cd ../..
+
+echo "✓ All builds passed"
