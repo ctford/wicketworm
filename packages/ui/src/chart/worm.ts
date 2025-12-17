@@ -71,6 +71,9 @@ export class WormChart {
       return;
     }
 
+    // Detect mobile/small screens
+    const isMobile = this.width < 768;
+
     // Scales - use fixed domain if maxOvers provided
     const xExtent = this.maxOvers
       ? [0, this.maxOvers] as [number, number]
@@ -127,7 +130,8 @@ export class WormChart {
 
     // Wicket fall markers (drawn on top of areas)
     // Line thickness scales with TOTAL wickets that fell in each 5-over bucket
-    if (this.wicketFalls) {
+    // Skip on mobile to reduce clutter
+    if (this.wicketFalls && !isMobile) {
       // Group wickets by bucket (each data point represents end of a bucket)
       const wicketsByBucket = new Map<string, { xOver: number; innings: number; totalWickets: number }>();
 
@@ -182,10 +186,11 @@ export class WormChart {
       }
     }
 
-    // X-axis - show innings markers and every 20 overs
+    // X-axis - show innings markers and every 20 overs (hide numeric labels on mobile)
     const maxXOver = d3.max(data, d => d.xOver) ?? 450;
     const overMarks = [];
-    for (let i = 0; i <= maxXOver; i += 20) {
+    const overInterval = 20;
+    for (let i = 0; i <= maxXOver; i += overInterval) {
       overMarks.push(i);
     }
 
@@ -193,16 +198,17 @@ export class WormChart {
     const allTicks = [...new Set([...overMarks, ...inningsTicks])].sort((a, b) => a - b);
 
     const xAxis = d3.axisBottom(xScale)
-      .tickValues(allTicks)
+      .tickValues(isMobile ? [] : allTicks)  // No ticks on mobile
       .tickFormat(d => {
+        if (isMobile) return '';  // No labels on mobile
         const xOver = d.valueOf();
         const boundary = this.inningsBoundaries?.find(b => b.xOver === xOver);
         if (boundary) {
           const team = boundary.battingTeam === 'Australia' ? 'AUS' : 'ENG';
           return `${team} bat`;
         }
-        // Show every 20 overs
-        if (xOver % 20 === 0) {
+        // Show ticks at the interval
+        if (xOver % overInterval === 0) {
           return xOver.toString();
         }
         return '';
@@ -223,9 +229,10 @@ export class WormChart {
     this.svg.selectAll('.x-axis path, .x-axis line')
       .style('stroke', '#4b5563');
 
-    // Y-axis
+    // Y-axis - hide tick labels on mobile
     const yAxis = d3.axisLeft(yScale)
-      .tickFormat(d => `${(d.valueOf() * 100).toFixed(0)}%`);
+      .ticks(isMobile ? 0 : 10)  // No ticks on mobile
+      .tickFormat(d => isMobile ? '' : `${(d.valueOf() * 100).toFixed(0)}%`);
 
     this.svg.append('g')
       .attr('class', 'y-axis')
