@@ -277,11 +277,19 @@ def parse_match(file_path: Path, max_overs: int = 450, team_ratings: Tuple[float
     return states
 
 
-def load_all_matches(data_dir: Path, max_matches: int = None) -> List[GameState]:
+def load_all_matches(data_dir: Path, max_matches: int = None, exclude_match_ids: list = None) -> List[GameState]:
     """
     Load and parse all Cricsheet JSON files with team ratings
+
+    Args:
+        data_dir: Directory containing Cricsheet JSON files
+        max_matches: Optional limit on number of matches to process
+        exclude_match_ids: List of match IDs to exclude from game state extraction
+                          (but still include in ELO calculation)
     """
     from team_ratings import build_rating_system
+
+    exclude_match_ids = exclude_match_ids or []
 
     print("Building team rating system from match history...")
     rating_system = build_rating_system(data_dir)
@@ -313,6 +321,11 @@ def load_all_matches(data_dir: Path, max_matches: int = None) -> List[GameState]
             print(f"Processing match {i+1}/{len(json_files)}...")
 
         try:
+            # Skip excluded matches (but they're still in ELO calculation)
+            if file_path.stem in exclude_match_ids:
+                print(f"  Skipping {file_path.stem} (excluded from training, used for ELO only)")
+                continue
+
             # Get team names
             with open(file_path) as f:
                 data = json.load(f)

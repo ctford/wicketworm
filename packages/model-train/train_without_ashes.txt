@@ -1,0 +1,61 @@
+WicketWorm Model Training (XGBoost)
+==================================================
+
+1. Loading Cricsheet data...
+   Excluding 1 matches from training (used for ELO only)
+Building team rating system from match history...
+✓ Built rating system from 866 matches
+
+Processing match 1/866...
+Processing match 101/866...
+Processing match 201/866...
+Processing match 301/866...
+Processing match 401/866...
+Processing match 501/866...
+Processing match 601/866...
+Processing match 701/866...
+Processing match 801/866...
+  Skipping 1455611 (excluded from training, used for ELO only)
+
+✓ Loaded 277401 game states from 866 matches
+
+2. Extracting features...
+Extracted features for 277401 game states
+
+3. Filtering out ties...
+Removed 0 tie states
+Remaining: 277401 states
+
+4. Calculating sample weights (recent matches weighted higher)...
+Weight range: 0.007 to 1.000
+
+5. Preparing training data...
+Total states: 277401
+
+Outcome distribution:
+  draw: 59649 (21.5%)
+  loss: 96120 (34.7%)
+  win: 121632 (43.8%)
+
+6. Training XGBoost model...
+Label mapping: {'draw': 0, 'loss': 1, 'win': 2}
+
+Train set: 194290 samples
+Validation set: 41500 samples
+Test set: 41611 samples
+
+Model performance:
+  Train accuracy: 0.836
+  Validation accuracy: 0.832
+  Test accuracy: 0.835
+
+Outcome distribution in test set:
+  draw: 8948 (21.5%)
+  loss: 14418 (34.6%)
+  win: 18245 (43.8%)
+
+7. Exporting model...
+✓ Model and label encoder saved to /Users/chrisford/Codigo/wicketworm/packages/model-train/output/model.pkl
+✓ Model metadata saved to /Users/chrisford/Codigo/wicketworm/packages/model-train/output/model_metadata.json
+
+✓ Training complete!

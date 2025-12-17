@@ -202,7 +202,11 @@ def main():
 
     # Load data
     print("\n1. Loading Cricsheet data...")
-    states = load_all_matches(data_dir)
+    # Exclude Ashes 2025-26 matches from training (but keep in ELO calculation)
+    # Perth: 1455611, Brisbane: TBD, Adelaide: TBD
+    exclude_matches = ['1455611']  # Perth Test
+    print(f"   Excluding {len(exclude_matches)} matches from training (used for ELO only)")
+    states = load_all_matches(data_dir, exclude_match_ids=exclude_matches)
 
     if not states:
         print("\n❌ No data loaded. Please download Cricsheet Test data to data/ directory")
