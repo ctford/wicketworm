@@ -291,5 +291,160 @@ export class WormChart {
           .attr('opacity', 1);
       }
     }
+
+    // Hover interaction - highlight current over and show probabilities
+    const highlightGroup = this.svg.append('g').attr('class', 'hover-highlight');
+    const tooltipGroup = this.svg.append('g').attr('class', 'hover-tooltip');
+
+    // Add transparent overlay to capture mouse events
+    const overlay = this.svg.append('rect')
+      .attr('class', 'overlay')
+      .attr('width', this.chartWidth)
+      .attr('height', this.chartHeight)
+      .attr('fill', 'none')
+      .attr('pointer-events', 'all');
+
+    // Bisector to find nearest data point
+    const bisect = d3.bisector((d: ProbPoint) => d.xOver).left;
+
+    overlay.on('mousemove', (event) => {
+      const [mouseX] = d3.pointer(event);
+      const xOver = xScale.invert(mouseX);
+
+      // Find the data point whose step we're over (curveStepAfter means use previous point)
+      const index = bisect(data, xOver);
+      const dataPoint = data[Math.max(0, index - 1)];
+
+      if (!dataPoint) return;
+
+      // Clear previous highlights
+      highlightGroup.selectAll('*').remove();
+      tooltipGroup.selectAll('*').remove();
+
+      // Calculate step boundaries (from this point to next point)
+      let stepStart = xScale(dataPoint.xOver);
+      let stepEnd: number;
+
+      // If we're after the match end, highlight entire post-match region as one block
+      if (this.matchEndOver !== undefined && xOver >= this.matchEndOver) {
+        stepStart = xScale(this.matchEndOver);
+        stepEnd = this.chartWidth;
+      } else {
+        const nextPoint = data[index];
+        stepEnd = nextPoint ? xScale(nextPoint.xOver) : this.chartWidth;
+      }
+
+      // Draw highlighted areas with brighter colors and borders
+      // Win area (bottom)
+      highlightGroup.append('rect')
+        .attr('x', stepStart)
+        .attr('y', yScale(dataPoint.pWin))
+        .attr('width', stepEnd - stepStart)
+        .attr('height', this.chartHeight - yScale(dataPoint.pWin))
+        .attr('fill', '#4ade80')  // Brighter green
+        .attr('stroke', '#16a34a')
+        .attr('stroke-width', 2);
+
+      // Draw area (middle)
+      const drawHeight = yScale(dataPoint.pWin) - yScale(dataPoint.pWin + dataPoint.pDraw);
+      highlightGroup.append('rect')
+        .attr('x', stepStart)
+        .attr('y', yScale(dataPoint.pWin + dataPoint.pDraw))
+        .attr('width', stepEnd - stepStart)
+        .attr('height', drawHeight)
+        .attr('fill', '#9ca3af')  // Brighter gray
+        .attr('stroke', '#4b5563')
+        .attr('stroke-width', 2);
+
+      // Loss area (top)
+      highlightGroup.append('rect')
+        .attr('x', stepStart)
+        .attr('y', 0)
+        .attr('width', stepEnd - stepStart)
+        .attr('height', yScale(dataPoint.pWin + dataPoint.pDraw))
+        .attr('fill', '#f87171')  // Brighter red
+        .attr('stroke', '#dc2626')
+        .attr('stroke-width', 2);
+
+      // Show tooltip with probabilities
+      const tooltipX = stepStart + (stepEnd - stepStart) / 2;
+      const tooltipY = 10;  // Position from top of chart, not above
+
+      const tooltip = tooltipGroup.append('g')
+        .attr('transform', `translate(${tooltipX}, ${tooltipY})`);
+
+      // Find wicket info for this over
+      let wicketInfo = '';
+      if (this.wicketFalls) {
+        const wicket = this.wicketFalls.find(w => w.xOver === dataPoint.xOver);
+        if (wicket) {
+          wicketInfo = `${wicket.wickets} wickets`;
+        }
+      }
+
+      // Background rect for tooltip
+      const overText = `#${dataPoint.over}`;
+      const ausText = `AUS ${(dataPoint.pWin * 100).toFixed(1)}%`;
+      const drawText = `Draw ${(dataPoint.pDraw * 100).toFixed(1)}%`;
+      const engText = `ENG ${(dataPoint.pLoss * 100).toFixed(1)}%`;
+
+      const tooltipTexts = [overText, ausText, drawText, engText];
+      if (wicketInfo) {
+        tooltipTexts.push(wicketInfo);
+      }
+
+      const padding = 8;
+      const lineHeight = 16;
+      const maxWidth = Math.max(...tooltipTexts.map(t => t.length * 7)) + padding * 2;
+      const height = tooltipTexts.length * lineHeight + padding * 2;
+
+      tooltip.append('rect')
+        .attr('x', -maxWidth / 2)
+        .attr('y', 0)
+        .attr('width', maxWidth)
+        .attr('height', height)
+        .attr('fill', '#1f2937')
+        .attr('stroke', '#4b5563')
+        .attr('stroke-width', 1)
+        .attr('rx', 4);
+
+      // Add text lines with appropriate colors
+      tooltipTexts.forEach((text, i) => {
+        let color = '#e5e7eb';  // Default light gray
+        let fontWeight = '600';
+
+        if (i === 0) {
+          // Over number - white and bold
+          color = '#ffffff';
+          fontWeight = '700';
+        } else if (i === 1) {
+          // Australia - bright green
+          color = '#4ade80';
+        } else if (i === 2) {
+          // Draw - gray
+          color = '#9ca3af';
+        } else if (i === 3) {
+          // England - bright red
+          color = '#f87171';
+        } else {
+          // Wickets - light gray
+          color = '#d1d5db';
+        }
+
+        tooltip.append('text')
+          .attr('x', 0)
+          .attr('y', padding + (i + 1) * lineHeight - 2)
+          .attr('text-anchor', 'middle')
+          .style('fill', color)
+          .style('font-size', '12px')
+          .style('font-weight', fontWeight)
+          .text(text);
+      });
+    });
+
+    overlay.on('mouseleave', () => {
+      highlightGroup.selectAll('*').remove();
+      tooltipGroup.selectAll('*').remove();
+    });
   }
 }
