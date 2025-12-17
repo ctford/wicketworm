@@ -383,7 +383,7 @@ export class WormChart {
       }
 
       // Background rect for tooltip
-      const overText = `#${dataPoint.over}`;
+      const overText = `#${Math.round(dataPoint.xOver)}`;  // Use xOver for cumulative match overs
       const ausText = `AUS ${(dataPoint.pWin * 100).toFixed(1)}%`;
       const drawText = `Draw ${(dataPoint.pDraw * 100).toFixed(1)}%`;
       const engText = `ENG ${(dataPoint.pLoss * 100).toFixed(1)}%`;
