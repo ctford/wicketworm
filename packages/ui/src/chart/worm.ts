@@ -132,7 +132,13 @@ export class WormChart {
       let prevInnings = 0;
 
       for (const wicket of this.wicketFalls) {
-        const xPos = xScale(wicket.xOver);
+        // Find the next data point to calculate step midpoint
+        const nextPoint = data.find(d => d.xOver > wicket.xOver);
+        const midXOver = nextPoint
+          ? (wicket.xOver + nextPoint.xOver) / 2
+          : wicket.xOver;
+
+        const xPos = xScale(midXOver);
         if (xPos >= 0 && xPos <= this.chartWidth) {
           // Reset wicket count when innings changes
           if (wicket.innings !== prevInnings) {
@@ -263,7 +269,13 @@ export class WormChart {
     // Innings boundaries (drawn on top of areas)
     if (this.inningsBoundaries) {
       for (const boundary of this.inningsBoundaries.slice(1)) {  // Skip first boundary at 0
-        const xPos = xScale(boundary.xOver);
+        // Find the next data point to calculate step midpoint
+        const nextPoint = data.find(d => d.xOver > boundary.xOver);
+        const midXOver = nextPoint
+          ? (boundary.xOver + nextPoint.xOver) / 2
+          : boundary.xOver;
+
+        const xPos = xScale(midXOver);
         if (xPos >= 0 && xPos <= this.chartWidth) {
           this.svg.append('line')
             .attr('x1', xPos)
@@ -279,7 +291,13 @@ export class WormChart {
 
     // Match end marker (drawn last as the strongest line)
     if (this.matchEndOver !== undefined) {
-      const xPos = xScale(this.matchEndOver);
+      // Find the next data point to calculate step midpoint
+      const nextPoint = data.find(d => d.xOver > this.matchEndOver);
+      const midXOver = nextPoint
+        ? (this.matchEndOver + nextPoint.xOver) / 2
+        : this.matchEndOver;
+
+      const xPos = xScale(midXOver);
       if (xPos >= 0 && xPos <= this.chartWidth) {
         this.svg.append('line')
           .attr('x1', xPos)
