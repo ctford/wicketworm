@@ -65,8 +65,3 @@ MIT License - see [LICENSE](LICENSE) for details
 ## Contributing
 
 Contributions welcome! This is an early-stage project. Please open an issue before starting major work.
-
-## Acknowledgments
-
-- Data provided by [Cricsheet](https://cricsheet.org/)
-- Built with modern web standards
