@@ -323,7 +323,8 @@ export class WormChart {
       .attr('pointer-events', 'all');
 
     // Bisector to find nearest data point
-    const bisect = d3.bisector((d: ProbPoint) => d.xOver).left;
+    // Use .right so that when hovering exactly at a data point, we show that point's bar
+    const bisect = d3.bisector((d: ProbPoint) => d.xOver).right;
 
     overlay.on('mousemove', (event) => {
       const [mouseX] = d3.pointer(event);
