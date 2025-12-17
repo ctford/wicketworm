@@ -35,7 +35,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build
+      - name: Build shared-types
+        run: cd packages/shared-types && pnpm build
+
+      - name: Build UI
         run: cd packages/ui && pnpm build
 
       - name: Setup Pages
