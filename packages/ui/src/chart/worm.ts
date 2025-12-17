@@ -375,7 +375,11 @@ export class WormChart {
 
       // Find wicket info for this block - count all wickets in the highlighted range
       let wicketInfo = '';
-      if (this.wicketFalls) {
+
+      // Don't show wickets if we're after the match end
+      const isAfterMatchEnd = this.matchEndOver !== undefined && xOver >= this.matchEndOver;
+
+      if (this.wicketFalls && !isAfterMatchEnd) {
         // Count wickets that fell in the highlighted region
         const startXOver = xScale.invert(stepStart);
         const endXOver = xScale.invert(stepEnd);
