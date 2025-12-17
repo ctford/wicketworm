@@ -47,5 +47,23 @@ ENV/
 *.joblib
 packages/model-train/output/model.json
 
+# Debug & analysis artifacts
+debug-*.json
+debug-*.js
+visualization-*.png
+packages/model-train/train_*.txt
+packages/model-train/compare_*.py
+packages/model-train/test_*.py
+
+# Python testing
+.pytest_cache/
+.tox/
+*.egg-info/
+htmlcov/
+
+# IDE & Tools
+.claude/
+.playwright-mcp/
+
 # OS
 Thumbs.db
