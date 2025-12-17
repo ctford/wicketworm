@@ -1,20 +1,66 @@
 import type { GameState, ProbPoint } from '@wicketworm/shared-types';
-
-console.log('WicketWorm UI starting...');
-
-// TODO: Load model.json
-// TODO: Set up offline replay data
-// TODO: Initialize D3 chart
-// TODO: Render worm chart
+import { calculateXOver } from '@wicketworm/shared-types';
+import { loadModel, predict } from './inference/model';
+import { WormChart } from './chart/worm';
+import sampleMatchData from './data/sample-match.json';
 
 const statusEl = document.getElementById('status');
-if (statusEl) {
-  statusEl.textContent = 'Offline replay mode - UI skeleton ready';
+
+function updateStatus(message: string): void {
+  if (statusEl) {
+    statusEl.textContent = message;
+  }
+  console.log(message);
 }
 
-// Placeholder for development
-console.log('UI package structure created. Next steps:');
-console.log('1. Implement model inference (src/inference/)');
-console.log('2. Create D3 worm chart (src/chart/)');
-console.log('3. Add sample match data (src/data/)');
-console.log('4. Wire up offline replay');
+async function main() {
+  try {
+    updateStatus('Loading model...');
+
+    // Load trained model
+    const model = await loadModel();
+    updateStatus('Model loaded successfully');
+
+    // Load sample match data
+    const states = sampleMatchData.states as GameState[];
+    updateStatus(`Loaded ${states.length} match states`);
+
+    // Compute probabilities for each state
+    updateStatus('Computing probabilities...');
+    const probPoints: ProbPoint[] = states.map(state => {
+      const probs = predict(model, state);
+      return {
+        xOver: calculateXOver(state.innings, state.ballsBowled / 6),
+        innings: state.innings,
+        over: state.ballsBowled / 6,
+        pWin: probs.pWin,
+        pDraw: probs.pDraw,
+        pLoss: probs.pLoss
+      };
+    });
+
+    updateStatus('Rendering worm chart...');
+
+    // Create and render chart
+    const chart = new WormChart('#chart', {
+      height: 500
+    });
+    chart.render(probPoints);
+
+    updateStatus(`Offline replay: ${sampleMatchData.description} (${probPoints.length} points)`);
+
+    // Log sample probabilities
+    console.log('Sample probabilities:');
+    console.log(`Start of match:`, probPoints[0]);
+    console.log(`Mid-match:`, probPoints[Math.floor(probPoints.length / 2)]);
+    console.log(`End of match:`, probPoints[probPoints.length - 1]);
+
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    updateStatus(`Error: ${message}`);
+    console.error(error);
+  }
+}
+
+// Start the app
+main();
