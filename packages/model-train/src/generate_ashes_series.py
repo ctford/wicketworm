@@ -29,7 +29,6 @@ def predict_probabilities(full_match_state, overs_left, first_team='England'):
 
     Args:
         full_match_state: Dict with all innings states:
-            - current_innings (1-4)
             - first_team_score_inn1, first_team_wickets_inn1
             - second_team_score_inn2, second_team_wickets_inn2
             - first_team_score_inn3, first_team_wickets_inn3
@@ -39,35 +38,32 @@ def predict_probabilities(full_match_state, overs_left, first_team='England'):
 
     Returns probabilities from Australia's perspective (flips if needed)
     """
-    # Calculate current lead: first team total - second team total
-    current_lead = (
-        full_match_state['first_team_score_inn1'] + full_match_state['first_team_score_inn3']
-    ) - (
-        full_match_state['second_team_score_inn2'] + full_match_state['second_team_score_inn4']
+    # Calculate wickets remaining (cumulative across both innings)
+    first_team_wickets_remaining = 20 - (
+        full_match_state['first_team_wickets_inn1'] +
+        full_match_state['first_team_wickets_inn3']
+    )
+    second_team_wickets_remaining = 20 - (
+        full_match_state['second_team_wickets_inn2'] +
+        full_match_state['second_team_wickets_inn4']
     )
 
-    # Calculate runs_to_win for innings 4 chase
-    if full_match_state['current_innings'] == 4 and full_match_state['second_team_score_inn4'] > 0:
-        # Target = deficit from innings 2 + 1
-        target = (full_match_state['first_team_score_inn1'] + full_match_state['first_team_score_inn3']) - full_match_state['second_team_score_inn2'] + 1
-        runs_to_win = target - full_match_state['second_team_score_inn4']
-    else:
-        runs_to_win = 0
+    # Calculate first team lead
+    first_team_lead = (
+        full_match_state['first_team_score_inn1'] +
+        full_match_state['first_team_score_inn3']
+    ) - (
+        full_match_state['second_team_score_inn2'] +
+        full_match_state['second_team_score_inn4']
+    )
 
-    # 12 features: overs_left, current_innings, 8 innings states, current_lead, runs_to_win
+    # 4 features: overs_left, first_team_wickets_remaining,
+    #             second_team_wickets_remaining, first_team_lead
     features = np.array([[
         overs_left,
-        full_match_state['current_innings'],
-        full_match_state['first_team_score_inn1'],
-        full_match_state['first_team_wickets_inn1'],
-        full_match_state['second_team_score_inn2'],
-        full_match_state['second_team_wickets_inn2'],
-        full_match_state['first_team_score_inn3'],
-        full_match_state['first_team_wickets_inn3'],
-        full_match_state['second_team_score_inn4'],
-        full_match_state['second_team_wickets_inn4'],
-        current_lead,
-        runs_to_win
+        first_team_wickets_remaining,
+        second_team_wickets_remaining,
+        first_team_lead
     ]])
 
     # XGBoost prediction (from first team's perspective)

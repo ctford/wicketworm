@@ -13,24 +13,14 @@ from dataclasses import dataclass
 class GameState:
     """Represents the full state of a Test match at a specific point"""
     match_id: str
-    current_innings: int
-    over: int
     overs_left: float  # Total match overs remaining (450 - total_overs_bowled)
 
-    # First team (bats innings 1 and 3)
-    first_team_score_inn1: int
-    first_team_wickets_inn1: int
-    first_team_score_inn3: int
-    first_team_wickets_inn3: int
+    # Cumulative team resources (20 wickets each across both innings)
+    first_team_wickets_remaining: int   # 20 - (inn1_wickets + inn3_wickets)
+    second_team_wickets_remaining: int  # 20 - (inn2_wickets + inn4_wickets)
 
-    # Second team (bats innings 2 and 4)
-    second_team_score_inn2: int
-    second_team_wickets_inn2: int
-    second_team_score_inn4: int
-    second_team_wickets_inn4: int
-
-    current_lead: int  # First team's lead (positive) or deficit (negative)
-    runs_to_win: int   # In innings 4 chase: runs still needed to win (0 if not chasing)
+    # Match position
+    first_team_lead: int  # First team's lead (positive) or deficit (negative)
 
     outcome: str  # "win", "draw", "loss" (from first team's perspective)
 
@@ -141,36 +131,20 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
             score_inn3, wickets_inn3 = get_innings_state(3)
             score_inn4, wickets_inn4 = get_innings_state(4)
 
-            # Calculate current lead: first team total - second team total
-            # Positive = first team ahead, Negative = first team behind
-            current_lead = (score_inn1 + score_inn3) - (score_inn2 + score_inn4)
+            # Calculate wickets remaining (cumulative across both innings)
+            first_team_wickets_remaining = 20 - (wickets_inn1 + wickets_inn3)
+            second_team_wickets_remaining = 20 - (wickets_inn2 + wickets_inn4)
 
-            # Calculate runs_to_win for innings 4 chase
-            # Standard match: innings 1=first_team, 2=second_team, 3=first_team, 4=second_team chases
-            if innings_num == 4 and score_inn4 > 0:
-                # second_team needs to overcome the deficit from innings 2
-                # Target = (first_team's total) - (second_team's inn2) + 1
-                target = (score_inn1 + score_inn3) - score_inn2 + 1
-                runs_to_win = target - score_inn4
-            else:
-                # Not in a chase situation
-                runs_to_win = 0
+            # Calculate first team lead
+            # Positive = first team ahead, Negative = first team behind
+            first_team_lead = (score_inn1 + score_inn3) - (score_inn2 + score_inn4)
 
             state = GameState(
                 match_id=match_id,
-                current_innings=innings_num,
-                over=over_num,
                 overs_left=overs_left,
-                first_team_score_inn1=score_inn1,
-                first_team_wickets_inn1=wickets_inn1,
-                second_team_score_inn2=score_inn2,
-                second_team_wickets_inn2=wickets_inn2,
-                first_team_score_inn3=score_inn3,
-                first_team_wickets_inn3=wickets_inn3,
-                second_team_score_inn4=score_inn4,
-                second_team_wickets_inn4=wickets_inn4,
-                current_lead=current_lead,
-                runs_to_win=runs_to_win,
+                first_team_wickets_remaining=first_team_wickets_remaining,
+                second_team_wickets_remaining=second_team_wickets_remaining,
+                first_team_lead=first_team_lead,
                 outcome=outcome_first_team
             )
 
@@ -214,5 +188,7 @@ if __name__ == "__main__":
 
     print(f"\nSample states:")
     for state in states[:5]:
-        print(f"  Match {state.match_id}, Innings {state.innings}, Over {state.over}: "
-              f"{state.runs_for}/{state.wickets_down}, Lead: {state.lead}, Outcome: {state.outcome}")
+        print(f"  Match {state.match_id}: "
+              f"Wickets: {state.first_team_wickets_remaining}/{state.second_team_wickets_remaining}, "
+              f"Lead: {state.first_team_lead}, Overs left: {state.overs_left:.1f}, "
+              f"Outcome: {state.outcome}")
