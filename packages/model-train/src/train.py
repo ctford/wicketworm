@@ -19,13 +19,15 @@ from parse_cricsheet import load_all_matches, GameState
 
 def extract_features(states: List[GameState]) -> pd.DataFrame:
     """
-    Extract 4 features representing full match state
+    Extract 6 features representing full match state
 
     Features:
     - overs_left: Total match overs remaining (450 → 0)
     - first_team_wickets_remaining: Wickets first team has left (20 → 0)
     - second_team_wickets_remaining: Wickets second team has left (20 → 0)
     - first_team_lead: First team's lead (positive) or deficit (negative)
+    - runs_required_per_wicket: Runs to win per wicket remaining (0 if not chasing)
+    - required_run_rate: Required run rate to win (0 if not chasing)
     """
     records = []
 
@@ -35,6 +37,8 @@ def extract_features(states: List[GameState]) -> pd.DataFrame:
             'first_team_wickets_remaining': state.first_team_wickets_remaining,
             'second_team_wickets_remaining': state.second_team_wickets_remaining,
             'first_team_lead': state.first_team_lead,
+            'runs_required_per_wicket': state.runs_required_per_wicket,
+            'required_run_rate': state.required_run_rate,
             'match_id': state.match_id,
             'outcome': state.outcome
         })
@@ -222,7 +226,9 @@ def main():
         'overs_left',
         'first_team_wickets_remaining',
         'second_team_wickets_remaining',
-        'first_team_lead'
+        'first_team_lead',
+        'runs_required_per_wicket',
+        'required_run_rate'
     ]
 
     X = df[feature_cols].values

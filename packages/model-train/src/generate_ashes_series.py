@@ -57,13 +57,33 @@ def predict_probabilities(full_match_state, overs_left, first_team='England'):
         full_match_state['second_team_score_inn4']
     )
 
-    # 4 features: overs_left, first_team_wickets_remaining,
-    #             second_team_wickets_remaining, first_team_lead
+    # Calculate chase-specific features (only for innings 4)
+    runs_required_per_wicket = 0.0
+    required_run_rate = 0.0
+
+    # Check if we're in innings 4 (second team batting second time)
+    inn4_score = full_match_state['second_team_score_inn4']
+    inn4_wickets = full_match_state['second_team_wickets_inn4']
+
+    if (inn4_score > 0 or inn4_wickets > 0) and first_team_lead > 0:
+        # Innings 4: Second team is chasing
+        runs_to_win = first_team_lead
+        chasing_wickets = second_team_wickets_remaining
+
+        if chasing_wickets > 0:
+            runs_required_per_wicket = runs_to_win / chasing_wickets
+
+        if overs_left > 0:
+            required_run_rate = runs_to_win / overs_left
+
+    # 6 features: overs_left, wickets_remaining x2, lead, chase features x2
     features = np.array([[
         overs_left,
         first_team_wickets_remaining,
         second_team_wickets_remaining,
-        first_team_lead
+        first_team_lead,
+        runs_required_per_wicket,
+        required_run_rate
     ]])
 
     # XGBoost prediction (from first team's perspective)

@@ -3,7 +3,9 @@
     "overs_left",
     "first_team_wickets_remaining",
     "second_team_wickets_remaining",
-    "first_team_lead"
+    "first_team_lead",
+    "runs_required_per_wicket",
+    "required_run_rate"
   ],
   "label_classes": [
     "draw",
