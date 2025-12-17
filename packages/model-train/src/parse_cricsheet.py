@@ -23,7 +23,7 @@ class GameState:
     first_team_lead: int  # First team's lead (positive) or deficit (negative)
 
     # Chase-specific features (only non-zero during innings 4 when chasing)
-    runs_required_per_wicket: float  # runs_to_win / wickets_remaining (0 if not chasing)
+    chase_ease: float  # 1 / max(runs_required_per_wicket, 0.5) - higher = easier chase (0 if not chasing)
     required_run_rate: float  # runs_to_win / overs_left (0 if not chasing)
 
     outcome: str  # "win", "draw", "loss" (from first team's perspective)
@@ -144,7 +144,7 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
             first_team_lead = (score_inn1 + score_inn3) - (score_inn2 + score_inn4)
 
             # Calculate chase-specific features (only for innings 4)
-            runs_required_per_wicket = 0.0
+            chase_ease = 0.0
             required_run_rate = 0.0
 
             if innings_num == 4 and first_team_lead > 0:
@@ -154,6 +154,8 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
 
                 if chasing_wickets > 0:
                     runs_required_per_wicket = runs_to_win / chasing_wickets
+                    # Inverse transformation: lower runs/wicket = higher ease
+                    chase_ease = 1.0 / max(runs_required_per_wicket, 0.5)
 
                 if overs_left > 0:
                     required_run_rate = runs_to_win / overs_left
@@ -164,7 +166,7 @@ def parse_match(file_path: Path, max_overs: int = 450) -> List[GameState]:
                 first_team_wickets_remaining=first_team_wickets_remaining,
                 second_team_wickets_remaining=second_team_wickets_remaining,
                 first_team_lead=first_team_lead,
-                runs_required_per_wicket=runs_required_per_wicket,
+                chase_ease=chase_ease,
                 required_run_rate=required_run_rate,
                 outcome=outcome_first_team
             )
@@ -212,5 +214,5 @@ if __name__ == "__main__":
         print(f"  Match {state.match_id}: "
               f"Wickets: {state.first_team_wickets_remaining}/{state.second_team_wickets_remaining}, "
               f"Lead: {state.first_team_lead}, Overs left: {state.overs_left:.1f}, "
-              f"RPW: {state.runs_required_per_wicket:.1f}, RRR: {state.required_run_rate:.2f}, "
+              f"Chase ease: {state.chase_ease:.3f}, RRR: {state.required_run_rate:.2f}, "
               f"Outcome: {state.outcome}")

@@ -26,7 +26,7 @@ def extract_features(states: List[GameState]) -> pd.DataFrame:
     - first_team_wickets_remaining: Wickets first team has left (20 → 0)
     - second_team_wickets_remaining: Wickets second team has left (20 → 0)
     - first_team_lead: First team's lead (positive) or deficit (negative)
-    - runs_required_per_wicket: Runs to win per wicket remaining (0 if not chasing)
+    - chase_ease: 1 / max(runs_per_wicket, 0.5) - higher = easier chase (0 if not chasing)
     - required_run_rate: Required run rate to win (0 if not chasing)
     """
     records = []
@@ -37,7 +37,7 @@ def extract_features(states: List[GameState]) -> pd.DataFrame:
             'first_team_wickets_remaining': state.first_team_wickets_remaining,
             'second_team_wickets_remaining': state.second_team_wickets_remaining,
             'first_team_lead': state.first_team_lead,
-            'runs_required_per_wicket': state.runs_required_per_wicket,
+            'chase_ease': state.chase_ease,
             'required_run_rate': state.required_run_rate,
             'match_id': state.match_id,
             'outcome': state.outcome
@@ -227,7 +227,7 @@ def main():
         'first_team_wickets_remaining',
         'second_team_wickets_remaining',
         'first_team_lead',
-        'runs_required_per_wicket',
+        'chase_ease',
         'required_run_rate'
     ]
 

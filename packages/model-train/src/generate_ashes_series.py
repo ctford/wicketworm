@@ -58,7 +58,7 @@ def predict_probabilities(full_match_state, overs_left, first_team='England'):
     )
 
     # Calculate chase-specific features (only for innings 4)
-    runs_required_per_wicket = 0.0
+    chase_ease = 0.0
     required_run_rate = 0.0
 
     # Check if we're in innings 4 (second team batting second time)
@@ -72,6 +72,8 @@ def predict_probabilities(full_match_state, overs_left, first_team='England'):
 
         if chasing_wickets > 0:
             runs_required_per_wicket = runs_to_win / chasing_wickets
+            # Inverse transformation: lower runs/wicket = higher ease
+            chase_ease = 1.0 / max(runs_required_per_wicket, 0.5)
 
         if overs_left > 0:
             required_run_rate = runs_to_win / overs_left
@@ -82,7 +84,7 @@ def predict_probabilities(full_match_state, overs_left, first_team='England'):
         first_team_wickets_remaining,
         second_team_wickets_remaining,
         first_team_lead,
-        runs_required_per_wicket,
+        chase_ease,
         required_run_rate
     ]])
 

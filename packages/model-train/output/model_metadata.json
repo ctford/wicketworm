@@ -4,7 +4,7 @@
     "first_team_wickets_remaining",
     "second_team_wickets_remaining",
     "first_team_lead",
-    "runs_required_per_wicket",
+    "chase_ease",
     "required_run_rate"
   ],
   "label_classes": [
