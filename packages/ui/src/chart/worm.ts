@@ -410,12 +410,13 @@ export class WormChart {
       }
 
       // Background rect for tooltip
+      // Order from top to bottom of chart to match visualization
       const overText = `#${Math.round(dataPoint.xOver)}`;  // Use xOver for cumulative match overs
-      const ausText = `AUS ${(dataPoint.pWin * 100).toFixed(1)}%`;
-      const drawText = `Draw ${(dataPoint.pDraw * 100).toFixed(1)}%`;
       const engText = `ENG ${(dataPoint.pLoss * 100).toFixed(1)}%`;
+      const drawText = `Draw ${(dataPoint.pDraw * 100).toFixed(1)}%`;
+      const ausText = `AUS ${(dataPoint.pWin * 100).toFixed(1)}%`;
 
-      const tooltipTexts = [overText, ausText, drawText, engText];
+      const tooltipTexts = [overText, engText, drawText, ausText];
       if (wicketInfo) {
         tooltipTexts.push(wicketInfo);
       }
@@ -436,6 +437,7 @@ export class WormChart {
         .attr('rx', 4);
 
       // Add text lines with appropriate colors
+      // Order: over, ENG, Draw, AUS, [wickets]
       tooltipTexts.forEach((text, i) => {
         let color = '#e5e7eb';  // Default light gray
         let fontWeight = '600';
@@ -445,14 +447,14 @@ export class WormChart {
           color = '#ffffff';
           fontWeight = '700';
         } else if (i === 1) {
-          // Australia - bright green
-          color = '#4ade80';
+          // England (top) - bright red
+          color = '#f87171';
         } else if (i === 2) {
-          // Draw - gray
+          // Draw (middle) - gray
           color = '#9ca3af';
         } else if (i === 3) {
-          // England - bright red
-          color = '#f87171';
+          // Australia (bottom) - bright green
+          color = '#4ade80';
         } else {
           // Wickets - light gray
           color = '#d1d5db';
