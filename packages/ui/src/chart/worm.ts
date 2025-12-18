@@ -145,50 +145,32 @@ export class WormChart {
       .attr('fill', '#ef4444');
 
     // Wicket fall markers (drawn on top of areas)
-    // Line thickness scales with TOTAL wickets that fell in each 5-over bucket
+    // Line thickness scales with number of wickets that fell at that exact over
     // Skip on mobile to reduce clutter
     if (this.wicketFalls && !isMobile) {
-      // Group wickets by bucket (each data point represents end of a bucket)
-      const wicketsByBucket = new Map<string, { xOver: number; innings: number; totalWickets: number }>();
+      // Group wickets by exact xOver position (innings + xOver)
+      const wicketsByPosition = new Map<string, { xOver: number; count: number }>();
 
-      for (let i = 0; i < data.length; i++) {
-        const point = data[i];
-        const prevPoint = i > 0 ? data[i - 1] : null;
-        const startXOver = prevPoint ? prevPoint.xOver : 0;
-        const endXOver = point.xOver;
+      for (const wicketFall of this.wicketFalls) {
+        // Create unique key for this innings + xOver combination
+        const key = `${wicketFall.innings}-${wicketFall.xOver}`;
 
-        // Find all wickets in this bucket (use same logic as tooltip)
-        const wicketsInBucket = this.wicketFalls.filter(w =>
-          w.innings === point.innings &&
-          w.xOver >= startXOver &&
-          w.xOver <= endXOver
-        );
-
-        if (wicketsInBucket.length > 0) {
-          // Calculate total wickets that fell in this bucket
-          const wicketsBefore = this.wicketFalls
-            .filter(w => w.innings === point.innings && w.xOver < startXOver)
-            .sort((a, b) => b.xOver - a.xOver)[0];
-
-          const prevWickets = wicketsBefore ? wicketsBefore.wickets : 0;
-          const lastWicketInBucket = wicketsInBucket.sort((a, b) => b.xOver - a.xOver)[0];
-          const totalWickets = lastWicketInBucket.wickets - prevWickets;
-
-          if (totalWickets > 0) {
-            // Draw one line at the midpoint of the bucket
-            const midXOver = (startXOver + endXOver) / 2;
-            const key = `${point.innings}-${endXOver}`;
-            wicketsByBucket.set(key, { xOver: midXOver, innings: point.innings, totalWickets });
-          }
+        if (wicketsByPosition.has(key)) {
+          // Another wicket at the same position - increment count
+          wicketsByPosition.get(key)!.count++;
+        } else {
+          // First wicket at this position
+          wicketsByPosition.set(key, { xOver: wicketFall.xOver, count: 1 });
         }
       }
 
-      // Draw the wicket lines
-      for (const { xOver: midXOver, totalWickets } of wicketsByBucket.values()) {
-        const xPos = xScale(midXOver);
+      // Draw the wicket lines at exact xOver positions
+      for (const { xOver, count } of wicketsByPosition.values()) {
+        const xPos = xScale(xOver);
+
         if (xPos >= 0 && xPos <= this.chartWidth) {
           // Scale stroke width as direct multiple: 1 wicket = 2px, 2 = 4px, 3 = 6px
-          const strokeWidth = totalWickets * 2;
+          const strokeWidth = count * 2;
 
           this.svg.append('line')
             .attr('x1', xPos)

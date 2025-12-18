@@ -49,12 +49,40 @@ async function main() {
             headerDiv.appendChild(cityDiv);
             headerDiv.appendChild(datesDiv);
             headerDiv.appendChild(resultDiv);
+            // Create wrapper for chart and checkbox (side by side)
+            const chartWrapper = document.createElement('div');
+            chartWrapper.style.display = 'flex';
+            chartWrapper.style.alignItems = 'flex-start';
+            chartWrapper.style.gap = '0';
             // Add chart container
             const chartDiv = document.createElement('div');
             chartDiv.className = 'chart-svg';
             chartDiv.id = `chart-${test.matchId}`;
+            chartDiv.style.flex = '1';
+            // Add "Scorecard only" checkbox container (positioned in middle of space below legend)
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.className = 'scorecard-checkbox-container';
+            checkboxContainer.style.position = 'absolute';
+            checkboxContainer.style.right = '10px';
+            checkboxContainer.style.top = '195px'; // Middle of space between legend bottom and chart bottom
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `scorecard-only-${test.matchId}`;
+            checkbox.checked = true; // Checked by default
+            checkbox.style.marginRight = '8px';
+            const label = document.createElement('label');
+            label.htmlFor = `scorecard-only-${test.matchId}`;
+            label.textContent = 'Scorecard only';
+            label.style.fontSize = '14px';
+            label.style.color = '#9ca3af';
+            label.style.cursor = 'pointer';
+            checkboxContainer.appendChild(checkbox);
+            checkboxContainer.appendChild(label);
+            chartWrapper.appendChild(chartDiv);
+            chartWrapper.appendChild(checkboxContainer);
             testDiv.appendChild(headerDiv);
-            testDiv.appendChild(chartDiv);
+            testDiv.appendChild(chartWrapper);
+            testDiv.style.position = 'relative'; // For absolute positioning of checkbox
             container.appendChild(testDiv);
             // Render chart
             const chartContainer = document.querySelector(`#chart-${test.matchId}`);
@@ -81,18 +109,34 @@ async function main() {
                 // with the winning team's color
                 probsToRender.push(...matchCompletePoints);
             }
-            const probPoints = probsToRender.map((p) => ({
-                xOver: p.xOver, // Use xOver with innings offset, not raw over number
-                innings: p.innings,
-                over: p.over,
-                pWin: p.pWin,
-                pDraw: p.pDraw,
-                pLoss: p.pLoss
-            }));
-            chart.render(probPoints);
-            // Store chart instance and data for re-rendering on resize
-            charts.push({ chart, data: probPoints });
-            console.log(`${test.city}: ${probPoints.length} points, ${test.days} day(s)`);
+            // Function to extract probability points based on model type
+            const getProbPoints = (useScorecard) => {
+                return probsToRender.map((p) => ({
+                    xOver: p.xOver,
+                    innings: p.innings,
+                    over: p.over,
+                    pWin: useScorecard ? p.pWin_scorecard : p.pWin,
+                    pDraw: useScorecard ? p.pDraw_scorecard : p.pDraw,
+                    pLoss: useScorecard ? p.pLoss_scorecard : p.pLoss
+                }));
+            };
+            // Initial render with scorecard-only model (checkbox checked by default)
+            const initialProbPoints = getProbPoints(true);
+            chart.render(initialProbPoints);
+            // Store chart instance and raw data for re-rendering
+            charts.push({ chart, data: initialProbPoints });
+            // Add checkbox event listener to toggle between models
+            checkbox.addEventListener('change', (e) => {
+                const isScorecard = e.target.checked;
+                const newProbPoints = getProbPoints(isScorecard);
+                chart.render(newProbPoints);
+                // Update stored data for resize events
+                const chartIndex = charts.findIndex(c => c.chart === chart);
+                if (chartIndex !== -1) {
+                    charts[chartIndex].data = newProbPoints;
+                }
+            });
+            console.log(`${test.city}: ${initialProbPoints.length} points, ${test.days} day(s)`);
         }
         updateStatus(`${seriesData.series} - ${seriesData.tests.length} tests loaded`);
         // Handle window resize and orientation changes

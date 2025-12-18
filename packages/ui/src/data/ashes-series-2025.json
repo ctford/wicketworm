@@ -499,6 +499,116 @@
           "battingTeam": "England"
         }
       ],
+      "wicket_falls_manual": [
+        {
+          "innings": 1,
+          "xOver": 6,
+          "wickets": 1,
+          "score": "~16/1"
+        },
+        {
+          "innings": 1,
+          "xOver": 9,
+          "wickets": 2,
+          "score": "~33/2"
+        },
+        {
+          "innings": 1,
+          "xOver": 17,
+          "wickets": 3,
+          "score": "~53/3"
+        },
+        {
+          "innings": 1,
+          "xOver": 24,
+          "wickets": 4,
+          "score": "~94/4"
+        },
+        {
+          "innings": 1,
+          "xOver": 48,
+          "wickets": 5,
+          "score": "~197/5"
+        },
+        {
+          "innings": 1,
+          "xOver": 64,
+          "wickets": 6,
+          "score": "~266/6"
+        },
+        {
+          "innings": 1,
+          "xOver": 72,
+          "wickets": 7,
+          "score": "~289/7"
+        },
+        {
+          "innings": 1,
+          "xOver": 80,
+          "wickets": 8,
+          "score": "~335/8"
+        },
+        {
+          "innings": 1,
+          "xOver": 91,
+          "wickets": 9,
+          "score": "~359/9"
+        },
+        {
+          "innings": 1,
+          "xOver": 94,
+          "wickets": 10,
+          "score": "~371/10"
+        },
+        {
+          "innings": 2,
+          "xOver": 98,
+          "wickets": 1,
+          "score": "~21/1"
+        },
+        {
+          "innings": 2,
+          "xOver": 101,
+          "wickets": 2,
+          "score": "~21/2"
+        },
+        {
+          "innings": 2,
+          "xOver": 105,
+          "wickets": 3,
+          "score": "~42/3"
+        },
+        {
+          "innings": 2,
+          "xOver": 115,
+          "wickets": 4,
+          "score": "~80/4"
+        },
+        {
+          "innings": 2,
+          "xOver": 135,
+          "wickets": 5,
+          "score": "~141/5"
+        },
+        {
+          "innings": 2,
+          "xOver": 140,
+          "wickets": 6,
+          "score": "~159/6"
+        },
+        {
+          "innings": 2,
+          "xOver": 158,
+          "wickets": 7,
+          "score": "~202/7"
+        },
+        {
+          "innings": 2,
+          "xOver": 164,
+          "wickets": 8,
+          "score": "~213/8"
+        }
+      ],
       "probabilities": [
         {
           "xOver": 0,
@@ -971,93 +1081,111 @@
       "wicketFalls": [
         {
           "innings": 1,
-          "xOver": 5,
+          "xOver": 6,
           "wickets": 1,
-          "score": "16/1"
+          "score": "~16/1"
         },
         {
           "innings": 1,
-          "xOver": 10,
+          "xOver": 9,
           "wickets": 2,
-          "score": "33/2"
+          "score": "~33/2"
         },
         {
           "innings": 1,
-          "xOver": 20,
+          "xOver": 17,
           "wickets": 3,
-          "score": "73/3"
+          "score": "~53/3"
         },
         {
           "innings": 1,
-          "xOver": 30,
+          "xOver": 24,
           "wickets": 4,
-          "score": "114/4"
+          "score": "~94/4"
         },
         {
           "innings": 1,
-          "xOver": 60,
+          "xOver": 48,
           "wickets": 5,
-          "score": "243/5"
+          "score": "~197/5"
         },
         {
           "innings": 1,
-          "xOver": 70,
+          "xOver": 64,
           "wickets": 6,
-          "score": "289/6"
+          "score": "~266/6"
+        },
+        {
+          "innings": 1,
+          "xOver": 72,
+          "wickets": 7,
+          "score": "~289/7"
         },
         {
           "innings": 1,
           "xOver": 80,
-          "wickets": 7,
-          "score": "335/7"
-        },
-        {
-          "innings": 1,
-          "xOver": 90,
           "wickets": 8,
-          "score": "359/8"
+          "score": "~335/8"
         },
         {
           "innings": 1,
-          "xOver": 95,
+          "xOver": 91,
           "wickets": 9,
-          "score": "371/9"
+          "score": "~359/9"
+        },
+        {
+          "innings": 1,
+          "xOver": 94,
+          "wickets": 10,
+          "score": "~371/10"
         },
         {
           "innings": 2,
-          "xOver": 100,
+          "xOver": 98,
           "wickets": 1,
-          "score": "21/1"
+          "score": "~21/1"
+        },
+        {
+          "innings": 2,
+          "xOver": 101,
+          "wickets": 2,
+          "score": "~21/2"
         },
         {
           "innings": 2,
           "xOver": 105,
-          "wickets": 2,
-          "score": "42/2"
+          "wickets": 3,
+          "score": "~42/3"
         },
         {
           "innings": 2,
-          "xOver": 110,
+          "xOver": 115,
           "wickets": 4,
-          "score": "61/4"
+          "score": "~80/4"
         },
         {
           "innings": 2,
-          "xOver": 120,
+          "xOver": 135,
           "wickets": 5,
-          "score": "95/5"
+          "score": "~141/5"
         },
         {
           "innings": 2,
           "xOver": 140,
           "wickets": 6,
-          "score": "159/6"
+          "score": "~159/6"
         },
         {
           "innings": 2,
-          "xOver": 165,
+          "xOver": 158,
           "wickets": 7,
-          "score": "213/7"
+          "score": "~202/7"
+        },
+        {
+          "innings": 2,
+          "xOver": 164,
+          "wickets": 8,
+          "score": "~213/8"
         }
       ]
     },
@@ -2110,6 +2238,200 @@
           "completedInnings": 3,
           "isChasing": true,
           "battingTeam": "Australia"
+        }
+      ],
+      "wicket_falls_manual": [
+        {
+          "innings": 1,
+          "xOver": 18,
+          "wickets": 1,
+          "score": "~64/1"
+        },
+        {
+          "innings": 1,
+          "xOver": 42,
+          "wickets": 2,
+          "score": "~128/2"
+        },
+        {
+          "innings": 1,
+          "xOver": 56,
+          "wickets": 3,
+          "score": "~176/3"
+        },
+        {
+          "innings": 1,
+          "xOver": 72,
+          "wickets": 4,
+          "score": "~226/4"
+        },
+        {
+          "innings": 1,
+          "xOver": 78,
+          "wickets": 5,
+          "score": "~259/5"
+        },
+        {
+          "innings": 1,
+          "xOver": 84,
+          "wickets": 6,
+          "score": "~275/6"
+        },
+        {
+          "innings": 1,
+          "xOver": 91,
+          "wickets": 7,
+          "score": "~292/7"
+        },
+        {
+          "innings": 1,
+          "xOver": 97,
+          "wickets": 8,
+          "score": "~306/8"
+        },
+        {
+          "innings": 1,
+          "xOver": 101,
+          "wickets": 9,
+          "score": "~320/9"
+        },
+        {
+          "innings": 1,
+          "xOver": 104,
+          "wickets": 10,
+          "score": "~334/10"
+        },
+        {
+          "innings": 2,
+          "xOver": 130,
+          "wickets": 1,
+          "score": "~70/1"
+        },
+        {
+          "innings": 2,
+          "xOver": 155,
+          "wickets": 2,
+          "score": "~140/2"
+        },
+        {
+          "innings": 2,
+          "xOver": 178,
+          "wickets": 3,
+          "score": "~231/3"
+        },
+        {
+          "innings": 2,
+          "xOver": 205,
+          "wickets": 4,
+          "score": "~336/4"
+        },
+        {
+          "innings": 2,
+          "xOver": 215,
+          "wickets": 5,
+          "score": "~378/5"
+        },
+        {
+          "innings": 2,
+          "xOver": 224,
+          "wickets": 6,
+          "score": "~420/6"
+        },
+        {
+          "innings": 2,
+          "xOver": 232,
+          "wickets": 7,
+          "score": "~438/7"
+        },
+        {
+          "innings": 2,
+          "xOver": 240,
+          "wickets": 8,
+          "score": "~474/8"
+        },
+        {
+          "innings": 2,
+          "xOver": 245,
+          "wickets": 9,
+          "score": "~492/9"
+        },
+        {
+          "innings": 2,
+          "xOver": 249,
+          "wickets": 10,
+          "score": "~511/10"
+        },
+        {
+          "innings": 3,
+          "xOver": 262,
+          "wickets": 1,
+          "score": "~25/1"
+        },
+        {
+          "innings": 3,
+          "xOver": 274,
+          "wickets": 2,
+          "score": "~62/2"
+        },
+        {
+          "innings": 3,
+          "xOver": 283,
+          "wickets": 3,
+          "score": "~87/3"
+        },
+        {
+          "innings": 3,
+          "xOver": 293,
+          "wickets": 4,
+          "score": "~112/4"
+        },
+        {
+          "innings": 3,
+          "xOver": 301,
+          "wickets": 5,
+          "score": "~125/5"
+        },
+        {
+          "innings": 3,
+          "xOver": 310,
+          "wickets": 6,
+          "score": "~163/6"
+        },
+        {
+          "innings": 3,
+          "xOver": 317,
+          "wickets": 7,
+          "score": "~183/7"
+        },
+        {
+          "innings": 3,
+          "xOver": 323,
+          "wickets": 8,
+          "score": "~221/8"
+        },
+        {
+          "innings": 3,
+          "xOver": 327,
+          "wickets": 9,
+          "score": "~221/9"
+        },
+        {
+          "innings": 3,
+          "xOver": 329,
+          "wickets": 10,
+          "score": "~241/10"
+        },
+        {
+          "innings": 4,
+          "xOver": 337,
+          "wickets": 1,
+          "score": "~23/1"
+        },
+        {
+          "innings": 4,
+          "xOver": 343,
+          "wickets": 2,
+          "score": "~69/2"
         }
       ],
       "probabilities": [
@@ -3208,183 +3530,195 @@
       "wicketFalls": [
         {
           "innings": 1,
-          "xOver": 20,
+          "xOver": 18,
           "wickets": 1,
-          "score": "64/1"
+          "score": "~64/1"
         },
         {
           "innings": 1,
-          "xOver": 40,
+          "xOver": 42,
           "wickets": 2,
-          "score": "128/2"
+          "score": "~128/2"
         },
         {
           "innings": 1,
-          "xOver": 55,
+          "xOver": 56,
           "wickets": 3,
-          "score": "176/3"
+          "score": "~176/3"
         },
         {
           "innings": 1,
-          "xOver": 65,
+          "xOver": 72,
           "wickets": 4,
-          "score": "209/4"
+          "score": "~226/4"
         },
         {
           "innings": 1,
-          "xOver": 80,
+          "xOver": 78,
           "wickets": 5,
-          "score": "259/5"
+          "score": "~259/5"
         },
         {
           "innings": 1,
-          "xOver": 95,
+          "xOver": 84,
+          "wickets": 6,
+          "score": "~275/6"
+        },
+        {
+          "innings": 1,
+          "xOver": 91,
+          "wickets": 7,
+          "score": "~292/7"
+        },
+        {
+          "innings": 1,
+          "xOver": 97,
           "wickets": 8,
-          "score": "306/8"
+          "score": "~306/8"
         },
         {
           "innings": 1,
-          "xOver": 100,
+          "xOver": 101,
           "wickets": 9,
-          "score": "320/9"
+          "score": "~320/9"
         },
         {
           "innings": 1,
-          "xOver": 105,
+          "xOver": 104,
           "wickets": 10,
-          "score": "334/10"
+          "score": "~334/10"
         },
         {
           "innings": 2,
           "xOver": 130,
           "wickets": 1,
-          "score": "70/1"
+          "score": "~70/1"
         },
         {
           "innings": 2,
           "xOver": 155,
           "wickets": 2,
-          "score": "140/2"
+          "score": "~140/2"
         },
         {
           "innings": 2,
-          "xOver": 170,
+          "xOver": 178,
           "wickets": 3,
-          "score": "189/3"
-        },
-        {
-          "innings": 2,
-          "xOver": 185,
-          "wickets": 4,
-          "score": "252/4"
+          "score": "~231/3"
         },
         {
           "innings": 2,
           "xOver": 205,
+          "wickets": 4,
+          "score": "~336/4"
+        },
+        {
+          "innings": 2,
+          "xOver": 215,
           "wickets": 5,
-          "score": "336/5"
+          "score": "~378/5"
         },
         {
           "innings": 2,
-          "xOver": 225,
+          "xOver": 224,
           "wickets": 6,
-          "score": "420/6"
+          "score": "~420/6"
         },
         {
           "innings": 2,
-          "xOver": 230,
+          "xOver": 232,
           "wickets": 7,
-          "score": "438/7"
+          "score": "~438/7"
         },
         {
           "innings": 2,
-          "xOver": 235,
+          "xOver": 240,
           "wickets": 8,
-          "score": "456/8"
+          "score": "~474/8"
         },
         {
           "innings": 2,
           "xOver": 245,
           "wickets": 9,
-          "score": "492/9"
+          "score": "~492/9"
         },
         {
           "innings": 2,
-          "xOver": 250,
+          "xOver": 249,
           "wickets": 10,
-          "score": "511/10"
+          "score": "~511/10"
         },
         {
           "innings": 3,
-          "xOver": 265,
+          "xOver": 262,
           "wickets": 1,
-          "score": "37/1"
+          "score": "~25/1"
         },
         {
           "innings": 3,
-          "xOver": 275,
+          "xOver": 274,
           "wickets": 2,
-          "score": "62/2"
+          "score": "~62/2"
         },
         {
           "innings": 3,
-          "xOver": 290,
+          "xOver": 283,
           "wickets": 3,
-          "score": "100/3"
+          "score": "~87/3"
         },
         {
           "innings": 3,
-          "xOver": 300,
+          "xOver": 293,
           "wickets": 4,
-          "score": "125/4"
+          "score": "~112/4"
         },
         {
           "innings": 3,
-          "xOver": 305,
+          "xOver": 301,
           "wickets": 5,
-          "score": "144/5"
+          "score": "~125/5"
         },
         {
           "innings": 3,
           "xOver": 310,
           "wickets": 6,
-          "score": "163/6"
+          "score": "~163/6"
         },
         {
           "innings": 3,
-          "xOver": 315,
+          "xOver": 317,
           "wickets": 7,
-          "score": "183/7"
+          "score": "~183/7"
         },
         {
           "innings": 3,
-          "xOver": 320,
+          "xOver": 323,
           "wickets": 8,
-          "score": "202/8"
+          "score": "~221/8"
         },
         {
           "innings": 3,
-          "xOver": 325,
+          "xOver": 327,
           "wickets": 9,
-          "score": "221/9"
+          "score": "~221/9"
         },
         {
           "innings": 3,
-          "xOver": 330,
+          "xOver": 329,
           "wickets": 10,
-          "score": "241/10"
+          "score": "~241/10"
         },
         {
           "innings": 4,
-          "xOver": 340,
+          "xOver": 337,
           "wickets": 1,
-          "score": "46/1"
+          "score": "~23/1"
         },
         {
           "innings": 4,
-          "xOver": 345,
+          "xOver": 343,
           "wickets": 2,
-          "score": "69/2"
+          "score": "~69/2"
         }
       ]
     },
@@ -4044,6 +4378,200 @@
           "completedInnings": 3,
           "isChasing": true,
           "battingTeam": "Australia"
+        }
+      ],
+      "wicket_falls_manual": [
+        {
+          "innings": 1,
+          "xOver": 8,
+          "wickets": 1,
+          "score": "~30/1"
+        },
+        {
+          "innings": 1,
+          "xOver": 16,
+          "wickets": 2,
+          "score": "~45/2"
+        },
+        {
+          "innings": 1,
+          "xOver": 19,
+          "wickets": 3,
+          "score": "~60/3"
+        },
+        {
+          "innings": 1,
+          "xOver": 24,
+          "wickets": 4,
+          "score": "~71/4"
+        },
+        {
+          "innings": 1,
+          "xOver": 28,
+          "wickets": 5,
+          "score": "~82/5"
+        },
+        {
+          "innings": 1,
+          "xOver": 31,
+          "wickets": 6,
+          "score": "~82/6"
+        },
+        {
+          "innings": 1,
+          "xOver": 35,
+          "wickets": 7,
+          "score": "~93/7"
+        },
+        {
+          "innings": 1,
+          "xOver": 48,
+          "wickets": 8,
+          "score": "~131/8"
+        },
+        {
+          "innings": 1,
+          "xOver": 53,
+          "wickets": 9,
+          "score": "~144/9"
+        },
+        {
+          "innings": 1,
+          "xOver": 60,
+          "wickets": 10,
+          "score": "~158/10"
+        },
+        {
+          "innings": 2,
+          "xOver": 70,
+          "wickets": 1,
+          "score": "~15/1"
+        },
+        {
+          "innings": 2,
+          "xOver": 75,
+          "wickets": 2,
+          "score": "~30/2"
+        },
+        {
+          "innings": 2,
+          "xOver": 80,
+          "wickets": 3,
+          "score": "~45/3"
+        },
+        {
+          "innings": 2,
+          "xOver": 85,
+          "wickets": 4,
+          "score": "~60/4"
+        },
+        {
+          "innings": 2,
+          "xOver": 90,
+          "wickets": 5,
+          "score": "~75/5"
+        },
+        {
+          "innings": 2,
+          "xOver": 95,
+          "wickets": 6,
+          "score": "~90/6"
+        },
+        {
+          "innings": 2,
+          "xOver": 100,
+          "wickets": 7,
+          "score": "~105/7"
+        },
+        {
+          "innings": 2,
+          "xOver": 103,
+          "wickets": 8,
+          "score": "~114/8"
+        },
+        {
+          "innings": 2,
+          "xOver": 107,
+          "wickets": 9,
+          "score": "~114/9"
+        },
+        {
+          "innings": 2,
+          "xOver": 113,
+          "wickets": 10,
+          "score": "~132/10"
+        },
+        {
+          "innings": 3,
+          "xOver": 121,
+          "wickets": 1,
+          "score": "~14/1"
+        },
+        {
+          "innings": 3,
+          "xOver": 127,
+          "wickets": 2,
+          "score": "~29/2"
+        },
+        {
+          "innings": 3,
+          "xOver": 133,
+          "wickets": 3,
+          "score": "~58/3"
+        },
+        {
+          "innings": 3,
+          "xOver": 139,
+          "wickets": 4,
+          "score": "~72/4"
+        },
+        {
+          "innings": 3,
+          "xOver": 145,
+          "wickets": 5,
+          "score": "~87/5"
+        },
+        {
+          "innings": 3,
+          "xOver": 151,
+          "wickets": 6,
+          "score": "~101/6"
+        },
+        {
+          "innings": 3,
+          "xOver": 157,
+          "wickets": 7,
+          "score": "~116/7"
+        },
+        {
+          "innings": 3,
+          "xOver": 163,
+          "wickets": 8,
+          "score": "~145/8"
+        },
+        {
+          "innings": 3,
+          "xOver": 167,
+          "wickets": 9,
+          "score": "~145/9"
+        },
+        {
+          "innings": 3,
+          "xOver": 170,
+          "wickets": 10,
+          "score": "~159/10"
+        },
+        {
+          "innings": 4,
+          "xOver": 188,
+          "wickets": 1,
+          "score": "~118/1"
+        },
+        {
+          "innings": 4,
+          "xOver": 200,
+          "wickets": 2,
+          "score": "~177/2"
         }
       ],
       "probabilities": [
@@ -4946,171 +5474,195 @@
       "wicketFalls": [
         {
           "innings": 1,
-          "xOver": 10,
+          "xOver": 8,
           "wickets": 1,
-          "score": "30/1"
+          "score": "~30/1"
         },
         {
           "innings": 1,
-          "xOver": 20,
+          "xOver": 16,
           "wickets": 2,
-          "score": "60/2"
+          "score": "~45/2"
         },
         {
           "innings": 1,
-          "xOver": 25,
+          "xOver": 19,
           "wickets": 3,
-          "score": "71/3"
+          "score": "~60/3"
         },
         {
           "innings": 1,
-          "xOver": 30,
+          "xOver": 24,
           "wickets": 4,
-          "score": "82/4"
+          "score": "~71/4"
+        },
+        {
+          "innings": 1,
+          "xOver": 28,
+          "wickets": 5,
+          "score": "~82/5"
+        },
+        {
+          "innings": 1,
+          "xOver": 31,
+          "wickets": 6,
+          "score": "~82/6"
         },
         {
           "innings": 1,
           "xOver": 35,
-          "wickets": 5,
-          "score": "93/5"
+          "wickets": 7,
+          "score": "~93/7"
         },
         {
           "innings": 1,
-          "xOver": 45,
+          "xOver": 48,
           "wickets": 8,
-          "score": "117/8"
+          "score": "~131/8"
         },
         {
           "innings": 1,
-          "xOver": 50,
+          "xOver": 53,
           "wickets": 9,
-          "score": "131/9"
+          "score": "~144/9"
         },
         {
           "innings": 1,
-          "xOver": 55,
+          "xOver": 60,
           "wickets": 10,
-          "score": "144/10"
+          "score": "~158/10"
         },
         {
           "innings": 2,
           "xOver": 70,
           "wickets": 1,
-          "score": "15/1"
+          "score": "~15/1"
         },
         {
           "innings": 2,
           "xOver": 75,
           "wickets": 2,
-          "score": "30/2"
+          "score": "~30/2"
         },
         {
           "innings": 2,
           "xOver": 80,
           "wickets": 3,
-          "score": "45/3"
+          "score": "~45/3"
         },
         {
           "innings": 2,
           "xOver": 85,
           "wickets": 4,
-          "score": "60/4"
+          "score": "~60/4"
         },
         {
           "innings": 2,
           "xOver": 90,
           "wickets": 5,
-          "score": "75/5"
+          "score": "~75/5"
         },
         {
           "innings": 2,
           "xOver": 95,
           "wickets": 6,
-          "score": "90/6"
+          "score": "~90/6"
         },
         {
           "innings": 2,
           "xOver": 100,
           "wickets": 7,
-          "score": "105/7"
+          "score": "~105/7"
         },
         {
           "innings": 2,
-          "xOver": 105,
+          "xOver": 103,
           "wickets": 8,
-          "score": "114/8"
+          "score": "~114/8"
         },
         {
           "innings": 2,
-          "xOver": 110,
+          "xOver": 107,
+          "wickets": 9,
+          "score": "~114/9"
+        },
+        {
+          "innings": 2,
+          "xOver": 113,
           "wickets": 10,
-          "score": "123/10"
+          "score": "~132/10"
         },
         {
           "innings": 3,
-          "xOver": 125,
+          "xOver": 121,
           "wickets": 1,
-          "score": "29/1"
+          "score": "~14/1"
         },
         {
           "innings": 3,
-          "xOver": 130,
+          "xOver": 127,
           "wickets": 2,
-          "score": "43/2"
+          "score": "~29/2"
         },
         {
           "innings": 3,
-          "xOver": 135,
+          "xOver": 133,
           "wickets": 3,
-          "score": "58/3"
+          "score": "~58/3"
         },
         {
           "innings": 3,
-          "xOver": 140,
+          "xOver": 139,
           "wickets": 4,
-          "score": "72/4"
+          "score": "~72/4"
         },
         {
           "innings": 3,
           "xOver": 145,
           "wickets": 5,
-          "score": "87/5"
+          "score": "~87/5"
         },
         {
           "innings": 3,
-          "xOver": 155,
+          "xOver": 151,
           "wickets": 6,
-          "score": "116/6"
+          "score": "~101/6"
         },
         {
           "innings": 3,
-          "xOver": 160,
+          "xOver": 157,
           "wickets": 7,
-          "score": "130/7"
+          "score": "~116/7"
         },
         {
           "innings": 3,
-          "xOver": 165,
+          "xOver": 163,
           "wickets": 8,
-          "score": "145/8"
+          "score": "~145/8"
+        },
+        {
+          "innings": 3,
+          "xOver": 167,
+          "wickets": 9,
+          "score": "~145/9"
         },
         {
           "innings": 3,
           "xOver": 170,
-          "wickets": 9,
-          "score": "159/9"
+          "wickets": 10,
+          "score": "~159/10"
         },
         {
           "innings": 4,
-          "xOver": 190,
+          "xOver": 188,
           "wickets": 1,
-          "score": "118/1"
+          "score": "~118/1"
         },
         {
           "innings": 4,
-          "xOver": 205,
+          "xOver": 200,
           "wickets": 2,
-          "score": "205/2"
+          "score": "~177/2"
         }
       ]
     }

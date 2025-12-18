@@ -264,13 +264,57 @@ def generate_perth_test():
     # Add batting teams (England batted first)
     states = add_batting_teams(states, first_batting='England')
 
+    # Manually specify wicket fall overs for realistic clumpy visualization
+    wicket_falls = [
+        # Innings 1: England - early wobble, then collapse
+        {'innings': 1, 'xOver': 8, 'wickets': 1},
+        {'innings': 1, 'xOver': 16, 'wickets': 2},
+        {'innings': 1, 'xOver': 19, 'wickets': 3},
+        {'innings': 1, 'xOver': 24, 'wickets': 4},
+        {'innings': 1, 'xOver': 28, 'wickets': 5},
+        {'innings': 1, 'xOver': 31, 'wickets': 6},
+        {'innings': 1, 'xOver': 35, 'wickets': 7},
+        {'innings': 1, 'xOver': 48, 'wickets': 8},
+        {'innings': 1, 'xOver': 53, 'wickets': 9},
+        {'innings': 1, 'xOver': 60, 'wickets': 10},
+
+        # Innings 2: Australia - steady fall then late collapse
+        {'innings': 2, 'xOver': 70, 'wickets': 1},  # cumulative xOver
+        {'innings': 2, 'xOver': 75, 'wickets': 2},
+        {'innings': 2, 'xOver': 80, 'wickets': 3},
+        {'innings': 2, 'xOver': 85, 'wickets': 4},
+        {'innings': 2, 'xOver': 90, 'wickets': 5},
+        {'innings': 2, 'xOver': 95, 'wickets': 6},
+        {'innings': 2, 'xOver': 100, 'wickets': 7},
+        {'innings': 2, 'xOver': 103, 'wickets': 8},
+        {'innings': 2, 'xOver': 107, 'wickets': 9},
+        {'innings': 2, 'xOver': 113, 'wickets': 10},
+
+        # Innings 3: England - regular fall
+        {'innings': 3, 'xOver': 121, 'wickets': 1},
+        {'innings': 3, 'xOver': 127, 'wickets': 2},
+        {'innings': 3, 'xOver': 133, 'wickets': 3},
+        {'innings': 3, 'xOver': 139, 'wickets': 4},
+        {'innings': 3, 'xOver': 145, 'wickets': 5},
+        {'innings': 3, 'xOver': 151, 'wickets': 6},
+        {'innings': 3, 'xOver': 157, 'wickets': 7},
+        {'innings': 3, 'xOver': 163, 'wickets': 8},
+        {'innings': 3, 'xOver': 167, 'wickets': 9},
+        {'innings': 3, 'xOver': 170, 'wickets': 10},
+
+        # Innings 4: Australia - only 2 wickets
+        {'innings': 4, 'xOver': 188, 'wickets': 1},
+        {'innings': 4, 'xOver': 200, 'wickets': 2},
+    ]
+
     return {
         'matchId': 'perth-test-2025',
         'city': 'Perth',
         'dates': 'Nov 21-22, 2025',
         'result': 'Australia won by 8 wickets',
         'days': 2,
-        'states': states
+        'states': states,
+        'wicket_falls_manual': wicket_falls  # Separate from auto-generated
     }
 
 
@@ -402,13 +446,57 @@ def generate_brisbane_test():
     # Add batting teams (England batted first)
     states = add_batting_teams(states, first_batting='England')
 
+    # Manually specify wicket fall overs
+    wicket_falls = [
+        # Innings 1: England 334 (~105 overs) - steady accumulation with Root century
+        {'innings': 1, 'xOver': 18, 'wickets': 1},
+        {'innings': 1, 'xOver': 42, 'wickets': 2},
+        {'innings': 1, 'xOver': 56, 'wickets': 3},
+        {'innings': 1, 'xOver': 72, 'wickets': 4},
+        {'innings': 1, 'xOver': 78, 'wickets': 5},
+        {'innings': 1, 'xOver': 84, 'wickets': 6},
+        {'innings': 1, 'xOver': 91, 'wickets': 7},
+        {'innings': 1, 'xOver': 97, 'wickets': 8},
+        {'innings': 1, 'xOver': 101, 'wickets': 9},
+        {'innings': 1, 'xOver': 104, 'wickets': 10},
+
+        # Innings 2: Australia 511 (~145 overs) - dominant
+        {'innings': 2, 'xOver': 130, 'wickets': 1},
+        {'innings': 2, 'xOver': 155, 'wickets': 2},
+        {'innings': 2, 'xOver': 178, 'wickets': 3},
+        {'innings': 2, 'xOver': 205, 'wickets': 4},
+        {'innings': 2, 'xOver': 215, 'wickets': 5},
+        {'innings': 2, 'xOver': 224, 'wickets': 6},
+        {'innings': 2, 'xOver': 232, 'wickets': 7},
+        {'innings': 2, 'xOver': 240, 'wickets': 8},
+        {'innings': 2, 'xOver': 245, 'wickets': 9},
+        {'innings': 2, 'xOver': 249, 'wickets': 10},
+
+        # Innings 3: England 241 (~80 overs) - steady collapse
+        {'innings': 3, 'xOver': 262, 'wickets': 1},
+        {'innings': 3, 'xOver': 274, 'wickets': 2},
+        {'innings': 3, 'xOver': 283, 'wickets': 3},
+        {'innings': 3, 'xOver': 293, 'wickets': 4},
+        {'innings': 3, 'xOver': 301, 'wickets': 5},
+        {'innings': 3, 'xOver': 310, 'wickets': 6},
+        {'innings': 3, 'xOver': 317, 'wickets': 7},
+        {'innings': 3, 'xOver': 323, 'wickets': 8},
+        {'innings': 3, 'xOver': 327, 'wickets': 9},
+        {'innings': 3, 'xOver': 329, 'wickets': 10},
+
+        # Innings 4: Australia 69/2 (~15 overs) - easy chase
+        {'innings': 4, 'xOver': 337, 'wickets': 1},
+        {'innings': 4, 'xOver': 343, 'wickets': 2},
+    ]
+
     return {
         'matchId': 'brisbane-test-2025',
         'city': 'Brisbane',
         'dates': 'Dec 4-7, 2025',
         'result': 'Australia won by 8 wickets',
         'days': 4,
-        'states': states
+        'states': states,
+        'wicket_falls_manual': wicket_falls
     }
 
 
@@ -505,14 +593,50 @@ def generate_adelaide_test():
     # Add batting teams (Australia batted first)
     states = add_batting_teams(states, first_batting='Australia')
 
+    # Manually specify wicket fall overs
+    wicket_falls = [
+        # Innings 1: Australia 371 (~95 overs) - early collapse then recovery
+        {'innings': 1, 'xOver': 6, 'wickets': 1},  # Early wicket
+        {'innings': 1, 'xOver': 9, 'wickets': 2},  # 33/2
+        {'innings': 1, 'xOver': 17, 'wickets': 3},  # Collapse starts
+        {'innings': 1, 'xOver': 24, 'wickets': 4},  # 94/4
+        {'innings': 1, 'xOver': 48, 'wickets': 5},  # Partnership broken
+        {'innings': 1, 'xOver': 64, 'wickets': 6},  # Middle order
+        {'innings': 1, 'xOver': 72, 'wickets': 7},
+        {'innings': 1, 'xOver': 80, 'wickets': 8},  # Lower order
+        {'innings': 1, 'xOver': 91, 'wickets': 9},  # Tail starts
+        {'innings': 1, 'xOver': 94, 'wickets': 10}, # All out
+
+        # Innings 2: England 213/8 (~70 overs) - early collapse then fightback
+        {'innings': 2, 'xOver': 98, 'wickets': 1},  # Early wicket
+        {'innings': 2, 'xOver': 101, 'wickets': 2},
+        {'innings': 2, 'xOver': 105, 'wickets': 3}, # 42/3 collapse
+        {'innings': 2, 'xOver': 115, 'wickets': 4}, # Root dismissed
+        {'innings': 2, 'xOver': 135, 'wickets': 5}, # Brook resistance ends
+        {'innings': 2, 'xOver': 140, 'wickets': 6}, # 159/6
+        {'innings': 2, 'xOver': 158, 'wickets': 7}, # Lower order
+        {'innings': 2, 'xOver': 164, 'wickets': 8}, # Current state: 213/8
+    ]
+
     return {
         'matchId': 'adelaide-test-2025',
         'city': 'Adelaide',
         'dates': 'Dec 17-21, 2025',
         'result': 'In progress (Day 2)',
         'days': 2,
-        'states': states
+        'states': states,
+        'wicket_falls_manual': wicket_falls
     }
+
+
+def cumulative_overs_at_innings_start(states, target_innings):
+    """Calculate cumulative overs at the start of a given innings"""
+    cumulative = 0
+    for i in range(1, target_innings):
+        innings_states = [s for s in states if s['innings'] == i]
+        if innings_states:
+            cumulative += max(s['over'] for s in innings_states)
+    return cumulative
 
 
 def main():
@@ -714,30 +838,23 @@ def main():
                 cumulative += max(s['over'] for s in innings_states)
         test_data['inningsBoundaries'] = boundaries
 
-        # Track fall of wickets
-        wicket_falls = []
-        cumulative = 0
-        prev_innings = 1
-        prev_wickets = 0
+        # Use manually specified wicket falls (more realistic clumping than auto-generated from 5-over buckets)
+        wicket_falls = test_data.get('wicket_falls_manual', [])
 
-        for state in test_data['states']:
-            # When innings changes, reset
-            if state['innings'] != prev_innings:
-                cumulative += max(s['over'] for s in test_data['states']
-                                 if s['innings'] == prev_innings)
-                prev_wickets = 0
-                prev_innings = state['innings']
-
-            # Check if wicket fell
-            if state['wicketsDown'] > prev_wickets:
-                xOver = cumulative + state['over']
-                wicket_falls.append({
-                    'innings': state['innings'],
-                    'xOver': xOver,
-                    'wickets': state['wicketsDown'],
-                    'score': f"{state['runsFor']}/{state['wicketsDown']}"
-                })
-                prev_wickets = state['wicketsDown']
+        # Add score labels by finding nearest state
+        for wicket in wicket_falls:
+            # Find the state closest to this wicket's xOver (cumulative over already set)
+            innings_start_over = cumulative_overs_at_innings_start(test_data['states'], wicket['innings'])
+            closest_state = min(
+                [s for s in test_data['states'] if s['innings'] == wicket['innings']],
+                key=lambda s: abs((innings_start_over + s['over']) - wicket['xOver']),
+                default=None
+            )
+            if closest_state:
+                # Estimate runs at wicket fall (interpolate if needed)
+                wicket['score'] = f"~{closest_state['runsFor']}/{wicket['wickets']}"
+            else:
+                wicket['score'] = f"?/{wicket['wickets']}"
 
         # Find match end over (last real state before "Match Complete" extension)
         # Only set for completed matches, not matches in progress
