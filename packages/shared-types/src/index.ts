@@ -1,6 +1,6 @@
 /**
  * Shared types for WicketWorm
- * Used across model-train, live-proxy, and ui packages
+ * Used across model-train and ui packages
  */
 
 /**
