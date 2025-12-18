@@ -154,6 +154,31 @@ def train_model(X: np.ndarray, y: np.ndarray, sample_weights: np.ndarray) -> Tup
         outcome_name = label_encoder.inverse_transform([outcome_idx])[0]
         print(f"  {outcome_name}: {count} ({count/len(y_test)*100:.1f}%)")
 
+    # Calibration analysis
+    print(f"\nCalibration analysis (test set):")
+    y_proba = model.predict_proba(X_test)
+
+    # For each class, analyze calibration
+    for class_idx, class_name in enumerate(label_encoder.classes_):
+        print(f"\n  {class_name.upper()} calibration:")
+        class_probs = y_proba[:, class_idx]
+        is_actual_class = (y_test == class_idx).astype(int)
+
+        # Bin probabilities: 0-10%, 10-20%, ..., 90-100%
+        bins = np.arange(0, 1.1, 0.1)
+        bin_indices = np.digitize(class_probs, bins) - 1
+
+        for bin_idx in range(len(bins) - 1):
+            mask = bin_indices == bin_idx
+            if mask.sum() > 0:
+                avg_predicted = class_probs[mask].mean()
+                actual_freq = is_actual_class[mask].mean()
+                count = mask.sum()
+                error = avg_predicted - actual_freq
+                print(f"    {bins[bin_idx]:.1f}-{bins[bin_idx+1]:.1f}: "
+                      f"predicted={avg_predicted:.3f}, actual={actual_freq:.3f}, "
+                      f"error={error:+.3f}, n={count}")
+
     return model, label_encoder
 
 

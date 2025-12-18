@@ -389,30 +389,117 @@ def generate_brisbane_test():
     }
 
 
-def main():
-    # Generate data for all three tests
-    perth = generate_perth_test()
-    brisbane = generate_brisbane_test()
+def generate_adelaide_test():
+    """
+    Adelaide Test (Dec 17-21, 2025) - In progress (Day 2)
+    Australia: 371 all out
+    England: 213/8 (trail by 158)
+    """
+    states = []
 
-    # Load Adelaide (already generated)
-    adelaide_path = Path(__file__).parent.parent.parent / "ui" / "src" / "data" / "adelaide-test.json"
-    with open(adelaide_path) as f:
-        adelaide = json.load(f)
+    # Innings 1: Australia 371 all out (~95 overs, Carey 106, Khawaja 82, Starc 54)
+    # Early collapse 33/2, then 94/4, recovery to 371
+    for over in range(0, 96, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 10:
+            # Early wickets: 33/2 at over 9
+            runs = int(over * 3.3)
+            wickets = min(2, over // 5)
+        elif over <= 25:
+            # Collapse: 94/4 at over 24
+            runs = int(33 + (94 - 33) * (over - 10) / 15)
+            wickets = min(4, 2 + (over - 10) // 8)
+        elif over <= 50:
+            # Recovery: Khawaja-Carey partnership
+            runs = int(94 + (197 - 94) * (over - 25) / 25)
+            wickets = min(5, 4 + (over - 47) // 10) if over > 47 else 4
+        elif over <= 80:
+            # Middle order contributions
+            runs = int(197 + (335 - 197) * (over - 50) / 30)
+            wickets = min(8, 5 + (over - 60) // 10)
+        else:
+            # Tail wags: Starc 54
+            runs = int(335 + (371 - 335) * (over - 80) / 15)
+            wickets = min(10, 8 + (over - 90) // 3)
 
-    # Add batting teams to Adelaide (Australia batted first)
-    adelaide_states = add_batting_teams(adelaide['states'], first_batting='Australia')
+        states.append({
+            'matchId': 'adelaide-test-2025',
+            'innings': 1,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': runs,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - over * 6,
+            'completedInnings': 0,
+            'isChasing': False
+        })
 
-    adelaide_match = {
+    # Innings 2: England 213/8 (~70 overs, trail by 158)
+    # Collapse: 42/3 at over 10, then slow recovery
+    aus_inn1_overs = 95
+    for over in range(0, 71, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 10:
+            # Collapse: 42/3 at over 10
+            runs = int(over * 4.2)
+            wickets = min(3, over // 4)
+        elif over <= 20:
+            # Root dismissed: 80/4 at over 20
+            runs = int(42 + (80 - 42) * (over - 10) / 10)
+            wickets = 4
+        elif over <= 40:
+            # Brook resistance: 141/5 at over 40
+            runs = int(80 + (141 - 80) * (over - 20) / 20)
+            wickets = 5
+        elif over <= 45:
+            # Another wicket: 159/6 at over 45
+            runs = int(141 + (159 - 141) * (over - 40) / 5)
+            wickets = 6
+        else:
+            # Stokes-Archer partnership: 213/8 at over 70
+            runs = int(159 + (213 - 159) * (over - 45) / 25)
+            wickets = min(8, 6 + (over - 65) // 3)
+
+        lead = runs - 371
+        states.append({
+            'matchId': 'adelaide-test-2025',
+            'innings': 2,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': lead,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (aus_inn1_overs + over) * 6,
+            'completedInnings': 1,
+            'isChasing': False
+        })
+
+    # Add batting teams (Australia batted first)
+    states = add_batting_teams(states, first_batting='Australia')
+
+    return {
         'matchId': 'adelaide-test-2025',
         'city': 'Adelaide',
         'dates': 'Dec 17-21, 2025',
         'result': 'In progress (Day 2)',
         'days': 2,
-        'states': adelaide_states
+        'states': states
     }
 
+
+def main():
+    # Generate data for all three tests
+    perth = generate_perth_test()
+    brisbane = generate_brisbane_test()
+    adelaide = generate_adelaide_test()
+
     # Calculate probabilities for all states
-    for test_data in [perth, brisbane, adelaide_match]:
+    for test_data in [perth, brisbane, adelaide]:
         prob_points = []
         cumulative_overs = 0
         innings_boundaries = [0]  # Track where each innings starts
@@ -624,7 +711,7 @@ def main():
     # Save all three tests
     output = {
         'series': 'The Ashes 2025-26',
-        'tests': [adelaide_match, brisbane, perth]  # Adelaide first (in progress)
+        'tests': [adelaide, brisbane, perth]  # Adelaide first (in progress)
     }
 
     output_path = Path(__file__).parent.parent.parent / "ui" / "src" / "data" / "ashes-series-2025.json"
@@ -634,7 +721,7 @@ def main():
     print(f"✓ Generated Ashes series worm data")
     print(f"  Perth: {len(perth['probabilities'])} points ({perth['days']} days)")
     print(f"  Brisbane: {len(brisbane['probabilities'])} points ({brisbane['days']} days)")
-    print(f"  Adelaide: {len(adelaide_match['probabilities'])} points ({adelaide_match['days']} day)")
+    print(f"  Adelaide: {len(adelaide['probabilities'])} points ({adelaide['days']} day)")
     print(f"\n  Saved to: {output_path}")
 
 
