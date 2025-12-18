@@ -406,8 +406,8 @@ def main():
         'matchId': 'adelaide-test-2025',
         'city': 'Adelaide',
         'dates': 'Dec 17-21, 2025',
-        'result': 'In progress (Day 1)',
-        'days': 1,
+        'result': 'In progress (Day 2)',
+        'days': 2,
         'states': adelaide_states
     }
 
