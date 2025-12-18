@@ -329,6 +329,272 @@
           "completedInnings": 0,
           "isChasing": false,
           "battingTeam": "Australia"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 1,
+          "over": 90,
+          "runsFor": 357,
+          "wicketsDown": 8,
+          "ballsBowled": 540,
+          "lead": 357,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2160,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "Australia"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 1,
+          "over": 91,
+          "runsFor": 359,
+          "wicketsDown": 9,
+          "ballsBowled": 543,
+          "lead": 359,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2157,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "Australia"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 1,
+          "over": 93,
+          "runsFor": 371,
+          "wicketsDown": 10,
+          "ballsBowled": 560,
+          "lead": 371,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2140,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "Australia"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 0,
+          "runsFor": 0,
+          "wicketsDown": 0,
+          "ballsBowled": 0,
+          "lead": -371,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2140,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 5,
+          "runsFor": 23,
+          "wicketsDown": 0,
+          "ballsBowled": 30,
+          "lead": -348,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2110,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 8,
+          "runsFor": 37,
+          "wicketsDown": 1,
+          "ballsBowled": 46,
+          "lead": -334,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2094,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 9,
+          "runsFor": 41,
+          "wicketsDown": 2,
+          "ballsBowled": 57,
+          "lead": -330,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2083,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 10,
+          "runsFor": 42,
+          "wicketsDown": 3,
+          "ballsBowled": 60,
+          "lead": -329,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2080,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 17,
+          "runsFor": 71,
+          "wicketsDown": 4,
+          "ballsBowled": 100,
+          "lead": -300,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2040,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 25,
+          "runsFor": 95,
+          "wicketsDown": 4,
+          "ballsBowled": 150,
+          "lead": -276,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1990,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 30,
+          "runsFor": 108,
+          "wicketsDown": 4,
+          "ballsBowled": 180,
+          "lead": -263,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1960,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 36,
+          "runsFor": 127,
+          "wicketsDown": 5,
+          "ballsBowled": 218,
+          "lead": -244,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1922,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 40,
+          "runsFor": 141,
+          "wicketsDown": 5,
+          "ballsBowled": 240,
+          "lead": -230,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1900,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 45,
+          "runsFor": 159,
+          "wicketsDown": 6,
+          "ballsBowled": 271,
+          "lead": -212,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1869,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 50,
+          "runsFor": 173,
+          "wicketsDown": 6,
+          "ballsBowled": 300,
+          "lead": -198,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1840,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 55,
+          "runsFor": 185,
+          "wicketsDown": 6,
+          "ballsBowled": 330,
+          "lead": -186,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1810,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 60,
+          "runsFor": 197,
+          "wicketsDown": 6,
+          "ballsBowled": 360,
+          "lead": -174,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1780,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 65,
+          "runsFor": 209,
+          "wicketsDown": 6,
+          "ballsBowled": 390,
+          "lead": -162,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1750,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "adelaide-ashes-2025",
+          "innings": 2,
+          "over": 67,
+          "runsFor": 213,
+          "wicketsDown": 8,
+          "ballsBowled": 402,
+          "lead": -158,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1738,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "England"
         }
       ],
       "probabilities": [
@@ -561,6 +827,196 @@
           "pDraw": 0.06929593533277512,
           "pLoss": 0.06583543121814728,
           "usedMonteCarlo": false
+        },
+        {
+          "xOver": 90,
+          "innings": 1,
+          "over": 90,
+          "score": "357/8",
+          "pWin": 0.8657316565513611,
+          "pDraw": 0.07406949996948242,
+          "pLoss": 0.060198839753866196,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 91,
+          "innings": 1,
+          "over": 91,
+          "score": "359/9",
+          "pWin": 0.8657316565513611,
+          "pDraw": 0.07406949996948242,
+          "pLoss": 0.060198839753866196,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 93,
+          "innings": 1,
+          "over": 93,
+          "score": "371/10",
+          "pWin": 0.8725173473358154,
+          "pDraw": 0.06824354082345963,
+          "pLoss": 0.05923912674188614,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 93,
+          "innings": 2,
+          "over": 0,
+          "score": "0/0",
+          "pWin": 0.8725173473358154,
+          "pDraw": 0.06824354082345963,
+          "pLoss": 0.05923912674188614,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 98,
+          "innings": 2,
+          "over": 5,
+          "score": "23/0",
+          "pWin": 0.8715915679931641,
+          "pDraw": 0.06362670660018921,
+          "pLoss": 0.06478170305490494,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 101,
+          "innings": 2,
+          "over": 8,
+          "score": "37/1",
+          "pWin": 0.8611325025558472,
+          "pDraw": 0.06286318600177765,
+          "pLoss": 0.0760042667388916,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 102,
+          "innings": 2,
+          "over": 9,
+          "score": "41/2",
+          "pWin": 0.859114408493042,
+          "pDraw": 0.060893118381500244,
+          "pLoss": 0.07999248802661896,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 103,
+          "innings": 2,
+          "over": 10,
+          "score": "42/3",
+          "pWin": 0.8673042058944702,
+          "pDraw": 0.05472508817911148,
+          "pLoss": 0.0779707059264183,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 110,
+          "innings": 2,
+          "over": 17,
+          "score": "71/4",
+          "pWin": 0.8938729763031006,
+          "pDraw": 0.04891010746359825,
+          "pLoss": 0.05721697583794594,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 118,
+          "innings": 2,
+          "over": 25,
+          "score": "95/4",
+          "pWin": 0.8848327398300171,
+          "pDraw": 0.04493323713541031,
+          "pLoss": 0.07023399323225021,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 123,
+          "innings": 2,
+          "over": 30,
+          "score": "108/4",
+          "pWin": 0.8880377411842346,
+          "pDraw": 0.045335784554481506,
+          "pLoss": 0.06662649661302567,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 129,
+          "innings": 2,
+          "over": 36,
+          "score": "127/5",
+          "pWin": 0.8839309215545654,
+          "pDraw": 0.045662231743335724,
+          "pLoss": 0.07040684670209885,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 133,
+          "innings": 2,
+          "over": 40,
+          "score": "141/5",
+          "pWin": 0.8931447863578796,
+          "pDraw": 0.04147088900208473,
+          "pLoss": 0.06538432091474533,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 138,
+          "innings": 2,
+          "over": 45,
+          "score": "159/6",
+          "pWin": 0.8985338807106018,
+          "pDraw": 0.040511198341846466,
+          "pLoss": 0.060954973101615906,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 143,
+          "innings": 2,
+          "over": 50,
+          "score": "173/6",
+          "pWin": 0.88152676820755,
+          "pDraw": 0.03974441811442375,
+          "pLoss": 0.07872876524925232,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 148,
+          "innings": 2,
+          "over": 55,
+          "score": "185/6",
+          "pWin": 0.8820542693138123,
+          "pDraw": 0.03969528153538704,
+          "pLoss": 0.078250452876091,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 153,
+          "innings": 2,
+          "over": 60,
+          "score": "197/6",
+          "pWin": 0.8795536160469055,
+          "pDraw": 0.0424177348613739,
+          "pLoss": 0.0780286118388176,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 158,
+          "innings": 2,
+          "over": 65,
+          "score": "209/6",
+          "pWin": 0.8576350212097168,
+          "pDraw": 0.041360680013895035,
+          "pLoss": 0.10100424289703369,
+          "usedMonteCarlo": false
+        },
+        {
+          "xOver": 160,
+          "innings": 2,
+          "over": 67,
+          "score": "213/8",
+          "pWin": 0.8471211791038513,
+          "pDraw": 0.03898439183831215,
+          "pLoss": 0.11389443278312683,
+          "usedMonteCarlo": false
         }
       ],
       "inningsBoundaries": [
@@ -568,6 +1024,11 @@
           "innings": 1,
           "xOver": 0,
           "battingTeam": "Australia"
+        },
+        {
+          "innings": 2,
+          "xOver": 93,
+          "battingTeam": "England"
         }
       ],
       "wicketFalls": [
@@ -612,6 +1073,60 @@
           "xOver": 77,
           "wickets": 8,
           "score": "321/8"
+        },
+        {
+          "innings": 1,
+          "xOver": 91,
+          "wickets": 9,
+          "score": "359/9"
+        },
+        {
+          "innings": 1,
+          "xOver": 93,
+          "wickets": 10,
+          "score": "371/10"
+        },
+        {
+          "innings": 2,
+          "xOver": 101,
+          "wickets": 1,
+          "score": "37/1"
+        },
+        {
+          "innings": 2,
+          "xOver": 102,
+          "wickets": 2,
+          "score": "41/2"
+        },
+        {
+          "innings": 2,
+          "xOver": 103,
+          "wickets": 3,
+          "score": "42/3"
+        },
+        {
+          "innings": 2,
+          "xOver": 110,
+          "wickets": 4,
+          "score": "71/4"
+        },
+        {
+          "innings": 2,
+          "xOver": 129,
+          "wickets": 5,
+          "score": "127/5"
+        },
+        {
+          "innings": 2,
+          "xOver": 138,
+          "wickets": 6,
+          "score": "159/6"
+        },
+        {
+          "innings": 2,
+          "xOver": 160,
+          "wickets": 8,
+          "score": "213/8"
         }
       ]
     },
