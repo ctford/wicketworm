@@ -1,0 +1,15 @@
+{
+  "feature_names": [
+    "overs_left",
+    "first_team_wickets_remaining",
+    "second_team_wickets_remaining",
+    "first_team_lead",
+    "first_team_won_toss"
+  ],
+  "label_classes": [
+    "draw",
+    "loss",
+    "win"
+  ],
+  "model_type": "xgboost_scorecard_only"
+}

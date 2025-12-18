@@ -508,7 +508,10 @@
           "pWin": 0.7662443518638611,
           "pDraw": 0.06265995651483536,
           "pLoss": 0.17109565436840057,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3759968876838684,
+          "pDraw_scorecard": 0.261140376329422,
+          "pLoss_scorecard": 0.3628627061843872
         },
         {
           "xOver": 5,
@@ -518,7 +521,10 @@
           "pWin": 0.7607941031455994,
           "pDraw": 0.062214262783527374,
           "pLoss": 0.17699159681797028,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4216894805431366,
+          "pDraw_scorecard": 0.24153421819210052,
+          "pLoss_scorecard": 0.3367763161659241
         },
         {
           "xOver": 10,
@@ -528,7 +534,10 @@
           "pWin": 0.7586362957954407,
           "pDraw": 0.057646673172712326,
           "pLoss": 0.1837170124053955,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.39682987332344055,
+          "pDraw_scorecard": 0.19638219475746155,
+          "pLoss_scorecard": 0.4067879319190979
         },
         {
           "xOver": 15,
@@ -538,7 +547,10 @@
           "pWin": 0.7720075845718384,
           "pDraw": 0.058662720024585724,
           "pLoss": 0.16932976245880127,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4048219621181488,
+          "pDraw_scorecard": 0.20033729076385498,
+          "pLoss_scorecard": 0.3948407769203186
         },
         {
           "xOver": 20,
@@ -548,7 +560,10 @@
           "pWin": 0.7544904947280884,
           "pDraw": 0.05732639506459236,
           "pLoss": 0.18818314373493195,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3580274283885956,
+          "pDraw_scorecard": 0.22605593502521515,
+          "pLoss_scorecard": 0.41591665148735046
         },
         {
           "xOver": 25,
@@ -558,7 +573,10 @@
           "pWin": 0.7969546318054199,
           "pDraw": 0.06518704444169998,
           "pLoss": 0.1378583461046219,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4022376835346222,
+          "pDraw_scorecard": 0.26106059551239014,
+          "pLoss_scorecard": 0.33670175075531006
         },
         {
           "xOver": 30,
@@ -568,7 +586,10 @@
           "pWin": 0.8199005126953125,
           "pDraw": 0.05600706860423088,
           "pLoss": 0.12409241497516632,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.38166335225105286,
+          "pDraw_scorecard": 0.19129817187786102,
+          "pLoss_scorecard": 0.4270384609699249
         },
         {
           "xOver": 35,
@@ -578,7 +599,10 @@
           "pWin": 0.8261106014251709,
           "pDraw": 0.056431278586387634,
           "pLoss": 0.11745813488960266,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4011634886264801,
+          "pDraw_scorecard": 0.201072096824646,
+          "pLoss_scorecard": 0.3977644443511963
         },
         {
           "xOver": 40,
@@ -588,7 +612,10 @@
           "pWin": 0.8257672786712646,
           "pDraw": 0.06200027838349342,
           "pLoss": 0.11223249137401581,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3959870934486389,
+          "pDraw_scorecard": 0.24084773659706116,
+          "pLoss_scorecard": 0.3631651699542999
         },
         {
           "xOver": 45,
@@ -598,7 +625,10 @@
           "pWin": 0.8484272360801697,
           "pDraw": 0.06370163708925247,
           "pLoss": 0.08787114918231964,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4162099361419678,
+          "pDraw_scorecard": 0.25132057070732117,
+          "pLoss_scorecard": 0.33246949315071106
         },
         {
           "xOver": 50,
@@ -608,7 +638,10 @@
           "pWin": 0.8473482728004456,
           "pDraw": 0.06489236652851105,
           "pLoss": 0.08775939792394638,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.40159785747528076,
+          "pDraw_scorecard": 0.25774502754211426,
+          "pLoss_scorecard": 0.34065714478492737
         },
         {
           "xOver": 55,
@@ -618,7 +651,10 @@
           "pWin": 0.8550975918769836,
           "pDraw": 0.06548583507537842,
           "pLoss": 0.07941662520170212,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.43398451805114746,
+          "pDraw_scorecard": 0.2835627496242523,
+          "pLoss_scorecard": 0.2824527621269226
         },
         {
           "xOver": 60,
@@ -628,7 +664,10 @@
           "pWin": 0.8545949459075928,
           "pDraw": 0.055979225784540176,
           "pLoss": 0.08942590653896332,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5387797355651855,
+          "pDraw_scorecard": 0.18130141496658325,
+          "pLoss_scorecard": 0.2799188792705536
         },
         {
           "xOver": 65,
@@ -638,7 +677,10 @@
           "pWin": 0.8551368117332458,
           "pDraw": 0.05748549476265907,
           "pLoss": 0.08737769722938538,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.550051748752594,
+          "pDraw_scorecard": 0.18789315223693848,
+          "pLoss_scorecard": 0.26205509901046753
         },
         {
           "xOver": 70,
@@ -648,7 +690,10 @@
           "pWin": 0.8574544191360474,
           "pDraw": 0.056946005672216415,
           "pLoss": 0.08559955656528473,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5027341842651367,
+          "pDraw_scorecard": 0.212583526968956,
+          "pLoss_scorecard": 0.2846823036670685
         },
         {
           "xOver": 75,
@@ -658,7 +703,10 @@
           "pWin": 0.8689881563186646,
           "pDraw": 0.06218453124165535,
           "pLoss": 0.06882727891206741,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5041994452476501,
+          "pDraw_scorecard": 0.22617848217487335,
+          "pLoss_scorecard": 0.2696221172809601
         },
         {
           "xOver": 80,
@@ -668,7 +716,10 @@
           "pWin": 0.8563701510429382,
           "pDraw": 0.0694568008184433,
           "pLoss": 0.07417300343513489,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5300805568695068,
+          "pDraw_scorecard": 0.19891257584095,
+          "pLoss_scorecard": 0.27100685238838196
         },
         {
           "xOver": 85,
@@ -678,7 +729,10 @@
           "pWin": 0.8706178069114685,
           "pDraw": 0.07433746755123138,
           "pLoss": 0.05504469573497772,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5033418536186218,
+          "pDraw_scorecard": 0.23834414780139923,
+          "pLoss_scorecard": 0.25831401348114014
         },
         {
           "xOver": 90,
@@ -688,7 +742,10 @@
           "pWin": 0.8657316565513611,
           "pDraw": 0.07406949996948242,
           "pLoss": 0.060198839753866196,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.48123249411582947,
+          "pDraw_scorecard": 0.19465112686157227,
+          "pLoss_scorecard": 0.32411637902259827
         },
         {
           "xOver": 95,
@@ -698,7 +755,10 @@
           "pWin": 0.8484480977058411,
           "pDraw": 0.09255483001470566,
           "pLoss": 0.0589970238506794,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.45739731192588806,
+          "pDraw_scorecard": 0.2223447561264038,
+          "pLoss_scorecard": 0.3202579617500305
         },
         {
           "xOver": 95,
@@ -708,7 +768,10 @@
           "pWin": 0.8484480977058411,
           "pDraw": 0.09255483001470566,
           "pLoss": 0.0589970238506794,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.45739731192588806,
+          "pDraw_scorecard": 0.2223447561264038,
+          "pLoss_scorecard": 0.3202579617500305
         },
         {
           "xOver": 100,
@@ -718,7 +781,10 @@
           "pWin": 0.8438178896903992,
           "pDraw": 0.09246572107076645,
           "pLoss": 0.06371640413999557,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4554608464241028,
+          "pDraw_scorecard": 0.22515985369682312,
+          "pLoss_scorecard": 0.3193792998790741
         },
         {
           "xOver": 105,
@@ -728,7 +794,10 @@
           "pWin": 0.8326471447944641,
           "pDraw": 0.08858983218669891,
           "pLoss": 0.07876303046941757,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3776436448097229,
+          "pDraw_scorecard": 0.2625674307346344,
+          "pLoss_scorecard": 0.3597889244556427
         },
         {
           "xOver": 110,
@@ -738,7 +807,10 @@
           "pWin": 0.8750921487808228,
           "pDraw": 0.07285531610250473,
           "pLoss": 0.052052538841962814,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5423680543899536,
+          "pDraw_scorecard": 0.22268719971179962,
+          "pLoss_scorecard": 0.23494477570056915
         },
         {
           "xOver": 115,
@@ -748,7 +820,10 @@
           "pWin": 0.8734154105186462,
           "pDraw": 0.06413300335407257,
           "pLoss": 0.06245161592960358,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5112305283546448,
+          "pDraw_scorecard": 0.21118952333927155,
+          "pLoss_scorecard": 0.2775799632072449
         },
         {
           "xOver": 120,
@@ -758,7 +833,10 @@
           "pWin": 0.8745672702789307,
           "pDraw": 0.057796914130449295,
           "pLoss": 0.06763583421707153,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.504681408405304,
+          "pDraw_scorecard": 0.242249995470047,
+          "pLoss_scorecard": 0.25306859612464905
         },
         {
           "xOver": 125,
@@ -768,7 +846,10 @@
           "pWin": 0.8796005845069885,
           "pDraw": 0.053354714065790176,
           "pLoss": 0.0670446828007698,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.41870707273483276,
+          "pDraw_scorecard": 0.31309473514556885,
+          "pLoss_scorecard": 0.268198162317276
         },
         {
           "xOver": 130,
@@ -778,7 +859,10 @@
           "pWin": 0.8819208741188049,
           "pDraw": 0.046713512390851974,
           "pLoss": 0.07136569172143936,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4043671190738678,
+          "pDraw_scorecard": 0.3366200625896454,
+          "pLoss_scorecard": 0.2590128481388092
         },
         {
           "xOver": 135,
@@ -788,7 +872,10 @@
           "pWin": 0.8929522633552551,
           "pDraw": 0.04251319169998169,
           "pLoss": 0.06453456729650497,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3986855447292328,
+          "pDraw_scorecard": 0.3425866365432739,
+          "pLoss_scorecard": 0.2587278187274933
         },
         {
           "xOver": 140,
@@ -798,7 +885,10 @@
           "pWin": 0.8911231160163879,
           "pDraw": 0.047461748123168945,
           "pLoss": 0.0614151693880558,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.31810468435287476,
+          "pDraw_scorecard": 0.44249585270881653,
+          "pLoss_scorecard": 0.2393995225429535
         },
         {
           "xOver": 145,
@@ -808,7 +898,10 @@
           "pWin": 0.8533040881156921,
           "pDraw": 0.05235382542014122,
           "pLoss": 0.09434213489294052,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.25770074129104614,
+          "pDraw_scorecard": 0.40524691343307495,
+          "pLoss_scorecard": 0.3370523154735565
         },
         {
           "xOver": 150,
@@ -818,7 +911,10 @@
           "pWin": 0.854284942150116,
           "pDraw": 0.051894478499889374,
           "pLoss": 0.09382058680057526,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.22838716208934784,
+          "pDraw_scorecard": 0.3887832462787628,
+          "pLoss_scorecard": 0.38282954692840576
         },
         {
           "xOver": 155,
@@ -828,7 +924,10 @@
           "pWin": 0.8753844499588013,
           "pDraw": 0.045719798654317856,
           "pLoss": 0.07889574766159058,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3127437233924866,
+          "pDraw_scorecard": 0.3946712613105774,
+          "pLoss_scorecard": 0.29258495569229126
         },
         {
           "xOver": 160,
@@ -838,7 +937,10 @@
           "pWin": 0.8648709058761597,
           "pDraw": 0.0484146811068058,
           "pLoss": 0.08671441674232483,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.34660157561302185,
+          "pDraw_scorecard": 0.41909223794937134,
+          "pLoss_scorecard": 0.23430615663528442
         },
         {
           "xOver": 165,
@@ -848,7 +950,10 @@
           "pWin": 0.8535200953483582,
           "pDraw": 0.0467713363468647,
           "pLoss": 0.09970860183238983,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3498706519603729,
+          "pDraw_scorecard": 0.41399726271629333,
+          "pLoss_scorecard": 0.23613202571868896
         }
       ],
       "inningsBoundaries": [
@@ -2016,7 +2121,10 @@
           "pWin": 0.8388144969940186,
           "pDraw": 0.04518059641122818,
           "pLoss": 0.11600486189126968,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3628627061843872,
+          "pDraw_scorecard": 0.261140376329422,
+          "pLoss_scorecard": 0.3759968876838684
         },
         {
           "xOver": 5,
@@ -2026,7 +2134,10 @@
           "pWin": 0.8388144969940186,
           "pDraw": 0.04518059641122818,
           "pLoss": 0.11600486189126968,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.33223649859428406,
+          "pDraw_scorecard": 0.2624291777610779,
+          "pLoss_scorecard": 0.4053342938423157
         },
         {
           "xOver": 10,
@@ -2036,7 +2147,10 @@
           "pWin": 0.8336742520332336,
           "pDraw": 0.04934066906571388,
           "pLoss": 0.116985023021698,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.32160288095474243,
+          "pDraw_scorecard": 0.27277129888534546,
+          "pLoss_scorecard": 0.4056259095668793
         },
         {
           "xOver": 15,
@@ -2046,7 +2160,10 @@
           "pWin": 0.8336985111236572,
           "pDraw": 0.049333494156599045,
           "pLoss": 0.11696800589561462,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.27226021885871887,
+          "pDraw_scorecard": 0.2926110327243805,
+          "pLoss_scorecard": 0.43512871861457825
         },
         {
           "xOver": 20,
@@ -2056,7 +2173,10 @@
           "pWin": 0.8212127089500427,
           "pDraw": 0.05354161933064461,
           "pLoss": 0.12524567544460297,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.2526949644088745,
+          "pDraw_scorecard": 0.27194565534591675,
+          "pLoss_scorecard": 0.47535938024520874
         },
         {
           "xOver": 25,
@@ -2066,7 +2186,10 @@
           "pWin": 0.820556104183197,
           "pDraw": 0.05429834872484207,
           "pLoss": 0.1251455396413803,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.23010408878326416,
+          "pDraw_scorecard": 0.30524441599845886,
+          "pLoss_scorecard": 0.4646514356136322
         },
         {
           "xOver": 30,
@@ -2076,7 +2199,10 @@
           "pWin": 0.7967710494995117,
           "pDraw": 0.06405100226402283,
           "pLoss": 0.13917796313762665,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.23041532933712006,
+          "pDraw_scorecard": 0.3462478816509247,
+          "pLoss_scorecard": 0.42333677411079407
         },
         {
           "xOver": 35,
@@ -2086,7 +2212,10 @@
           "pWin": 0.7911471724510193,
           "pDraw": 0.06453728675842285,
           "pLoss": 0.14431551098823547,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.23543915152549744,
+          "pDraw_scorecard": 0.3550493121147156,
+          "pLoss_scorecard": 0.409511536359787
         },
         {
           "xOver": 40,
@@ -2096,7 +2225,10 @@
           "pWin": 0.7994337677955627,
           "pDraw": 0.05673220381140709,
           "pLoss": 0.14383402466773987,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.2542732357978821,
+          "pDraw_scorecard": 0.26363930106163025,
+          "pLoss_scorecard": 0.48208749294281006
         },
         {
           "xOver": 45,
@@ -2106,7 +2238,10 @@
           "pWin": 0.772676944732666,
           "pDraw": 0.06430064141750336,
           "pLoss": 0.16302244365215302,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.24696004390716553,
+          "pDraw_scorecard": 0.2701113224029541,
+          "pLoss_scorecard": 0.48292866349220276
         },
         {
           "xOver": 50,
@@ -2116,7 +2251,10 @@
           "pWin": 0.7312668561935425,
           "pDraw": 0.07648715376853943,
           "pLoss": 0.1922459602355957,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.23785769939422607,
+          "pDraw_scorecard": 0.31332823634147644,
+          "pLoss_scorecard": 0.4488140642642975
         },
         {
           "xOver": 55,
@@ -2126,7 +2264,10 @@
           "pWin": 0.6514564156532288,
           "pDraw": 0.09920290857553482,
           "pLoss": 0.24934066832065582,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.265209823846817,
+          "pDraw_scorecard": 0.3302910625934601,
+          "pLoss_scorecard": 0.4044990539550781
         },
         {
           "xOver": 60,
@@ -2136,7 +2277,10 @@
           "pWin": 0.6514564156532288,
           "pDraw": 0.09920290857553482,
           "pLoss": 0.24934066832065582,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.25385525822639465,
+          "pDraw_scorecard": 0.33445560932159424,
+          "pLoss_scorecard": 0.4116891324520111
         },
         {
           "xOver": 65,
@@ -2146,7 +2290,10 @@
           "pWin": 0.6503401398658752,
           "pDraw": 0.08764424920082092,
           "pLoss": 0.26201561093330383,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.27571502327919006,
+          "pDraw_scorecard": 0.30525827407836914,
+          "pLoss_scorecard": 0.4190267026424408
         },
         {
           "xOver": 70,
@@ -2156,7 +2303,10 @@
           "pWin": 0.6503401398658752,
           "pDraw": 0.08764424920082092,
           "pLoss": 0.26201561093330383,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.2782020568847656,
+          "pDraw_scorecard": 0.31151846051216125,
+          "pLoss_scorecard": 0.41027945280075073
         },
         {
           "xOver": 75,
@@ -2166,7 +2316,10 @@
           "pWin": 0.6502354145050049,
           "pDraw": 0.08779117465019226,
           "pLoss": 0.26197344064712524,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.252577543258667,
+          "pDraw_scorecard": 0.3564184904098511,
+          "pLoss_scorecard": 0.39100396633148193
         },
         {
           "xOver": 80,
@@ -2176,7 +2329,10 @@
           "pWin": 0.6530675292015076,
           "pDraw": 0.08138205856084824,
           "pLoss": 0.2655504047870636,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.30445596575737,
+          "pDraw_scorecard": 0.26537856459617615,
+          "pLoss_scorecard": 0.43016543984413147
         },
         {
           "xOver": 85,
@@ -2186,7 +2342,10 @@
           "pWin": 0.6530675292015076,
           "pDraw": 0.08138205856084824,
           "pLoss": 0.2655504047870636,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.2978467643260956,
+          "pDraw_scorecard": 0.2592870593070984,
+          "pLoss_scorecard": 0.4428662061691284
         },
         {
           "xOver": 90,
@@ -2196,7 +2355,10 @@
           "pWin": 0.6190564632415771,
           "pDraw": 0.09136128425598145,
           "pLoss": 0.2895822823047638,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.264801561832428,
+          "pDraw_scorecard": 0.2721823751926422,
+          "pLoss_scorecard": 0.4630160331726074
         },
         {
           "xOver": 95,
@@ -2206,7 +2368,10 @@
           "pWin": 0.6617461442947388,
           "pDraw": 0.06568434834480286,
           "pLoss": 0.2725695073604584,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3395043909549713,
+          "pDraw_scorecard": 0.2025432288646698,
+          "pLoss_scorecard": 0.4579523503780365
         },
         {
           "xOver": 100,
@@ -2216,7 +2381,10 @@
           "pWin": 0.6612223386764526,
           "pDraw": 0.06642387062311172,
           "pLoss": 0.27235373854637146,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3299019932746887,
+          "pDraw_scorecard": 0.23116764426231384,
+          "pLoss_scorecard": 0.4389304220676422
         },
         {
           "xOver": 105,
@@ -2226,7 +2394,10 @@
           "pWin": 0.6416158676147461,
           "pDraw": 0.07253199070692062,
           "pLoss": 0.2858521342277527,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.34025272727012634,
+          "pDraw_scorecard": 0.19574347138404846,
+          "pLoss_scorecard": 0.4640037715435028
         },
         {
           "xOver": 105,
@@ -2236,7 +2407,10 @@
           "pWin": 0.6416158676147461,
           "pDraw": 0.07253199070692062,
           "pLoss": 0.2858521342277527,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.34025272727012634,
+          "pDraw_scorecard": 0.19574347138404846,
+          "pLoss_scorecard": 0.4640037715435028
         },
         {
           "xOver": 110,
@@ -2246,7 +2420,10 @@
           "pWin": 0.6539441347122192,
           "pDraw": 0.07669994235038757,
           "pLoss": 0.2693558931350708,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.35953325033187866,
+          "pDraw_scorecard": 0.19936054944992065,
+          "pLoss_scorecard": 0.44110623002052307
         },
         {
           "xOver": 115,
@@ -2256,7 +2433,10 @@
           "pWin": 0.6539441347122192,
           "pDraw": 0.07669994235038757,
           "pLoss": 0.2693558931350708,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.35953325033187866,
+          "pDraw_scorecard": 0.19936054944992065,
+          "pLoss_scorecard": 0.44110623002052307
         },
         {
           "xOver": 120,
@@ -2266,7 +2446,10 @@
           "pWin": 0.6455554962158203,
           "pDraw": 0.08508222550153732,
           "pLoss": 0.2693622410297394,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4041202664375305,
+          "pDraw_scorecard": 0.21375523507595062,
+          "pLoss_scorecard": 0.38212448358535767
         },
         {
           "xOver": 125,
@@ -2276,7 +2459,10 @@
           "pWin": 0.676925539970398,
           "pDraw": 0.07755205035209656,
           "pLoss": 0.2455224096775055,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4155018627643585,
+          "pDraw_scorecard": 0.24721331894397736,
+          "pLoss_scorecard": 0.33728480339050293
         },
         {
           "xOver": 130,
@@ -2286,7 +2472,10 @@
           "pWin": 0.676925539970398,
           "pDraw": 0.07755205035209656,
           "pLoss": 0.2455224096775055,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4066677391529083,
+          "pDraw_scorecard": 0.2256053388118744,
+          "pLoss_scorecard": 0.3677268922328949
         },
         {
           "xOver": 135,
@@ -2296,7 +2485,10 @@
           "pWin": 0.6567567586898804,
           "pDraw": 0.08239343762397766,
           "pLoss": 0.26084980368614197,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3909062445163727,
+          "pDraw_scorecard": 0.23159842193126678,
+          "pLoss_scorecard": 0.37749534845352173
         },
         {
           "xOver": 140,
@@ -2306,7 +2498,10 @@
           "pWin": 0.6472089886665344,
           "pDraw": 0.08218424022197723,
           "pLoss": 0.27060678601264954,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.42394956946372986,
+          "pDraw_scorecard": 0.22360892593860626,
+          "pLoss_scorecard": 0.3524414896965027
         },
         {
           "xOver": 145,
@@ -2316,7 +2511,10 @@
           "pWin": 0.6440693140029907,
           "pDraw": 0.08663661777973175,
           "pLoss": 0.26929405331611633,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4204942584037781,
+          "pDraw_scorecard": 0.23245668411254883,
+          "pLoss_scorecard": 0.3470490872859955
         },
         {
           "xOver": 150,
@@ -2326,7 +2524,10 @@
           "pWin": 0.6411048173904419,
           "pDraw": 0.09084059298038483,
           "pLoss": 0.2680545747280121,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.42129090428352356,
+          "pDraw_scorecard": 0.2419143170118332,
+          "pLoss_scorecard": 0.33679473400115967
         },
         {
           "xOver": 155,
@@ -2336,7 +2537,10 @@
           "pWin": 0.668715238571167,
           "pDraw": 0.08746406435966492,
           "pLoss": 0.24382072687149048,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4242638349533081,
+          "pDraw_scorecard": 0.20595450699329376,
+          "pLoss_scorecard": 0.3697817027568817
         },
         {
           "xOver": 160,
@@ -2346,7 +2550,10 @@
           "pWin": 0.6670547723770142,
           "pDraw": 0.08972989022731781,
           "pLoss": 0.24321530759334564,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.42909735441207886,
+          "pDraw_scorecard": 0.20977716147899628,
+          "pLoss_scorecard": 0.36112552881240845
         },
         {
           "xOver": 165,
@@ -2356,7 +2563,10 @@
           "pWin": 0.7055158615112305,
           "pDraw": 0.08349162340164185,
           "pLoss": 0.21099255979061127,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.41031983494758606,
+          "pDraw_scorecard": 0.2215426117181778,
+          "pLoss_scorecard": 0.36813756823539734
         },
         {
           "xOver": 170,
@@ -2366,7 +2576,10 @@
           "pWin": 0.7631872892379761,
           "pDraw": 0.06428210437297821,
           "pLoss": 0.17253059148788452,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3985913395881653,
+          "pDraw_scorecard": 0.22614271938800812,
+          "pLoss_scorecard": 0.375265896320343
         },
         {
           "xOver": 175,
@@ -2376,7 +2589,10 @@
           "pWin": 0.7918347120285034,
           "pDraw": 0.055514443665742874,
           "pLoss": 0.1526508331298828,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.435697466135025,
+          "pDraw_scorecard": 0.21162553131580353,
+          "pLoss_scorecard": 0.35267695784568787
         },
         {
           "xOver": 180,
@@ -2386,7 +2602,10 @@
           "pWin": 0.7996856570243835,
           "pDraw": 0.05348379909992218,
           "pLoss": 0.14683060348033905,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4383482038974762,
+          "pDraw_scorecard": 0.21407940983772278,
+          "pLoss_scorecard": 0.3475724160671234
         },
         {
           "xOver": 185,
@@ -2396,7 +2615,10 @@
           "pWin": 0.8145136833190918,
           "pDraw": 0.046294547617435455,
           "pLoss": 0.13919176161289215,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.46285998821258545,
+          "pDraw_scorecard": 0.21978911757469177,
+          "pLoss_scorecard": 0.31735092401504517
         },
         {
           "xOver": 190,
@@ -2406,7 +2628,10 @@
           "pWin": 0.8277587294578552,
           "pDraw": 0.043392304331064224,
           "pLoss": 0.12884896993637085,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4696688652038574,
+          "pDraw_scorecard": 0.21699975430965424,
+          "pLoss_scorecard": 0.3133314251899719
         },
         {
           "xOver": 195,
@@ -2416,7 +2641,10 @@
           "pWin": 0.8400185704231262,
           "pDraw": 0.04269249737262726,
           "pLoss": 0.11728888750076294,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.494377076625824,
+          "pDraw_scorecard": 0.21072697639465332,
+          "pLoss_scorecard": 0.2948959767818451
         },
         {
           "xOver": 200,
@@ -2426,7 +2654,10 @@
           "pWin": 0.8495039939880371,
           "pDraw": 0.039536941796541214,
           "pLoss": 0.11095912009477615,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4845115542411804,
+          "pDraw_scorecard": 0.23238235712051392,
+          "pLoss_scorecard": 0.2831060588359833
         },
         {
           "xOver": 205,
@@ -2436,7 +2667,10 @@
           "pWin": 0.8451983332633972,
           "pDraw": 0.04610992595553398,
           "pLoss": 0.10869169980287552,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.49004364013671875,
+          "pDraw_scorecard": 0.22561484575271606,
+          "pLoss_scorecard": 0.2843414545059204
         },
         {
           "xOver": 210,
@@ -2446,7 +2680,10 @@
           "pWin": 0.8667234182357788,
           "pDraw": 0.03990570083260536,
           "pLoss": 0.09337088465690613,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4935913681983948,
+          "pDraw_scorecard": 0.22360022366046906,
+          "pLoss_scorecard": 0.28280845284461975
         },
         {
           "xOver": 215,
@@ -2456,7 +2693,10 @@
           "pWin": 0.8667234182357788,
           "pDraw": 0.03990570083260536,
           "pLoss": 0.09337088465690613,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.508603036403656,
+          "pDraw_scorecard": 0.2336583137512207,
+          "pLoss_scorecard": 0.2577386200428009
         },
         {
           "xOver": 220,
@@ -2466,7 +2706,10 @@
           "pWin": 0.8656454086303711,
           "pDraw": 0.041099775582551956,
           "pLoss": 0.09325475245714188,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.49824562668800354,
+          "pDraw_scorecard": 0.24384142458438873,
+          "pLoss_scorecard": 0.25791290402412415
         },
         {
           "xOver": 225,
@@ -2476,7 +2719,10 @@
           "pWin": 0.867521345615387,
           "pDraw": 0.03902183100581169,
           "pLoss": 0.09345684200525284,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.49596112966537476,
+          "pDraw_scorecard": 0.23760409653186798,
+          "pLoss_scorecard": 0.26643475890159607
         },
         {
           "xOver": 230,
@@ -2486,7 +2732,10 @@
           "pWin": 0.8684858679771423,
           "pDraw": 0.03795333206653595,
           "pLoss": 0.09356074780225754,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.49037718772888184,
+          "pDraw_scorecard": 0.23989443480968475,
+          "pLoss_scorecard": 0.26972833275794983
         },
         {
           "xOver": 235,
@@ -2496,7 +2745,10 @@
           "pWin": 0.8733342885971069,
           "pDraw": 0.03587880730628967,
           "pLoss": 0.09078691154718399,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.47987496852874756,
+          "pDraw_scorecard": 0.23857425153255463,
+          "pLoss_scorecard": 0.2815507650375366
         },
         {
           "xOver": 240,
@@ -2506,7 +2758,10 @@
           "pWin": 0.8820872902870178,
           "pDraw": 0.026215843856334686,
           "pLoss": 0.0916968286037445,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5170661807060242,
+          "pDraw_scorecard": 0.2449318915605545,
+          "pLoss_scorecard": 0.23800194263458252
         },
         {
           "xOver": 245,
@@ -2516,7 +2771,10 @@
           "pWin": 0.8839807510375977,
           "pDraw": 0.02412561886012554,
           "pLoss": 0.09189365804195404,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5563795566558838,
+          "pDraw_scorecard": 0.19553740322589874,
+          "pLoss_scorecard": 0.24808304011821747
         },
         {
           "xOver": 250,
@@ -2526,7 +2784,10 @@
           "pWin": 0.8833720684051514,
           "pDraw": 0.0247975904494524,
           "pLoss": 0.09183038026094437,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5201477408409119,
+          "pDraw_scorecard": 0.1864003688097,
+          "pLoss_scorecard": 0.2934519052505493
         },
         {
           "xOver": 250,
@@ -2536,7 +2797,10 @@
           "pWin": 0.8833720684051514,
           "pDraw": 0.0247975904494524,
           "pLoss": 0.09183038026094437,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5201477408409119,
+          "pDraw_scorecard": 0.1864003688097,
+          "pLoss_scorecard": 0.2934519052505493
         },
         {
           "xOver": 255,
@@ -2546,7 +2810,10 @@
           "pWin": 0.8836055994033813,
           "pDraw": 0.024539731442928314,
           "pLoss": 0.09185466170310974,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5041819214820862,
+          "pDraw_scorecard": 0.19869036972522736,
+          "pLoss_scorecard": 0.2971276640892029
         },
         {
           "xOver": 260,
@@ -2556,7 +2823,10 @@
           "pWin": 0.8821731209754944,
           "pDraw": 0.026121165603399277,
           "pLoss": 0.09170574694871902,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4638027250766754,
+          "pDraw_scorecard": 0.2676589787006378,
+          "pLoss_scorecard": 0.26853829622268677
         },
         {
           "xOver": 265,
@@ -2566,7 +2836,10 @@
           "pWin": 0.8839032053947449,
           "pDraw": 0.024211186915636063,
           "pLoss": 0.09188559651374817,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5249900221824646,
+          "pDraw_scorecard": 0.20135049521923065,
+          "pLoss_scorecard": 0.27365943789482117
         },
         {
           "xOver": 270,
@@ -2576,7 +2849,10 @@
           "pWin": 0.8704166412353516,
           "pDraw": 0.039099738001823425,
           "pLoss": 0.09048360586166382,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5489355325698853,
+          "pDraw_scorecard": 0.18626521527767181,
+          "pLoss_scorecard": 0.2647992670536041
         },
         {
           "xOver": 275,
@@ -2586,7 +2862,10 @@
           "pWin": 0.8829325437545776,
           "pDraw": 0.03731090947985649,
           "pLoss": 0.07975653558969498,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5681941509246826,
+          "pDraw_scorecard": 0.19387811422348022,
+          "pLoss_scorecard": 0.23792771995067596
         },
         {
           "xOver": 280,
@@ -2596,7 +2875,10 @@
           "pWin": 0.8840002417564392,
           "pDraw": 0.03614676743745804,
           "pLoss": 0.07985297590494156,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5622513294219971,
+          "pDraw_scorecard": 0.20405377447605133,
+          "pLoss_scorecard": 0.233694925904274
         },
         {
           "xOver": 285,
@@ -2606,7 +2888,10 @@
           "pWin": 0.8807582259178162,
           "pDraw": 0.03968171775341034,
           "pLoss": 0.07956012338399887,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5395005941390991,
+          "pDraw_scorecard": 0.22296638786792755,
+          "pLoss_scorecard": 0.2375330775976181
         },
         {
           "xOver": 290,
@@ -2616,7 +2901,10 @@
           "pWin": 0.8971366286277771,
           "pDraw": 0.023273536935448647,
           "pLoss": 0.07958979904651642,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.6397397518157959,
+          "pDraw_scorecard": 0.11330384761095047,
+          "pLoss_scorecard": 0.24695636332035065
         },
         {
           "xOver": 295,
@@ -2626,7 +2914,10 @@
           "pWin": 0.8983418345451355,
           "pDraw": 0.02196144312620163,
           "pLoss": 0.07969671487808228,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.6375399827957153,
+          "pDraw_scorecard": 0.12001055479049683,
+          "pLoss_scorecard": 0.24244946241378784
         },
         {
           "xOver": 300,
@@ -2636,7 +2927,10 @@
           "pWin": 0.9022448658943176,
           "pDraw": 0.017374256625771523,
           "pLoss": 0.08038083463907242,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7034363746643066,
+          "pDraw_scorecard": 0.08335941284894943,
+          "pLoss_scorecard": 0.21320421993732452
         },
         {
           "xOver": 305,
@@ -2646,7 +2940,10 @@
           "pWin": 0.9080734252929688,
           "pDraw": 0.015670809894800186,
           "pLoss": 0.07625574618577957,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7668623328208923,
+          "pDraw_scorecard": 0.06282397359609604,
+          "pLoss_scorecard": 0.17031371593475342
         },
         {
           "xOver": 310,
@@ -2656,7 +2953,10 @@
           "pWin": 0.9035455584526062,
           "pDraw": 0.018886946141719818,
           "pLoss": 0.07756751030683517,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7988070249557495,
+          "pDraw_scorecard": 0.03751401975750923,
+          "pLoss_scorecard": 0.16367892920970917
         },
         {
           "xOver": 315,
@@ -2666,7 +2966,10 @@
           "pWin": 0.889276921749115,
           "pDraw": 0.021972188726067543,
           "pLoss": 0.0887509137392044,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7150446176528931,
+          "pDraw_scorecard": 0.04516333341598511,
+          "pLoss_scorecard": 0.2397920936346054
         },
         {
           "xOver": 320,
@@ -2676,7 +2979,10 @@
           "pWin": 0.897321879863739,
           "pDraw": 0.0131243159994483,
           "pLoss": 0.08955381065607071,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7082586288452148,
+          "pDraw_scorecard": 0.02091911993920803,
+          "pLoss_scorecard": 0.2708222568035126
         },
         {
           "xOver": 325,
@@ -2686,7 +2992,10 @@
           "pWin": 0.8996360898017883,
           "pDraw": 0.012247773818671703,
           "pLoss": 0.08811617642641068,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7551548480987549,
+          "pDraw_scorecard": 0.008668913505971432,
+          "pLoss_scorecard": 0.23617620766162872
         },
         {
           "xOver": 330,
@@ -2696,7 +3005,10 @@
           "pWin": 0.9017187356948853,
           "pDraw": 0.009431923739612103,
           "pLoss": 0.08884932845830917,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.8051275610923767,
+          "pDraw_scorecard": 0.009713812731206417,
+          "pLoss_scorecard": 0.1851585954427719
         },
         {
           "xOver": 330,
@@ -2706,7 +3018,10 @@
           "pWin": 0.9017187356948853,
           "pDraw": 0.009431923739612103,
           "pLoss": 0.08884932845830917,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.8051275610923767,
+          "pDraw_scorecard": 0.009713812731206417,
+          "pLoss_scorecard": 0.1851585954427719
         },
         {
           "xOver": 335,
@@ -2716,7 +3031,10 @@
           "pWin": 0.9038779139518738,
           "pDraw": 0.01058692205697298,
           "pLoss": 0.08553513139486313,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.840087890625,
+          "pDraw_scorecard": 0.007165246177464724,
+          "pLoss_scorecard": 0.15274681150913239
         },
         {
           "xOver": 340,
@@ -2726,7 +3044,10 @@
           "pWin": 0.9084261655807495,
           "pDraw": 0.008008874021470547,
           "pLoss": 0.08356495946645737,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.799554705619812,
+          "pDraw_scorecard": 0.009946292266249657,
+          "pLoss_scorecard": 0.19049900770187378
         },
         {
           "xOver": 345,
@@ -2735,7 +3056,10 @@
           "score": "69/2",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 355,
@@ -2744,7 +3068,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 365,
@@ -2753,7 +3080,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 375,
@@ -2762,7 +3092,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 385,
@@ -2771,7 +3104,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 395,
@@ -2780,7 +3116,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 405,
@@ -2789,7 +3128,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 415,
@@ -2798,7 +3140,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 425,
@@ -2807,7 +3152,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 435,
@@ -2816,7 +3164,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 445,
@@ -2825,7 +3176,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         }
       ],
       "inningsBoundaries": [
@@ -3701,7 +4055,10 @@
           "pWin": 0.8388144969940186,
           "pDraw": 0.04518059641122818,
           "pLoss": 0.11600486189126968,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3628627061843872,
+          "pDraw_scorecard": 0.261140376329422,
+          "pLoss_scorecard": 0.3759968876838684
         },
         {
           "xOver": 5,
@@ -3711,7 +4068,10 @@
           "pWin": 0.8388144969940186,
           "pDraw": 0.04518059641122818,
           "pLoss": 0.11600486189126968,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3366333246231079,
+          "pDraw_scorecard": 0.2607012391090393,
+          "pLoss_scorecard": 0.4026654362678528
         },
         {
           "xOver": 10,
@@ -3721,7 +4081,10 @@
           "pWin": 0.8368361592292786,
           "pDraw": 0.04573514685034752,
           "pLoss": 0.117428719997406,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3293907046318054,
+          "pDraw_scorecard": 0.2442239373922348,
+          "pLoss_scorecard": 0.42638537287712097
         },
         {
           "xOver": 15,
@@ -3731,7 +4094,10 @@
           "pWin": 0.8336985111236572,
           "pDraw": 0.049333494156599045,
           "pLoss": 0.11696800589561462,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.277454674243927,
+          "pDraw_scorecard": 0.27538973093032837,
+          "pLoss_scorecard": 0.44715556502342224
         },
         {
           "xOver": 20,
@@ -3741,7 +4107,10 @@
           "pWin": 0.832325279712677,
           "pDraw": 0.04568114131689072,
           "pLoss": 0.1219935193657875,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3598927855491638,
+          "pDraw_scorecard": 0.21340933442115784,
+          "pLoss_scorecard": 0.42669790983200073
         },
         {
           "xOver": 25,
@@ -3751,7 +4120,10 @@
           "pWin": 0.8320332765579224,
           "pDraw": 0.04576071724295616,
           "pLoss": 0.12220600247383118,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4301322102546692,
+          "pDraw_scorecard": 0.2159937620162964,
+          "pLoss_scorecard": 0.3538740277290344
         },
         {
           "xOver": 30,
@@ -3761,7 +4133,10 @@
           "pWin": 0.8295007944107056,
           "pDraw": 0.0418996624648571,
           "pLoss": 0.12859952449798584,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4426840543746948,
+          "pDraw_scorecard": 0.180817112326622,
+          "pLoss_scorecard": 0.37649884819984436
         },
         {
           "xOver": 35,
@@ -3771,7 +4146,10 @@
           "pWin": 0.8314058184623718,
           "pDraw": 0.03689334914088249,
           "pLoss": 0.1317008137702942,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.43707403540611267,
+          "pDraw_scorecard": 0.13606800138950348,
+          "pLoss_scorecard": 0.42685797810554504
         },
         {
           "xOver": 40,
@@ -3781,7 +4159,10 @@
           "pWin": 0.8314058184623718,
           "pDraw": 0.03689334914088249,
           "pLoss": 0.1317008137702942,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.43707403540611267,
+          "pDraw_scorecard": 0.13606800138950348,
+          "pLoss_scorecard": 0.42685797810554504
         },
         {
           "xOver": 45,
@@ -3791,7 +4172,10 @@
           "pWin": 0.8413620591163635,
           "pDraw": 0.03263981267809868,
           "pLoss": 0.1259981244802475,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.6031147837638855,
+          "pDraw_scorecard": 0.09211466461420059,
+          "pLoss_scorecard": 0.3047705590724945
         },
         {
           "xOver": 50,
@@ -3801,7 +4185,10 @@
           "pWin": 0.8293845057487488,
           "pDraw": 0.03510420024394989,
           "pLoss": 0.13551129400730133,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5788189768791199,
+          "pDraw_scorecard": 0.08714468777179718,
+          "pLoss_scorecard": 0.33403635025024414
         },
         {
           "xOver": 55,
@@ -3811,7 +4198,10 @@
           "pWin": 0.8142077922821045,
           "pDraw": 0.04280843958258629,
           "pLoss": 0.14298377931118011,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5654834508895874,
+          "pDraw_scorecard": 0.0927731841802597,
+          "pLoss_scorecard": 0.3417433798313141
         },
         {
           "xOver": 60,
@@ -3821,7 +4211,10 @@
           "pWin": 0.7778289914131165,
           "pDraw": 0.05196791887283325,
           "pLoss": 0.1702030748128891,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5303654074668884,
+          "pDraw_scorecard": 0.11980432271957397,
+          "pLoss_scorecard": 0.3498303294181824
         },
         {
           "xOver": 65,
@@ -3831,7 +4224,10 @@
           "pWin": 0.7236602902412415,
           "pDraw": 0.06463848054409027,
           "pLoss": 0.2117011696100235,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4638668894767761,
+          "pDraw_scorecard": 0.1494022160768509,
+          "pLoss_scorecard": 0.3867308497428894
         },
         {
           "xOver": 65,
@@ -3841,7 +4237,10 @@
           "pWin": 0.7236602902412415,
           "pDraw": 0.06463848054409027,
           "pLoss": 0.2117011696100235,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4638668894767761,
+          "pDraw_scorecard": 0.1494022160768509,
+          "pLoss_scorecard": 0.3867308497428894
         },
         {
           "xOver": 70,
@@ -3851,7 +4250,10 @@
           "pWin": 0.7734408378601074,
           "pDraw": 0.052994340658187866,
           "pLoss": 0.1735648214817047,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.509512186050415,
+          "pDraw_scorecard": 0.12882712483406067,
+          "pLoss_scorecard": 0.3616606295108795
         },
         {
           "xOver": 75,
@@ -3861,7 +4263,10 @@
           "pWin": 0.8113933205604553,
           "pDraw": 0.04247836768627167,
           "pLoss": 0.14612828195095062,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5160659551620483,
+          "pDraw_scorecard": 0.11239638179540634,
+          "pLoss_scorecard": 0.3715376555919647
         },
         {
           "xOver": 80,
@@ -3871,7 +4276,10 @@
           "pWin": 0.8355346918106079,
           "pDraw": 0.03614452853798866,
           "pLoss": 0.12832078337669373,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5203959941864014,
+          "pDraw_scorecard": 0.10360195487737656,
+          "pLoss_scorecard": 0.3760019838809967
         },
         {
           "xOver": 85,
@@ -3881,7 +4289,10 @@
           "pWin": 0.8294538855552673,
           "pDraw": 0.0347338505089283,
           "pLoss": 0.13581223785877228,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5358190536499023,
+          "pDraw_scorecard": 0.10786411166191101,
+          "pLoss_scorecard": 0.3563168942928314
         },
         {
           "xOver": 90,
@@ -3891,7 +4302,10 @@
           "pWin": 0.8439915776252747,
           "pDraw": 0.03139812871813774,
           "pLoss": 0.12461023032665253,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.46721380949020386,
+          "pDraw_scorecard": 0.10987187176942825,
+          "pLoss_scorecard": 0.4229143559932709
         },
         {
           "xOver": 95,
@@ -3901,7 +4315,10 @@
           "pWin": 0.8497741222381592,
           "pDraw": 0.029529903084039688,
           "pLoss": 0.12069597840309143,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4847162067890167,
+          "pDraw_scorecard": 0.09116965532302856,
+          "pLoss_scorecard": 0.4241141378879547
         },
         {
           "xOver": 100,
@@ -3911,7 +4328,10 @@
           "pWin": 0.8643912076950073,
           "pDraw": 0.024754583835601807,
           "pLoss": 0.11085424572229385,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5404614210128784,
+          "pDraw_scorecard": 0.08231595158576965,
+          "pLoss_scorecard": 0.37722262740135193
         },
         {
           "xOver": 105,
@@ -3921,7 +4341,10 @@
           "pWin": 0.8863161206245422,
           "pDraw": 0.020615603774785995,
           "pLoss": 0.09306831657886505,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5792820453643799,
+          "pDraw_scorecard": 0.06556805223226547,
+          "pLoss_scorecard": 0.35514989495277405
         },
         {
           "xOver": 110,
@@ -3931,7 +4354,10 @@
           "pWin": 0.8888915181159973,
           "pDraw": 0.017769748345017433,
           "pLoss": 0.0933387503027916,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5717014670372009,
+          "pDraw_scorecard": 0.04776179417967796,
+          "pLoss_scorecard": 0.3805367350578308
         },
         {
           "xOver": 115,
@@ -3941,7 +4367,10 @@
           "pWin": 0.8901947736740112,
           "pDraw": 0.017561309039592743,
           "pLoss": 0.09224388748407364,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5914770364761353,
+          "pDraw_scorecard": 0.04761027544736862,
+          "pLoss_scorecard": 0.3609126806259155
         },
         {
           "xOver": 115,
@@ -3951,7 +4380,10 @@
           "pWin": 0.8901947736740112,
           "pDraw": 0.017561309039592743,
           "pLoss": 0.09224388748407364,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5914770364761353,
+          "pDraw_scorecard": 0.04761027544736862,
+          "pLoss_scorecard": 0.3609126806259155
         },
         {
           "xOver": 120,
@@ -3961,7 +4393,10 @@
           "pWin": 0.8848888874053955,
           "pDraw": 0.018409891054034233,
           "pLoss": 0.09670121222734451,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.40998297929763794,
+          "pDraw_scorecard": 0.05822177231311798,
+          "pLoss_scorecard": 0.5317952632904053
         },
         {
           "xOver": 125,
@@ -3971,7 +4406,10 @@
           "pWin": 0.8681140542030334,
           "pDraw": 0.02116752788424492,
           "pLoss": 0.11071844398975372,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.35002684593200684,
+          "pDraw_scorecard": 0.0717419683933258,
+          "pLoss_scorecard": 0.5782312154769897
         },
         {
           "xOver": 130,
@@ -3981,7 +4419,10 @@
           "pWin": 0.8833143711090088,
           "pDraw": 0.01808411069214344,
           "pLoss": 0.09860146790742874,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.43999186158180237,
+          "pDraw_scorecard": 0.0512707494199276,
+          "pLoss_scorecard": 0.5087373852729797
         },
         {
           "xOver": 135,
@@ -3991,7 +4432,10 @@
           "pWin": 0.8718318343162537,
           "pDraw": 0.017618045210838318,
           "pLoss": 0.110550157725811,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5353977084159851,
+          "pDraw_scorecard": 0.0265376977622509,
+          "pLoss_scorecard": 0.4380645751953125
         },
         {
           "xOver": 140,
@@ -4001,7 +4445,10 @@
           "pWin": 0.8627369403839111,
           "pDraw": 0.018374059349298477,
           "pLoss": 0.11888895183801651,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.6251305937767029,
+          "pDraw_scorecard": 0.018214913085103035,
+          "pLoss_scorecard": 0.3566545248031616
         },
         {
           "xOver": 145,
@@ -4011,7 +4458,10 @@
           "pWin": 0.8735915422439575,
           "pDraw": 0.012934797443449497,
           "pLoss": 0.11347363889217377,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.6878793239593506,
+          "pDraw_scorecard": 0.01776653155684471,
+          "pLoss_scorecard": 0.2943541407585144
         },
         {
           "xOver": 150,
@@ -4021,7 +4471,10 @@
           "pWin": 0.8342262506484985,
           "pDraw": 0.0177681352943182,
           "pLoss": 0.1480056494474411,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4717480540275574,
+          "pDraw_scorecard": 0.022680938243865967,
+          "pLoss_scorecard": 0.5055710077285767
         },
         {
           "xOver": 155,
@@ -4031,7 +4484,10 @@
           "pWin": 0.8110916018486023,
           "pDraw": 0.018548250198364258,
           "pLoss": 0.17036013305187225,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.724768340587616,
+          "pDraw_scorecard": 0.008737398311495781,
+          "pLoss_scorecard": 0.2664942443370819
         },
         {
           "xOver": 160,
@@ -4041,7 +4497,10 @@
           "pWin": 0.7498542070388794,
           "pDraw": 0.025871042162179947,
           "pLoss": 0.22427472472190857,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.592669665813446,
+          "pDraw_scorecard": 0.007220837753266096,
+          "pLoss_scorecard": 0.4001094698905945
         },
         {
           "xOver": 165,
@@ -4051,7 +4510,10 @@
           "pWin": 0.7350901961326599,
           "pDraw": 0.021354278549551964,
           "pLoss": 0.24355550110340118,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5334627628326416,
+          "pDraw_scorecard": 0.005076179280877113,
+          "pLoss_scorecard": 0.46146106719970703
         },
         {
           "xOver": 170,
@@ -4061,7 +4523,10 @@
           "pWin": 0.7424832582473755,
           "pDraw": 0.02474568784236908,
           "pLoss": 0.23277103900909424,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.549250602722168,
+          "pDraw_scorecard": 0.003847755491733551,
+          "pLoss_scorecard": 0.4469016194343567
         },
         {
           "xOver": 170,
@@ -4071,7 +4536,10 @@
           "pWin": 0.7424832582473755,
           "pDraw": 0.02474568784236908,
           "pLoss": 0.23277103900909424,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.549250602722168,
+          "pDraw_scorecard": 0.003847755491733551,
+          "pLoss_scorecard": 0.4469016194343567
         },
         {
           "xOver": 175,
@@ -4081,7 +4549,10 @@
           "pWin": 0.7609107494354248,
           "pDraw": 0.023750532418489456,
           "pLoss": 0.21533870697021484,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.6177027821540833,
+          "pDraw_scorecard": 0.0041782245971262455,
+          "pLoss_scorecard": 0.37811899185180664
         },
         {
           "xOver": 180,
@@ -4091,7 +4562,10 @@
           "pWin": 0.8437254428863525,
           "pDraw": 0.015523925423622131,
           "pLoss": 0.14075061678886414,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.6867461204528809,
+          "pDraw_scorecard": 0.003941829316318035,
+          "pLoss_scorecard": 0.3093120753765106
         },
         {
           "xOver": 185,
@@ -4101,7 +4575,10 @@
           "pWin": 0.8761322498321533,
           "pDraw": 0.012304716743528843,
           "pLoss": 0.11156302690505981,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7554143071174622,
+          "pDraw_scorecard": 0.0028415715787559748,
+          "pLoss_scorecard": 0.2417440563440323
         },
         {
           "xOver": 190,
@@ -4111,7 +4588,10 @@
           "pWin": 0.9041336178779602,
           "pDraw": 0.009523130021989346,
           "pLoss": 0.08634325861930847,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.7633294463157654,
+          "pDraw_scorecard": 0.0027472716756165028,
+          "pLoss_scorecard": 0.2339232712984085
         },
         {
           "xOver": 195,
@@ -4121,7 +4601,10 @@
           "pWin": 0.9118608236312866,
           "pDraw": 0.008874332532286644,
           "pLoss": 0.07926484197378159,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.801092267036438,
+          "pDraw_scorecard": 0.004278818145394325,
+          "pLoss_scorecard": 0.19462892413139343
         },
         {
           "xOver": 200,
@@ -4131,7 +4614,10 @@
           "pWin": 0.9130731225013733,
           "pDraw": 0.008752278052270412,
           "pLoss": 0.0781746357679367,
-          "usedMonteCarlo": false
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.8104870319366455,
+          "pDraw_scorecard": 0.0044213165529072285,
+          "pLoss_scorecard": 0.18509162962436676
         },
         {
           "xOver": 205,
@@ -4140,7 +4626,10 @@
           "score": "205/2",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 215,
@@ -4149,7 +4638,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 225,
@@ -4158,7 +4650,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 235,
@@ -4167,7 +4662,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 245,
@@ -4176,7 +4674,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 255,
@@ -4185,7 +4686,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 265,
@@ -4194,7 +4698,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 275,
@@ -4203,7 +4710,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 285,
@@ -4212,7 +4722,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 295,
@@ -4221,7 +4734,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 305,
@@ -4230,7 +4746,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 315,
@@ -4239,7 +4758,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 325,
@@ -4248,7 +4770,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 335,
@@ -4257,7 +4782,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 345,
@@ -4266,7 +4794,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 355,
@@ -4275,7 +4806,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 365,
@@ -4284,7 +4818,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 375,
@@ -4293,7 +4830,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 385,
@@ -4302,7 +4842,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 395,
@@ -4311,7 +4854,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 405,
@@ -4320,7 +4866,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 415,
@@ -4329,7 +4878,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 425,
@@ -4338,7 +4890,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 435,
@@ -4347,7 +4902,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         },
         {
           "xOver": 445,
@@ -4356,7 +4914,10 @@
           "score": "Match Complete",
           "pWin": 1.0,
           "pDraw": 0.0,
-          "pLoss": 0.0
+          "pLoss": 0.0,
+          "pWin_scorecard": 1.0,
+          "pDraw_scorecard": 0.0,
+          "pLoss_scorecard": 0.0
         }
       ],
       "inningsBoundaries": [

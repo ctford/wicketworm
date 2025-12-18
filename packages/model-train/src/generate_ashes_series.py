@@ -2,6 +2,10 @@
 """
 Generate worm chart data for all three Ashes tests
 Perth, Brisbane, and Adelaide (in progress)
+
+Generates predictions from TWO models:
+1. Full model (8 features): includes team ratings and home advantage
+2. Scorecard-only model (5 features): match state + toss only
 """
 
 import json
@@ -9,19 +13,30 @@ import pickle
 from pathlib import Path
 import numpy as np
 
-# Load XGBoost model
+# Load full XGBoost model (8 features)
 model_path = Path(__file__).parent.parent / "output" / "model.pkl"
 with open(model_path, 'rb') as f:
     model_data = pickle.load(f)
 
-xgb_model = model_data['model']
-label_encoder = model_data['label_encoder']
+xgb_model_full = model_data['model']
+label_encoder_full = model_data['label_encoder']
 
-print(f"Loaded XGBoost model with label mapping: {dict(zip(label_encoder.classes_, range(len(label_encoder.classes_))))}")
+print(f"Loaded full XGBoost model (8 features) with label mapping: {dict(zip(label_encoder_full.classes_, range(len(label_encoder_full.classes_))))}")
+
+# Load scorecard-only XGBoost model (5 features)
+model_path_scorecard = Path(__file__).parent.parent / "output" / "model_scorecard_only.pkl"
+with open(model_path_scorecard, 'rb') as f:
+    model_data_scorecard = pickle.load(f)
+
+xgb_model_scorecard = model_data_scorecard['model']
+label_encoder_scorecard = model_data_scorecard['label_encoder']
+
+print(f"Loaded scorecard-only XGBoost model (5 features) with label mapping: {dict(zip(label_encoder_scorecard.classes_, range(len(label_encoder_scorecard.classes_))))}")
 
 
 def predict_probabilities(full_match_state, overs_left, first_team='England', home_team=None,
-                         first_team_rating=1500.0, second_team_rating=1500.0, first_team_won_toss=0):
+                         first_team_rating=1500.0, second_team_rating=1500.0, first_team_won_toss=0,
+                         use_scorecard_only=False):
     """
     Predict win/draw/loss probabilities from first team's perspective using XGBoost
 
@@ -37,6 +52,7 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
         first_team_rating: ELO rating of first team
         second_team_rating: ELO rating of second team
         first_team_won_toss: 1 if first team won toss, 0 otherwise
+        use_scorecard_only: If True, use 5-feature model (no ratings/home), else use 8-feature model
 
     Returns probabilities from Australia's perspective (flips if needed)
     """
@@ -59,26 +75,33 @@ def predict_probabilities(full_match_state, overs_left, first_team='England', ho
         full_match_state['second_team_score_inn4']
     )
 
-    # Determine if first team is home team
-    first_team_is_home = 1 if (home_team and first_team == home_team) else 0
+    if use_scorecard_only:
+        # 5 features: overs_left, wickets_remaining x2, lead, won_toss
+        features = np.array([[
+            overs_left,
+            first_team_wickets_remaining,
+            second_team_wickets_remaining,
+            first_team_lead,
+            first_team_won_toss
+        ]])
+        probs = xgb_model_scorecard.predict_proba(features)[0]
+    else:
+        # Determine if first team is home team
+        first_team_is_home = 1 if (home_team and first_team == home_team) else 0
 
-    # 8 features: overs_left, wickets_remaining x2, lead, is_home, won_toss, ratings x2
-    features = np.array([[
-        overs_left,
-        first_team_wickets_remaining,
-        second_team_wickets_remaining,
-        first_team_lead,
-        first_team_is_home,
-        first_team_won_toss,
-        first_team_rating,
-        second_team_rating
-    ]])
+        # 8 features: overs_left, wickets_remaining x2, lead, is_home, won_toss, ratings x2
+        features = np.array([[
+            overs_left,
+            first_team_wickets_remaining,
+            second_team_wickets_remaining,
+            first_team_lead,
+            first_team_is_home,
+            first_team_won_toss,
+            first_team_rating,
+            second_team_rating
+        ]])
+        probs = xgb_model_full.predict_proba(features)[0]
 
-    # XGBoost prediction (from first team's perspective)
-    # Note: Previously used hybrid XGBoost + Monte Carlo, but Monte Carlo provided
-    # minimal benefit (used in <3% of predictions, 1-7% probability shift).
-    # Pure XGBoost maintains 83.5% accuracy and is simpler/more consistent.
-    probs = xgb_model.predict_proba(features)[0]  # Shape: (3,) for [draw, loss, win]
     use_mc = False  # No longer using Monte Carlo
 
     # Label mapping: {'draw': 0, 'loss': 1, 'win': 2}
@@ -599,21 +622,35 @@ def main():
             if target_reached:
                 # Match ended - use final result probabilities
                 if 'Australia won' in test_data['result']:
-                    probs = {'pWin': 1.0, 'pDraw': 0.0, 'pLoss': 0.0}
+                    probs_full = {'pWin': 1.0, 'pDraw': 0.0, 'pLoss': 0.0}
+                    probs_scorecard = {'pWin': 1.0, 'pDraw': 0.0, 'pLoss': 0.0}
                 elif 'England won' in test_data['result']:
-                    probs = {'pWin': 0.0, 'pDraw': 0.0, 'pLoss': 1.0}
+                    probs_full = {'pWin': 0.0, 'pDraw': 0.0, 'pLoss': 1.0}
+                    probs_scorecard = {'pWin': 0.0, 'pDraw': 0.0, 'pLoss': 1.0}
                 else:
                     # Shouldn't happen, but use actual prediction
-                    probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
-                                                 home_team='Australia', first_team_rating=first_team_rating,
-                                                 second_team_rating=second_team_rating,
-                                                 first_team_won_toss=first_team_won_toss)
+                    probs_full = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
+                                                      home_team='Australia', first_team_rating=first_team_rating,
+                                                      second_team_rating=second_team_rating,
+                                                      first_team_won_toss=first_team_won_toss,
+                                                      use_scorecard_only=False)
+                    probs_scorecard = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
+                                                           home_team='Australia', first_team_rating=first_team_rating,
+                                                           second_team_rating=second_team_rating,
+                                                           first_team_won_toss=first_team_won_toss,
+                                                           use_scorecard_only=True)
             else:
-                # Match still in progress - predict normally
-                probs = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
-                                             home_team='Australia', first_team_rating=first_team_rating,
-                                             second_team_rating=second_team_rating,
-                                             first_team_won_toss=first_team_won_toss)
+                # Match still in progress - predict from both models
+                probs_full = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
+                                                  home_team='Australia', first_team_rating=first_team_rating,
+                                                  second_team_rating=second_team_rating,
+                                                  first_team_won_toss=first_team_won_toss,
+                                                  use_scorecard_only=False)
+                probs_scorecard = predict_probabilities(full_match_state, overs_left, first_team=first_team_name,
+                                                       home_team='Australia', first_team_rating=first_team_rating,
+                                                       second_team_rating=second_team_rating,
+                                                       first_team_won_toss=first_team_won_toss,
+                                                       use_scorecard_only=True)
 
             # xOver = cumulative overs from previous innings + current over
             xOver = cumulative_overs + state['over']
@@ -622,7 +659,10 @@ def main():
                 'innings': state['innings'],
                 'over': state['over'],
                 'score': f"{state['runsFor']}/{state['wicketsDown']}",
-                **probs
+                **probs_full,  # Full model predictions (default)
+                'pWin_scorecard': probs_scorecard['pWin'],
+                'pDraw_scorecard': probs_scorecard['pDraw'],
+                'pLoss_scorecard': probs_scorecard['pLoss']
             })
 
         last_over = cumulative_overs + max(s['over'] for s in test_data['states']
@@ -631,13 +671,16 @@ def main():
         # If match is complete, extend to 450 overs showing final result
         if 'Australia won' in test_data['result']:
             # Australia won - show green at 100%, red at 0%
-            final_probs = {'pWin': 1.0, 'pDraw': 0.0, 'pLoss': 0.0}
+            final_probs = {'pWin': 1.0, 'pDraw': 0.0, 'pLoss': 0.0,
+                          'pWin_scorecard': 1.0, 'pDraw_scorecard': 0.0, 'pLoss_scorecard': 0.0}
         elif 'England won' in test_data['result']:
             # England won - show red at 100%, green at 0%
-            final_probs = {'pWin': 0.0, 'pDraw': 0.0, 'pLoss': 1.0}
+            final_probs = {'pWin': 0.0, 'pDraw': 0.0, 'pLoss': 1.0,
+                          'pWin_scorecard': 0.0, 'pDraw_scorecard': 0.0, 'pLoss_scorecard': 1.0}
         elif 'draw' in test_data['result'].lower():
             # Draw - show grey at 100%
-            final_probs = {'pWin': 0.0, 'pDraw': 1.0, 'pLoss': 0.0}
+            final_probs = {'pWin': 0.0, 'pDraw': 1.0, 'pLoss': 0.0,
+                          'pWin_scorecard': 0.0, 'pDraw_scorecard': 1.0, 'pLoss_scorecard': 0.0}
         else:
             # Match in progress - don't extend
             final_probs = None
