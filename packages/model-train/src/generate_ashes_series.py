@@ -548,10 +548,10 @@ def generate_adelaide_test():
             'isChasing': False
         })
 
-    # Innings 2: England 213/8 (~70 overs, trail by 158)
-    # Collapse: 42/3 at over 10, then slow recovery
+    # Innings 2: England 286 all out (~80 overs, trail by 85)
+    # Collapse: 42/3 at over 10, then fightback with Stokes
     aus_inn1_overs = 95
-    for over in range(0, 71, 5):
+    for over in range(0, 81, 5):
         if over == 0:
             runs, wickets = 0, 0
         elif over <= 10:
@@ -570,10 +570,14 @@ def generate_adelaide_test():
             # Another wicket: 159/6 at over 45
             runs = int(141 + (159 - 141) * (over - 40) / 5)
             wickets = 6
-        else:
-            # Stokes-Archer partnership: 213/8 at over 70
-            runs = int(159 + (213 - 159) * (over - 45) / 25)
+        elif over <= 70:
+            # Stokes-Archer partnership: 240/8 at over 70
+            runs = int(159 + (240 - 159) * (over - 45) / 25)
             wickets = min(8, 6 + (over - 65) // 3)
+        else:
+            # Tail ends: 286 all out at over 80
+            runs = int(240 + (286 - 240) * (over - 70) / 10)
+            wickets = min(10, 8 + (over - 75) // 3)
 
         lead = runs - 371
         states.append({
@@ -587,6 +591,41 @@ def generate_adelaide_test():
             'matchOversLimit': 450,
             'ballsRemaining': 450 * 6 - (aus_inn1_overs + over) * 6,
             'completedInnings': 1,
+            'isChasing': False
+        })
+
+    # Innings 3: Australia 2nd innings - 119/2 at Tea, Head century in progress
+    # Building on 85-run first innings lead
+    eng_inn2_overs = 80
+    for over in range(0, 41, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 5:
+            # Early wicket: 17/1 at lunch
+            runs = int(over * 3.4)
+            wickets = 1 if over >= 3 else 0
+        elif over <= 25:
+            # Head-Labuschagne: 119/2 at Tea (over 25)
+            runs = int(17 + (119 - 17) * (over - 5) / 20)
+            wickets = 2
+        else:
+            # Head century, Khawaja joins: ~160/2 at over 40
+            runs = int(119 + (160 - 119) * (over - 25) / 15)
+            wickets = 2
+
+        # Lead = first innings lead (85) + second innings runs
+        lead = 85 + runs
+        states.append({
+            'matchId': 'adelaide-test-2025',
+            'innings': 3,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': lead,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (aus_inn1_overs + eng_inn2_overs + over) * 6,
+            'completedInnings': 2,
             'isChasing': False
         })
 
@@ -607,7 +646,7 @@ def generate_adelaide_test():
         {'innings': 1, 'xOver': 91, 'wickets': 9},  # Tail starts
         {'innings': 1, 'xOver': 94, 'wickets': 10}, # All out
 
-        # Innings 2: England 213/8 (~70 overs) - early collapse then fightback
+        # Innings 2: England 286 all out (~80 overs) - early collapse then Stokes fightback
         {'innings': 2, 'xOver': 98, 'wickets': 1},  # Early wicket
         {'innings': 2, 'xOver': 101, 'wickets': 2},
         {'innings': 2, 'xOver': 105, 'wickets': 3}, # 42/3 collapse
@@ -615,15 +654,21 @@ def generate_adelaide_test():
         {'innings': 2, 'xOver': 135, 'wickets': 5}, # Brook resistance ends
         {'innings': 2, 'xOver': 140, 'wickets': 6}, # 159/6
         {'innings': 2, 'xOver': 158, 'wickets': 7}, # Lower order
-        {'innings': 2, 'xOver': 164, 'wickets': 8}, # Current state: 213/8
+        {'innings': 2, 'xOver': 164, 'wickets': 8}, # 213/8
+        {'innings': 2, 'xOver': 171, 'wickets': 9}, # Stokes out
+        {'innings': 2, 'xOver': 175, 'wickets': 10}, # All out 286
+
+        # Innings 3: Australia 2nd innings - Head century, 160/2 at stumps Day 3
+        {'innings': 3, 'xOver': 178, 'wickets': 1}, # Early wicket 17/1
+        {'innings': 3, 'xOver': 196, 'wickets': 2}, # Labuschagne out 119/2
     ]
 
     return {
         'matchId': 'adelaide-test-2025',
         'city': 'Adelaide',
         'dates': 'Dec 17-21, 2025',
-        'result': 'In progress (Day 2)',
-        'days': 2,
+        'result': 'In progress (Day 3)',
+        'days': 3,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
