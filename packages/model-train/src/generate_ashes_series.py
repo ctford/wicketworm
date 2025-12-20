@@ -594,24 +594,40 @@ def generate_adelaide_test():
             'isChasing': False
         })
 
-    # Innings 3: Australia 2nd innings - 119/2 at Tea, Head century in progress
+    # Innings 3: Australia 2nd innings - 349 all out (Head 170, Carey 72)
     # Building on 85-run first innings lead
     eng_inn2_overs = 80
-    for over in range(0, 41, 5):
+    for over in range(0, 86, 5):
         if over == 0:
             runs, wickets = 0, 0
         elif over <= 5:
-            # Early wicket: 17/1 at lunch
-            runs = int(over * 3.4)
-            wickets = 1 if over >= 3 else 0
-        elif over <= 25:
-            # Head-Labuschagne: 119/2 at Tea (over 25)
-            runs = int(17 + (119 - 17) * (over - 5) / 20)
-            wickets = 2
+            # Early wicket: 8/1 (Weatherald)
+            runs = int(over * 1.6)
+            wickets = 1 if over >= 2 else 0
+        elif over <= 20:
+            # 53/2 (Labuschagne out at over 16)
+            runs = int(8 + (53 - 8) * (over - 5) / 15)
+            wickets = 2 if over >= 17 else 1
+        elif over <= 35:
+            # Head-Khawaja partnership: 139/3 at over 35
+            runs = int(53 + (139 - 53) * (over - 20) / 15)
+            wickets = 3 if over >= 35 else 2
+        elif over <= 40:
+            # Green out: 149/4 at over 37
+            runs = int(139 + (149 - 139) * (over - 35) / 5)
+            wickets = 4 if over >= 37 else 3
+        elif over <= 75:
+            # Head-Carey partnership: 311/5 at over 74 (Head 170)
+            runs = int(149 + (311 - 149) * (over - 40) / 35)
+            wickets = 5 if over >= 74 else 4
+        elif over <= 80:
+            # Collapse: 335/7 at over 80
+            runs = int(311 + (335 - 311) * (over - 75) / 5)
+            wickets = min(7, 5 + (over - 78) // 2)
         else:
-            # Head century, Khawaja joins: ~160/2 at over 40
-            runs = int(119 + (160 - 119) * (over - 25) / 15)
-            wickets = 2
+            # Tail ends: 349 all out at over 85
+            runs = int(335 + (349 - 335) * (over - 80) / 5)
+            wickets = min(10, 7 + (over - 83) // 1)
 
         # Lead = first innings lead (85) + second innings runs
         lead = 85 + runs
@@ -627,6 +643,49 @@ def generate_adelaide_test():
             'ballsRemaining': 450 * 6 - (aus_inn1_overs + eng_inn2_overs + over) * 6,
             'completedInnings': 2,
             'isChasing': False
+        })
+
+    # Innings 4: England 2nd innings - 207/6 chasing 435 (need 228 more)
+    aus_inn3_overs = 85
+    # Include extra points to get to over 63 (stumps)
+    overs_to_include = list(range(0, 65, 5)) + [63]
+    for over in sorted(set(overs_to_include)):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 10:
+            # Early wickets: Duckett out early
+            runs = int(over * 2.5)
+            wickets = 1 if over >= 3 else 0
+        elif over <= 30:
+            # Crawley building: ~80/2 at over 30
+            runs = int(25 + (80 - 25) * (over - 10) / 20)
+            wickets = 2 if over >= 20 else 1
+        elif over <= 50:
+            # Crawley 85, middle order: ~150/4 at over 50
+            runs = int(80 + (150 - 80) * (over - 30) / 20)
+            wickets = min(4, 2 + (over - 40) // 10)
+        elif over == 63:
+            # Stumps Day 4: 207/6
+            runs, wickets = 207, 6
+        else:
+            # Collapse: 207/6 at over 63 (stumps)
+            runs = int(150 + (207 - 150) * (over - 50) / 13)
+            wickets = min(6, 4 + (over - 55) // 4)
+
+        # Lead is negative (England trailing)
+        lead = runs - 434  # Australia's total lead is 434
+        states.append({
+            'matchId': 'adelaide-test-2025',
+            'innings': 4,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': lead,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (aus_inn1_overs + eng_inn2_overs + aus_inn3_overs + over) * 6,
+            'completedInnings': 3,
+            'isChasing': True
         })
 
     # Add batting teams (Australia batted first)
@@ -658,17 +717,33 @@ def generate_adelaide_test():
         {'innings': 2, 'xOver': 171, 'wickets': 9}, # Stokes out
         {'innings': 2, 'xOver': 175, 'wickets': 10}, # All out 286
 
-        # Innings 3: Australia 2nd innings - Head century, 160/2 at stumps Day 3
-        {'innings': 3, 'xOver': 178, 'wickets': 1}, # Early wicket 17/1
-        {'innings': 3, 'xOver': 196, 'wickets': 2}, # Labuschagne out 119/2
+        # Innings 3: Australia 2nd innings - 349 all out (Head 170, Carey 72)
+        {'innings': 3, 'xOver': 177, 'wickets': 1}, # Weatherald 8/1
+        {'innings': 3, 'xOver': 192, 'wickets': 2}, # Labuschagne 53/2
+        {'innings': 3, 'xOver': 211, 'wickets': 3}, # Khawaja 139/3
+        {'innings': 3, 'xOver': 213, 'wickets': 4}, # Green 149/4
+        {'innings': 3, 'xOver': 249, 'wickets': 5}, # Head 170, 311/5
+        {'innings': 3, 'xOver': 254, 'wickets': 6}, # Carey 72, 329/6
+        {'innings': 3, 'xOver': 256, 'wickets': 7}, # Inglis 335/7
+        {'innings': 3, 'xOver': 259, 'wickets': 8}, # Cummins 344/8
+        {'innings': 3, 'xOver': 259, 'wickets': 9}, # Lyon 344/9
+        {'innings': 3, 'xOver': 260, 'wickets': 10}, # Boland 349 all out
+
+        # Innings 4: England 2nd innings - 207/6 chasing 435 (Crawley 85)
+        {'innings': 4, 'xOver': 263, 'wickets': 1}, # Duckett out early
+        {'innings': 4, 'xOver': 278, 'wickets': 2}, # Early collapse
+        {'innings': 4, 'xOver': 295, 'wickets': 3}, # Middle order
+        {'innings': 4, 'xOver': 308, 'wickets': 4}, # Crawley building
+        {'innings': 4, 'xOver': 315, 'wickets': 5}, # 150/5
+        {'innings': 4, 'xOver': 320, 'wickets': 6}, # 207/6 stumps
     ]
 
     return {
         'matchId': 'adelaide-test-2025',
         'city': 'Adelaide',
         'dates': 'Dec 17-21, 2025',
-        'result': 'In progress (Day 3)',
-        'days': 3,
+        'result': 'In progress (Day 4)',
+        'days': 4,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
