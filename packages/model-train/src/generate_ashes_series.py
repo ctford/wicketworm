@@ -645,32 +645,47 @@ def generate_adelaide_test():
             'isChasing': False
         })
 
-    # Innings 4: England 2nd innings - 207/6 chasing 435 (need 228 more)
+    # Innings 4: England 2nd innings - 352 all out (102.5 overs)
+    # Lost by 82 runs chasing 435
     aus_inn3_overs = 85
-    # Include extra points to get to over 63 (stumps)
-    overs_to_include = list(range(0, 65, 5)) + [63]
+    # Include key overs: every 5 overs + stumps (63) + all out (103)
+    overs_to_include = list(range(0, 105, 5)) + [63, 83, 97, 101, 103]
     for over in sorted(set(overs_to_include)):
         if over == 0:
             runs, wickets = 0, 0
         elif over <= 10:
-            # Early wickets: Duckett out early
+            # Early wickets: Duckett out early (1.2 ov)
             runs = int(over * 2.5)
             wickets = 1 if over >= 3 else 0
         elif over <= 30:
-            # Crawley building: ~80/2 at over 30
-            runs = int(25 + (80 - 25) * (over - 10) / 20)
-            wickets = 2 if over >= 20 else 1
+            # Root building: 109/3 at over 29
+            runs = int(25 + (109 - 25) * (over - 10) / 19)
+            wickets = min(3, 1 + (over - 10) // 10)
         elif over <= 50:
-            # Crawley 85, middle order: ~150/4 at over 50
-            runs = int(80 + (150 - 80) * (over - 30) / 20)
-            wickets = min(4, 2 + (over - 40) // 10)
+            # Crawley 85, middle order: 177/4 at over 47, 189/5 at over 52
+            runs = int(109 + (189 - 109) * (over - 30) / 22)
+            wickets = min(5, 3 + (over - 45) // 5)
         elif over == 63:
             # Stumps Day 4: 207/6
             runs, wickets = 207, 6
-        else:
-            # Collapse: 207/6 at over 63 (stumps)
-            runs = int(150 + (207 - 150) * (over - 50) / 13)
-            wickets = min(6, 4 + (over - 55) // 4)
+        elif over <= 83:
+            # Day 5: Smith resistance, 285/7 at over 83
+            runs = int(207 + (285 - 207) * (over - 63) / 20)
+            wickets = 7 if over >= 83 else 6
+        elif over <= 97:
+            # Jacks resistance: 337/8 at over 97
+            runs = int(285 + (337 - 285) * (over - 83) / 14)
+            wickets = 8 if over >= 97 else 7
+        elif over <= 103:
+            # Final wickets: 349/9 at over 101, 352 all out at over 103
+            if over == 103:
+                runs, wickets = 352, 10
+            elif over >= 101:
+                runs = int(337 + (352 - 337) * (over - 97) / 6)
+                wickets = 9 if over >= 101 else 8
+            else:
+                runs = int(337 + (349 - 337) * (over - 97) / 4)
+                wickets = 8
 
         # Lead is negative (England trailing)
         lead = runs - 434  # Australia's total lead is 434
@@ -729,21 +744,28 @@ def generate_adelaide_test():
         {'innings': 3, 'xOver': 259, 'wickets': 9}, # Lyon 344/9
         {'innings': 3, 'xOver': 260, 'wickets': 10}, # Boland 349 all out
 
-        # Innings 4: England 2nd innings - 207/6 chasing 435 (Crawley 85)
-        {'innings': 4, 'xOver': 263, 'wickets': 1}, # Duckett out early
-        {'innings': 4, 'xOver': 278, 'wickets': 2}, # Early collapse
-        {'innings': 4, 'xOver': 295, 'wickets': 3}, # Middle order
-        {'innings': 4, 'xOver': 308, 'wickets': 4}, # Crawley building
-        {'innings': 4, 'xOver': 315, 'wickets': 5}, # 150/5
-        {'innings': 4, 'xOver': 320, 'wickets': 6}, # 207/6 stumps
+        # Innings 4: England 2nd innings - 352 all out (lost by 82 runs)
+        # Duckett 4 (1.2), Pope 31 (9.4), Root 109 (28.6), Brook 177 (47.2)
+        # Stokes 189 (51.6), Crawley 194 (53.3), Smith 285 (82.5), Jacks 337 (97.2)
+        # Archer 349 (101.3), Tongue 352 (102.5)
+        {'innings': 4, 'xOver': 262, 'wickets': 1}, # Duckett 4 (1.2 ov)
+        {'innings': 4, 'xOver': 270, 'wickets': 2}, # Pope 31 (9.4 ov)
+        {'innings': 4, 'xOver': 289, 'wickets': 3}, # Root 109 (28.6 ov)
+        {'innings': 4, 'xOver': 308, 'wickets': 4}, # Brook 177 (47.2 ov)
+        {'innings': 4, 'xOver': 312, 'wickets': 5}, # Stokes 189 (51.6 ov)
+        {'innings': 4, 'xOver': 314, 'wickets': 6}, # Crawley 194 (53.3 ov)
+        {'innings': 4, 'xOver': 343, 'wickets': 7}, # Smith 285 (82.5 ov)
+        {'innings': 4, 'xOver': 357, 'wickets': 8}, # Jacks 337 (97.2 ov)
+        {'innings': 4, 'xOver': 362, 'wickets': 9}, # Archer 349 (101.3 ov)
+        {'innings': 4, 'xOver': 363, 'wickets': 10}, # Tongue 352 all out (102.5 ov)
     ]
 
     return {
         'matchId': 'adelaide-test-2025',
         'city': 'Adelaide',
         'dates': 'Dec 17-21, 2025',
-        'result': 'In progress (Day 4)',
-        'days': 4,
+        'result': 'Australia won by 82 runs',
+        'days': 5,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
