@@ -771,6 +771,157 @@ def generate_adelaide_test():
     }
 
 
+def generate_melbourne_test():
+    """Generate Melbourne Boxing Day Test - Day 1 (20-wicket day)"""
+    states = []
+
+    # Innings 1: Australia 152 all out (45.2 overs) - Josh Tongue 5-45
+    # 72/4 at lunch (25 overs), then collapsed to 152 all out
+    for over in range(0, 46, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 10:
+            # Early wickets: Weatherald and Head
+            runs = int(over * 2.8)
+            wickets = 1 if over >= 6 else 0
+        elif over == 25:
+            # Lunch: 72/4
+            runs, wickets = 72, 4
+        elif over <= 20:
+            # Building to lunch
+            runs = int(28 + (72 - 28) * (over - 10) / 15)
+            wickets = min(3, 1 + (over - 10) // 6)
+        elif over <= 40:
+            # Post-lunch collapse: 130/8
+            runs = int(72 + (130 - 72) * (over - 25) / 15)
+            wickets = min(8, 4 + (over - 27) // 4)
+        else:
+            # Tail wagging: Neser 35, finished 152 all out
+            runs = int(130 + (152 - 130) * (over - 40) / 5)
+            wickets = 10 if over >= 45 else min(9, 8 + (over - 40) // 3)
+
+        # Lead from Australia's perspective (batting team)
+        lead = runs
+        states.append({
+            'matchId': 'melbourne-test-2025',
+            'innings': 1,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': lead,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - over * 6,
+            'completedInnings': 0,
+            'isChasing': False
+        })
+
+    # Innings 2: England 110 all out (29.5 overs) - Neser 4-45, Boland 3-30
+    # Rapid collapse, only Brook 41 resisted
+    aus_inn1_overs = 45
+    overs_to_include = list(range(0, 31, 5)) + [30]
+    for over in sorted(set(overs_to_include)):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 10:
+            # Early wickets: Duckett and Crawley fall
+            runs = int(over * 2.5)
+            wickets = 1 if over >= 6 else 0
+        elif over <= 20:
+            # Brook counter-attack: 41 off 34 balls, 70/5 at over 20
+            runs = int(25 + (70 - 25) * (over - 10) / 10)
+            wickets = min(5, 1 + (over - 10) // 3)
+        elif over == 30:
+            # All out for 110
+            runs, wickets = 110, 10
+        else:
+            # Final collapse: towards 110 all out
+            runs = int(70 + (110 - 70) * (over - 20) / 10)
+            wickets = min(9, 5 + (over - 20) // 2)
+
+        # Lead from England's perspective (batting team)
+        # England trailing by (152 - runs)
+        lead = runs - 152
+        states.append({
+            'matchId': 'melbourne-test-2025',
+            'innings': 2,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': lead,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (aus_inn1_overs + over) * 6,
+            'completedInnings': 1,
+            'isChasing': True
+        })
+
+    # Innings 3: Australia 2nd innings - 4/0 at stumps (1 over)
+    eng_inn2_overs = 30
+    for over in [0, 1]:
+        if over == 0:
+            runs, wickets = 0, 0
+        else:
+            runs, wickets = 4, 0
+
+        # Lead from Australia's perspective
+        # Australia lead by (152 - 110) + runs = 42 + runs
+        lead = 42 + runs
+        states.append({
+            'matchId': 'melbourne-test-2025',
+            'innings': 3,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': wickets,
+            'ballsBowled': over * 6,
+            'lead': lead,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (aus_inn1_overs + eng_inn2_overs + over) * 6,
+            'completedInnings': 2,
+            'isChasing': False
+        })
+
+    # Add batting teams (Australia batted first)
+    states = add_batting_teams(states, first_batting='Australia')
+
+    # Manually specify wicket fall overs
+    wicket_falls = [
+        # Innings 1: Australia 152 all out - early wickets then collapse
+        {'innings': 1, 'xOver': 6, 'wickets': 1},   # Weatherald 10
+        {'innings': 1, 'xOver': 12, 'wickets': 2},  # Head 12
+        {'innings': 1, 'xOver': 18, 'wickets': 3},  # Labuschagne 9
+        {'innings': 1, 'xOver': 24, 'wickets': 4},  # Smith 6, lunch 72/4
+        {'innings': 1, 'xOver': 30, 'wickets': 5},  # Khawaja 29
+        {'innings': 1, 'xOver': 34, 'wickets': 6},  # Green 17
+        {'innings': 1, 'xOver': 37, 'wickets': 7},  # Carey 20
+        {'innings': 1, 'xOver': 42, 'wickets': 8},  # Starc
+        {'innings': 1, 'xOver': 44, 'wickets': 9},  # Boland
+        {'innings': 1, 'xOver': 45, 'wickets': 10}, # All out 152
+
+        # Innings 2: England 110 all out - rapid collapse
+        {'innings': 2, 'xOver': 51, 'wickets': 1},  # Duckett
+        {'innings': 2, 'xOver': 56, 'wickets': 2},  # Crawley
+        {'innings': 2, 'xOver': 59, 'wickets': 3},  # Pope
+        {'innings': 2, 'xOver': 63, 'wickets': 4},  # Root
+        {'innings': 2, 'xOver': 66, 'wickets': 5},  # Brook 41
+        {'innings': 2, 'xOver': 68, 'wickets': 6},  # Stokes
+        {'innings': 2, 'xOver': 71, 'wickets': 7},  # Bethell
+        {'innings': 2, 'xOver': 73, 'wickets': 8},  # Atkinson 28
+        {'innings': 2, 'xOver': 74, 'wickets': 9},  # Carse
+        {'innings': 2, 'xOver': 75, 'wickets': 10}, # All out 110
+    ]
+
+    return {
+        'matchId': 'melbourne-test-2025',
+        'city': 'Melbourne',
+        'dates': 'Dec 26-30, 2025',
+        'result': 'In progress (Day 1)',
+        'days': 1,
+        'states': states,
+        'wicket_falls_manual': wicket_falls
+    }
+
+
 def cumulative_overs_at_innings_start(states, target_innings):
     """Calculate cumulative overs at the start of a given innings"""
     cumulative = 0
@@ -782,13 +933,14 @@ def cumulative_overs_at_innings_start(states, target_innings):
 
 
 def main():
-    # Generate data for all three tests
+    # Generate data for all four tests
     perth = generate_perth_test()
     brisbane = generate_brisbane_test()
     adelaide = generate_adelaide_test()
+    melbourne = generate_melbourne_test()
 
     # Calculate probabilities for all states
-    for test_data in [perth, brisbane, adelaide]:
+    for test_data in [perth, brisbane, adelaide, melbourne]:
         prob_points = []
         cumulative_overs = 0
         innings_boundaries = [0]  # Track where each innings starts
@@ -1010,10 +1162,10 @@ def main():
 
         test_data['wicketFalls'] = wicket_falls
 
-    # Save all three tests
+    # Save all four tests
     output = {
         'series': 'The Ashes 2025-26',
-        'tests': [adelaide, brisbane, perth]  # Adelaide first (in progress)
+        'tests': [melbourne, adelaide, brisbane, perth]  # Melbourne first (in progress)
     }
 
     output_path = Path(__file__).parent.parent.parent / "ui" / "src" / "data" / "ashes-series-2025.json"
@@ -1023,7 +1175,8 @@ def main():
     print(f"✓ Generated Ashes series worm data")
     print(f"  Perth: {len(perth['probabilities'])} points ({perth['days']} days)")
     print(f"  Brisbane: {len(brisbane['probabilities'])} points ({brisbane['days']} days)")
-    print(f"  Adelaide: {len(adelaide['probabilities'])} points ({adelaide['days']} day)")
+    print(f"  Adelaide: {len(adelaide['probabilities'])} points ({adelaide['days']} days)")
+    print(f"  Melbourne: {len(melbourne['probabilities'])} points ({melbourne['days']} day)")
     print(f"\n  Saved to: {output_path}")
 
 
