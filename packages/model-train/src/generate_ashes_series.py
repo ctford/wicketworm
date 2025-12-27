@@ -856,13 +856,38 @@ def generate_melbourne_test():
             'isChasing': True
         })
 
-    # Innings 3: Australia 2nd innings - 4/0 at stumps (1 over)
+    # Innings 3: Australia 2nd innings - 132 all out (34.3 overs)
+    # Head 46, Smith 24*, Carse 4-34, Stokes 3-24
     eng_inn2_overs = 30
-    for over in [0, 1]:
+    overs_to_include = list(range(0, 36, 5)) + [1, 21, 31, 35]
+    for over in sorted(set(overs_to_include)):
         if over == 0:
             runs, wickets = 0, 0
-        else:
+        elif over == 1:
+            # Stumps Day 1
             runs, wickets = 4, 0
+        elif over <= 10:
+            # Early wickets: Boland 22/1
+            runs = int(over * 4)
+            wickets = 1 if over >= 6 else 0
+        elif over <= 21:
+            # Head building: 82/4 at over 21
+            runs = int(40 + (82 - 40) * (over - 10) / 11)
+            wickets = min(4, 1 + (over - 10) // 4)
+        elif over == 31:
+            # Collapse: 120/8
+            runs, wickets = 120, 8
+        elif over <= 30:
+            # Middle order: Khawaja, Carey fall
+            runs = int(82 + (119 - 82) * (over - 21) / 9)
+            wickets = min(7, 4 + (over - 22) // 3)
+        elif over == 35:
+            # All out 132
+            runs, wickets = 132, 10
+        else:
+            # Final wickets
+            runs = int(120 + (132 - 120) * (over - 31) / 4)
+            wickets = min(10, 8 + (over - 31) // 2)
 
         # Lead from Australia's perspective
         # Australia lead by (152 - 110) + runs = 42 + runs
@@ -872,13 +897,55 @@ def generate_melbourne_test():
             'innings': 3,
             'over': over,
             'runsFor': runs,
-            'wicketsDown': wickets,
+            'wicketsDown': min(wickets, 10),
             'ballsBowled': over * 6,
             'lead': lead,
             'matchOversLimit': 450,
             'ballsRemaining': 450 * 6 - (aus_inn1_overs + eng_inn2_overs + over) * 6,
             'completedInnings': 2,
             'isChasing': False
+        })
+
+    # Innings 4: England 2nd innings - 178/6 chasing 175 (won by 4 wickets)
+    # Bethell 40, Brook 18, Root 15
+    aus_inn3_overs = 35
+    overs_to_include = list(range(0, 46, 5)) + [45]
+    for over in sorted(set(overs_to_include)):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 15:
+            # Early scoring: Crawley and Bethell
+            runs = int(over * 3.5)
+            wickets = 1 if over >= 10 else 0
+        elif over <= 30:
+            # Middle order: Bethell 40, Brook 18, Root 15
+            runs = int(52 + (130 - 52) * (over - 15) / 15)
+            wickets = min(5, 1 + (over - 15) // 5)
+        elif over == 45:
+            # Victory: 178/6
+            runs, wickets = 178, 6
+        else:
+            # Final runs: Brook and Smith see England home
+            runs = int(130 + (178 - 130) * (over - 30) / 15)
+            wickets = 6
+
+        # Lead from England's perspective (chasing)
+        # Target is 175, England needs (175 - runs) more
+        lead = runs - 174  # Australia set 175
+        target = 175
+        states.append({
+            'matchId': 'melbourne-test-2025',
+            'innings': 4,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': lead,
+            'target': target,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (aus_inn1_overs + eng_inn2_overs + aus_inn3_overs + over) * 6,
+            'completedInnings': 3,
+            'isChasing': True
         })
 
     # Add batting teams (Australia batted first)
@@ -909,14 +976,35 @@ def generate_melbourne_test():
         {'innings': 2, 'xOver': 73, 'wickets': 8},  # Atkinson 28
         {'innings': 2, 'xOver': 74, 'wickets': 9},  # Carse
         {'innings': 2, 'xOver': 75, 'wickets': 10}, # All out 110
+
+        # Innings 3: Australia 2nd innings - 132 all out (Head 46, Carse 4-34)
+        {'innings': 3, 'xOver': 82, 'wickets': 1},  # Boland 22/1 (6.1 ov)
+        {'innings': 3, 'xOver': 86, 'wickets': 2},  # Weatherald 40/2 (10.5 ov)
+        {'innings': 3, 'xOver': 92, 'wickets': 3},  # Labuschagne 61/3 (17.1 ov)
+        {'innings': 3, 'xOver': 96, 'wickets': 4},  # Head 46, 82/4 (20.6 ov)
+        {'innings': 3, 'xOver': 97, 'wickets': 5},  # Khawaja 83/5 (21.3 ov)
+        {'innings': 3, 'xOver': 98, 'wickets': 6},  # Carey 88/6 (22.5 ov)
+        {'innings': 3, 'xOver': 106, 'wickets': 7}, # Green 119/7 (30.5 ov)
+        {'innings': 3, 'xOver': 107, 'wickets': 8}, # Neser 120/8 (31.5 ov)
+        {'innings': 3, 'xOver': 107, 'wickets': 9}, # Starc 121/9 (31.6 ov)
+        {'innings': 3, 'xOver': 110, 'wickets': 10}, # Richardson 132 all out (34.3 ov)
+
+        # Innings 4: England 2nd innings - 178/6 (won by 4 wickets chasing 175)
+        # Bethell 40, Brook 18, Root 15
+        {'innings': 4, 'xOver': 120, 'wickets': 1}, # Crawley lbw Boland
+        {'innings': 4, 'xOver': 128, 'wickets': 2}, # Bethell c Khawaja b Boland
+        {'innings': 4, 'xOver': 133, 'wickets': 3}, # Root 15 lbw Richardson
+        {'innings': 4, 'xOver': 138, 'wickets': 4}, # Pope
+        {'innings': 4, 'xOver': 143, 'wickets': 5}, # Stokes 2
+        {'innings': 4, 'xOver': 150, 'wickets': 6}, # (lost 6 wickets total)
     ]
 
     return {
         'matchId': 'melbourne-test-2025',
         'city': 'Melbourne',
-        'dates': 'Dec 26-30, 2025',
-        'result': 'In progress (Day 1)',
-        'days': 1,
+        'dates': 'Dec 26-27, 2025',
+        'result': 'England won by 4 wickets',
+        'days': 2,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
