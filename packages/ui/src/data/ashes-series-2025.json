@@ -2,6 +2,361 @@
   "series": "The Ashes 2025-26",
   "tests": [
     {
+      "matchId": "sydney-test-2026",
+      "city": "Sydney",
+      "dates": "Jan 4-8, 2026",
+      "result": "In progress (Day 1, rain-affected)",
+      "days": 1,
+      "states": [
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 0,
+          "runsFor": 0,
+          "wicketsDown": 0,
+          "ballsBowled": 0,
+          "lead": 0,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2700,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 5,
+          "runsFor": 22,
+          "wicketsDown": 1,
+          "ballsBowled": 30,
+          "lead": 22,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2670,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 10,
+          "runsFor": 44,
+          "wicketsDown": 2,
+          "ballsBowled": 60,
+          "lead": 44,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2640,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 13,
+          "runsFor": 57,
+          "wicketsDown": 3,
+          "ballsBowled": 78,
+          "lead": 57,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2622,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 15,
+          "runsFor": 66,
+          "wicketsDown": 3,
+          "ballsBowled": 90,
+          "lead": 66,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2610,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 20,
+          "runsFor": 90,
+          "wicketsDown": 3,
+          "ballsBowled": 120,
+          "lead": 90,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2580,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 25,
+          "runsFor": 114,
+          "wicketsDown": 3,
+          "ballsBowled": 150,
+          "lead": 114,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2550,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 30,
+          "runsFor": 138,
+          "wicketsDown": 3,
+          "ballsBowled": 180,
+          "lead": 138,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2520,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 35,
+          "runsFor": 162,
+          "wicketsDown": 3,
+          "ballsBowled": 210,
+          "lead": 162,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2490,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 40,
+          "runsFor": 186,
+          "wicketsDown": 3,
+          "ballsBowled": 240,
+          "lead": 186,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2460,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 45,
+          "runsFor": 211,
+          "wicketsDown": 3,
+          "ballsBowled": 270,
+          "lead": 211,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2430,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        }
+      ],
+      "wicket_falls_manual": [
+        {
+          "innings": 1,
+          "xOver": 5,
+          "wickets": 1,
+          "score": "~22/1"
+        },
+        {
+          "innings": 1,
+          "xOver": 9,
+          "wickets": 2,
+          "score": "~44/2"
+        },
+        {
+          "innings": 1,
+          "xOver": 13,
+          "wickets": 3,
+          "score": "~57/3"
+        }
+      ],
+      "probabilities": [
+        {
+          "xOver": 0,
+          "innings": 1,
+          "over": 0,
+          "score": "0/0",
+          "pWin": 0.8388144969940186,
+          "pDraw": 0.04518059641122818,
+          "pLoss": 0.11600486189126968,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.3628627061843872,
+          "pDraw_scorecard": 0.261140376329422,
+          "pLoss_scorecard": 0.3759968876838684
+        },
+        {
+          "xOver": 5,
+          "innings": 1,
+          "over": 5,
+          "score": "22/1",
+          "pWin": 0.8368361592292786,
+          "pDraw": 0.04573514685034752,
+          "pLoss": 0.117428719997406,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.30336716771125793,
+          "pDraw_scorecard": 0.25370123982429504,
+          "pLoss_scorecard": 0.442931592464447
+        },
+        {
+          "xOver": 10,
+          "innings": 1,
+          "over": 10,
+          "score": "44/2",
+          "pWin": 0.8436498641967773,
+          "pDraw": 0.04259874299168587,
+          "pLoss": 0.11375141888856888,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.39280298352241516,
+          "pDraw_scorecard": 0.20101189613342285,
+          "pLoss_scorecard": 0.4061851501464844
+        },
+        {
+          "xOver": 13,
+          "innings": 1,
+          "over": 13,
+          "score": "57/3",
+          "pWin": 0.8461021780967712,
+          "pDraw": 0.04193057492375374,
+          "pLoss": 0.11196722090244293,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.5015800595283508,
+          "pDraw_scorecard": 0.19277390837669373,
+          "pLoss_scorecard": 0.30564606189727783
+        },
+        {
+          "xOver": 15,
+          "innings": 1,
+          "over": 15,
+          "score": "66/3",
+          "pWin": 0.8320332765579224,
+          "pDraw": 0.04576071724295616,
+          "pLoss": 0.12220600247383118,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.4319855272769928,
+          "pDraw_scorecard": 0.2196909785270691,
+          "pLoss_scorecard": 0.3483234643936157
+        },
+        {
+          "xOver": 20,
+          "innings": 1,
+          "over": 20,
+          "score": "90/3",
+          "pWin": 0.8007007837295532,
+          "pDraw": 0.057258494198322296,
+          "pLoss": 0.14204072952270508,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.33370110392570496,
+          "pDraw_scorecard": 0.267645925283432,
+          "pLoss_scorecard": 0.39865297079086304
+        },
+        {
+          "xOver": 25,
+          "innings": 1,
+          "over": 25,
+          "score": "114/3",
+          "pWin": 0.7904381155967712,
+          "pDraw": 0.05927672237157822,
+          "pLoss": 0.15028519928455353,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.32612869143486023,
+          "pDraw_scorecard": 0.27339401841163635,
+          "pLoss_scorecard": 0.4004773199558258
+        },
+        {
+          "xOver": 30,
+          "innings": 1,
+          "over": 30,
+          "score": "138/3",
+          "pWin": 0.7704905271530151,
+          "pDraw": 0.06491906940937042,
+          "pLoss": 0.16459035873413086,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.30235859751701355,
+          "pDraw_scorecard": 0.2830377221107483,
+          "pLoss_scorecard": 0.41460373997688293
+        },
+        {
+          "xOver": 35,
+          "innings": 1,
+          "over": 35,
+          "score": "162/3",
+          "pWin": 0.720283567905426,
+          "pDraw": 0.07961323857307434,
+          "pLoss": 0.20010317862033844,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.2738451659679413,
+          "pDraw_scorecard": 0.32295700907707214,
+          "pLoss_scorecard": 0.4031978249549866
+        },
+        {
+          "xOver": 40,
+          "innings": 1,
+          "over": 40,
+          "score": "186/3",
+          "pWin": 0.6514564156532288,
+          "pDraw": 0.09920290857553482,
+          "pLoss": 0.24934066832065582,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.24194058775901794,
+          "pDraw_scorecard": 0.33158639073371887,
+          "pLoss_scorecard": 0.4264729917049408
+        },
+        {
+          "xOver": 45,
+          "innings": 1,
+          "over": 45,
+          "score": "211/3",
+          "pWin": 0.6254450082778931,
+          "pDraw": 0.10812214761972427,
+          "pLoss": 0.26643285155296326,
+          "usedMonteCarlo": false,
+          "pWin_scorecard": 0.23117652535438538,
+          "pDraw_scorecard": 0.3505287766456604,
+          "pLoss_scorecard": 0.4182946979999542
+        }
+      ],
+      "inningsBoundaries": [
+        {
+          "innings": 1,
+          "xOver": 0,
+          "battingTeam": "England"
+        }
+      ],
+      "wicketFalls": [
+        {
+          "innings": 1,
+          "xOver": 5,
+          "wickets": 1,
+          "score": "~22/1"
+        },
+        {
+          "innings": 1,
+          "xOver": 9,
+          "wickets": 2,
+          "score": "~44/2"
+        },
+        {
+          "innings": 1,
+          "xOver": 13,
+          "wickets": 3,
+          "score": "~57/3"
+        }
+      ]
+    },
+    {
       "matchId": "melbourne-test-2025",
       "city": "Melbourne",
       "dates": "Dec 26-27, 2025",

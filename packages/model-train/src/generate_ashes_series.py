@@ -1010,6 +1010,75 @@ def generate_melbourne_test():
     }
 
 
+def generate_sydney_test():
+    """
+    Sydney Test (Jan 4-8, 2026) - Day 1 stumps
+    England won toss and batted
+    England: 211/3 (45 overs) - Root 72*, Brook 78*
+    Match in progress
+    """
+    states = []
+
+    # Innings 1: England 211/3 (45 overs at stumps Day 1)
+    # Early collapse to 57/3, then Root-Brook partnership (154*)
+    overs_to_include = list(range(0, 46, 5)) + [13, 45]
+    for over in sorted(set(overs_to_include)):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 13:
+            # Early wickets: 57/3 at over 13
+            if over == 13:
+                runs, wickets = 57, 3
+            else:
+                runs = int(over * 4.4)
+                wickets = min(2, over // 5)
+        elif over <= 45:
+            # Root-Brook partnership: from 57/3 to 211/3
+            # Partnership of 154 runs over 32 overs (4.8 run rate)
+            runs = int(57 + (211 - 57) * (over - 13) / 32)
+            wickets = 3
+        else:
+            # Safety fallback
+            runs = int(over * 4.7)
+            wickets = 3
+
+        states.append({
+            'matchId': 'sydney-test-2026',
+            'innings': 1,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': runs,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - over * 6,
+            'completedInnings': 0,
+            'isChasing': False
+        })
+
+    # Add batting teams (England batted first)
+    states = add_batting_teams(states, first_batting='England')
+
+    # Manually specify wicket fall overs
+    wicket_falls = [
+        # Innings 1: England 211/3 - early collapse then recovery
+        {'innings': 1, 'xOver': 5, 'wickets': 1},   # Early wicket
+        {'innings': 1, 'xOver': 9, 'wickets': 2},   # Second wicket
+        {'innings': 1, 'xOver': 13, 'wickets': 3},  # 57/3 - third wicket
+        # Root-Brook still batting at stumps
+    ]
+
+    return {
+        'matchId': 'sydney-test-2026',
+        'city': 'Sydney',
+        'dates': 'Jan 4-8, 2026',
+        'result': 'In progress (Day 1, rain-affected)',
+        'days': 1,
+        'states': states,
+        'wicket_falls_manual': wicket_falls
+    }
+
+
 def cumulative_overs_at_innings_start(states, target_innings):
     """Calculate cumulative overs at the start of a given innings"""
     cumulative = 0
@@ -1021,14 +1090,15 @@ def cumulative_overs_at_innings_start(states, target_innings):
 
 
 def main():
-    # Generate data for all four tests
+    # Generate data for all five tests
     perth = generate_perth_test()
     brisbane = generate_brisbane_test()
     adelaide = generate_adelaide_test()
     melbourne = generate_melbourne_test()
+    sydney = generate_sydney_test()
 
     # Calculate probabilities for all states
-    for test_data in [perth, brisbane, adelaide, melbourne]:
+    for test_data in [perth, brisbane, adelaide, melbourne, sydney]:
         prob_points = []
         cumulative_overs = 0
         innings_boundaries = [0]  # Track where each innings starts
@@ -1250,10 +1320,10 @@ def main():
 
         test_data['wicketFalls'] = wicket_falls
 
-    # Save all four tests
+    # Save all five tests
     output = {
         'series': 'The Ashes 2025-26',
-        'tests': [melbourne, adelaide, brisbane, perth]  # Melbourne first (in progress)
+        'tests': [sydney, melbourne, adelaide, brisbane, perth]  # Sydney first (in progress)
     }
 
     output_path = Path(__file__).parent.parent.parent / "ui" / "src" / "data" / "ashes-series-2025.json"
@@ -1264,7 +1334,8 @@ def main():
     print(f"  Perth: {len(perth['probabilities'])} points ({perth['days']} days)")
     print(f"  Brisbane: {len(brisbane['probabilities'])} points ({brisbane['days']} days)")
     print(f"  Adelaide: {len(adelaide['probabilities'])} points ({adelaide['days']} days)")
-    print(f"  Melbourne: {len(melbourne['probabilities'])} points ({melbourne['days']} day)")
+    print(f"  Melbourne: {len(melbourne['probabilities'])} points ({melbourne['days']} days)")
+    print(f"  Sydney: {len(sydney['probabilities'])} points ({sydney['days']} day)")
     print(f"\n  Saved to: {output_path}")
 
 

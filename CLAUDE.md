@@ -6,9 +6,53 @@ This document describes how to maintain and update the WicketWorm cricket match 
 
 The visualization data for Ashes tests is manually curated in `packages/model-train/src/generate_ashes_series.py`.
 
+### Finding Scorecard Data Online
+
+When a new match day completes or you need to add a new test, retrieve the scorecard data from online sources:
+
+#### Recommended Sources
+
+1. **ESPN Cricinfo** (Primary source)
+   - URL pattern: `https://www.espncricinfo.com/series/the-ashes-2025-26-{series-id}/`
+   - Search query: `"[Test name] Ashes 2025-26 scorecard Cricinfo"`
+   - Example: "Sydney Test Ashes 2025-26 scorecard Cricinfo"
+
+2. **Cricket Australia** (Alternative)
+   - URL: `https://www.cricket.com.au/matches`
+   - Search query: `"[Test name] Ashes cricket.com.au live scorecard"`
+
+3. **Other reliable sources**: Wisden, CricketNews
+
+#### Required Information
+
+When gathering scorecard data, collect:
+
+- **Toss winner**: Which team won the toss and chose to bat/bowl
+- **Innings scores**: Runs, wickets, and overs at regular intervals
+  - At stumps (end of day)
+  - At lunch/tea if available
+  - Key moments (e.g., "57/3 at over 13")
+- **Individual scores**: Top batsmen and their scores (for context)
+- **Bowling figures**: Main wicket-takers (optional but helpful)
+- **Match status**: Days completed, weather interruptions
+
+#### Search Strategy
+
+Use WebSearch with queries like:
+```
+"Sydney Test 5th Test Ashes 2026 England Australia SCG scorecard stumps"
+```
+
+Then use WebFetch to extract detailed data from the scorecard page.
+
+**Note**: Some websites (like Cricinfo) may block automated requests with 403 errors. In these cases:
+- Try alternative sources (Cricket Australia, Wisden)
+- Look for match reports that summarize the day's play
+- Search for "day 1 highlights" or "stumps report"
+
 ### How to Update In-Progress Tests
 
-When a test match is in progress (like Adelaide), update the match data by editing the relevant function in `generate_ashes_series.py`:
+When a test match is in progress, update the match data by editing the relevant function in `generate_ashes_series.py`:
 
 #### 1. Locate the Test Function
 
