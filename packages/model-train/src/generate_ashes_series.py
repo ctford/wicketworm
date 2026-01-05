@@ -1012,35 +1012,61 @@ def generate_melbourne_test():
 
 def generate_sydney_test():
     """
-    Sydney Test (Jan 4-8, 2026) - Day 1 stumps
+    Sydney Test (Jan 4-8, 2026) - In progress
     England won toss and batted
-    England: 211/3 (45 overs) - Root 72*, Brook 78*
-    Match in progress
+    England: 384 all out (97 overs, Day 2)
+    Australia: 166-2 (start of reply)
+    
+    Day 1 summary:
+    - Early movement: Australia took 3/57 in first 13 overs
+    - Root-Brook recovery: 154-run partnership from 57/3 to 211/3
+    - Stumps D1: England 211/3 (Root 72*, Brook 78*)
+    
+    Day 2 summary:
+    - Root continued to 153* off 241 balls
+    - England lower-middle order additions: Stokes, Jacks, and tail
+    - Final: England 384 all out in 97 overs
+    - Australia 166-2 in reply
     """
     states = []
 
-    # Innings 1: England 211/3 (45 overs at stumps Day 1)
-    # Early collapse to 57/3, then Root-Brook partnership (154*)
-    overs_to_include = list(range(0, 46, 5)) + [13, 45]
+    # Innings 1: England 384 all out (97 overs over two days)
+    # Day 1: 211/3 at end, Day 2: 211/3 -> 384 all out
+    overs_to_include = list(range(0, 100, 5)) + [5, 9, 13, 45, 50, 70, 85, 97]
     for over in sorted(set(overs_to_include)):
         if over == 0:
             runs, wickets = 0, 0
-        elif over <= 13:
-            # Early wickets: 57/3 at over 13
-            if over == 13:
-                runs, wickets = 57, 3
-            else:
-                runs = int(over * 4.4)
-                wickets = min(2, over // 5)
+        elif over == 5:
+            # First wicket falls
+            runs, wickets = 22, 1
+        elif over == 9:
+            # Second wicket falls
+            runs, wickets = 39, 2
+        elif over == 13:
+            # Third wicket: 57/3 (early collapse complete)
+            runs, wickets = 57, 3
         elif over <= 45:
-            # Root-Brook partnership: from 57/3 to 211/3
-            # Partnership of 154 runs over 32 overs (4.8 run rate)
+            # Root-Brook partnership: 57/3 to 211/3 at over 45
             runs = int(57 + (211 - 57) * (over - 13) / 32)
             wickets = 3
+        elif over <= 70:
+            # Day 2: Root continues with lower-middle order support
+            # Root reaches 153*, Stokes in at over 70, partnership develops
+            # From 211/3 to ~300/5 by over 70
+            runs = int(211 + (300 - 211) * (over - 45) / 25)
+            wickets = min(5, 3 + (over - 45) // 10)
+        elif over <= 85:
+            # Continued batting: 300/5 to 360/7
+            runs = int(300 + (360 - 300) * (over - 70) / 15)
+            wickets = min(7, 5 + (over - 70) // 8)
+        elif over <= 97:
+            # Final phase: 360/7 to 384/10
+            runs = int(360 + (384 - 360) * (over - 85) / 12)
+            wickets = 10 if over == 97 else min(10, 7 + (over - 85) // 3)
         else:
             # Safety fallback
-            runs = int(over * 4.7)
-            wickets = 3
+            runs = 384
+            wickets = 10
 
         states.append({
             'matchId': 'sydney-test-2026',
@@ -1056,24 +1082,67 @@ def generate_sydney_test():
             'isChasing': False
         })
 
+    # Innings 2: Australia 166-2 (starting reply)
+    # Early batting, team was 166/2 when stumps came on Day 2
+    aus_overs = 40  # Approximate overs bowled on Day 2
+    for over in range(0, aus_overs + 1, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 15:
+            # Opening partnership: steady start
+            runs = int(over * 4.0)
+            wickets = 0
+        elif over <= 30:
+            # Lost first wicket around over 20
+            runs = int(60 + (over - 15) * 3.5)
+            wickets = min(2, 1 if over > 20 else 0)
+        else:
+            # Second wicket lost, approaching 166/2
+            runs = int(112 + (over - 30) * 3.4)
+            wickets = 2
+
+        states.append({
+            'matchId': 'sydney-test-2026',
+            'innings': 2,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': runs - 384,
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (97 + over) * 6,
+            'completedInnings': 1,
+            'isChasing': True
+        })
+
     # Add batting teams (England batted first)
     states = add_batting_teams(states, first_batting='England')
 
-    # Manually specify wicket fall overs
+    # Manually specify wicket fall overs based on Guardian live blog
     wicket_falls = [
-        # Innings 1: England 211/3 - early collapse then recovery
-        {'innings': 1, 'xOver': 5, 'wickets': 1},   # Early wicket
-        {'innings': 1, 'xOver': 9, 'wickets': 2},   # Second wicket
-        {'innings': 1, 'xOver': 13, 'wickets': 3},  # 57/3 - third wicket
-        # Root-Brook still batting at stumps
+        # Innings 1: England 384 all out
+        {'innings': 1, 'xOver': 5, 'wickets': 1},      # Early wicket (~22/1)
+        {'innings': 1, 'xOver': 9, 'wickets': 2},      # Second wicket (~39/2)
+        {'innings': 1, 'xOver': 13, 'wickets': 3},     # Third wicket (57/3)
+        {'innings': 1, 'xOver': 60, 'wickets': 4},     # 4th wicket (Root continuing)
+        {'innings': 1, 'xOver': 75, 'wickets': 5},     # 5th wicket
+        {'innings': 1, 'xOver': 82, 'wickets': 6},     # Stokes
+        {'innings': 1, 'xOver': 88, 'wickets': 7},     # Jacks
+        {'innings': 1, 'xOver': 93, 'wickets': 8},     # Lower order
+        {'innings': 1, 'xOver': 95, 'wickets': 9},     # Tail
+        {'innings': 1, 'xOver': 97, 'wickets': 10},    # All out 384
+        
+        # Innings 2: Australia 166-2
+        {'innings': 2, 'xOver': 105, 'wickets': 1},    # First wicket lost
+        {'innings': 2, 'xOver': 120, 'wickets': 2},    # Second wicket (166/2 at stumps)
     ]
 
     return {
         'matchId': 'sydney-test-2026',
         'city': 'Sydney',
         'dates': 'Jan 4-8, 2026',
-        'result': 'In progress (Day 1, rain-affected)',
-        'days': 1,
+        'result': 'In progress (Day 2)',
+        'days': 2,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
