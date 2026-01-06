@@ -1082,62 +1082,15 @@ def generate_sydney_test():
             'isChasing': False
         })
 
-    # Innings 2: Australia 518/7 (Day 2-3)
-    # Strong reply, still batting at end of Day 3
-    aus_overs = 124  # Australia at 124 overs, 7 wickets down
-    overs_aus_list = sorted(set(list(range(0, 125, 5)) + [57, 162, 234, 288, 339, 366, 437, 124]))
-    for over in sorted(set(overs_aus_list)):
+    # Innings 2: Australia 518/7 (Day 2-3, end of play)
+    # Linear interpolation from 0 to 518/7 at over 124
+    for over in range(0, 125, 5):
         if over == 0:
             runs, wickets = 0, 0
-        elif over == 57:
-            # Weatherald 21, first wicket falls
-            runs, wickets = 57, 1
-        elif over <= 162:
-            # Labuschagne batting: 57/1 to 162/2
-            if over < 162:
-                runs = int(57 + (162 - 57) * (over - 57) / (162 - 57))
-            else:
-                runs = 162
-            wickets = 2 if over >= 162 else 1
-        elif over <= 234:
-            # Neser batting: 162/2 to 234/3
-            if over < 234:
-                runs = int(162 + (234 - 162) * (over - 162) / (234 - 162))
-            else:
-                runs = 234
-            wickets = 3 if over >= 234 else 2
-        elif over <= 288:
-            # Head's innings: 234/3 to 288/4
-            if over < 288:
-                runs = int(234 + (288 - 234) * (over - 288) / (288 - 234))
-            else:
-                runs = 288
-            wickets = 4 if over >= 288 else 3
-        elif over <= 339:
-            # Khawaja batting: 288/4 to 339/5
-            if over < 339:
-                runs = int(288 + (339 - 288) * (over - 288) / (339 - 288))
-            else:
-                runs = 339
-            wickets = 5 if over >= 339 else 4
-        elif over <= 366:
-            # Carey batting: 339/5 to 366/6
-            if over < 366:
-                runs = int(339 + (366 - 339) * (over - 339) / (366 - 339))
-            else:
-                runs = 366
-            wickets = 6 if over >= 366 else 5
-        elif over <= 437:
-            # Green batting: 366/6 to 437/7
-            if over < 437:
-                runs = int(366 + (437 - 366) * (over - 366) / (437 - 366))
-            else:
-                runs = 437
-            wickets = 7 if over >= 437 else 6
         else:
-            # Smith and Webster continuing: 437/7 to 518/7
-            runs = int(437 + (518 - 437) * (over - 437) / (124 - 437))
-            wickets = 7
+            # Linear interpolation to final state at over 124
+            runs = int(518 * over / 124)
+            wickets = min(7, int(7 * over / 124)) if over < 124 else 7
 
         states.append({
             'matchId': 'sydney-test-2026',
@@ -1157,6 +1110,8 @@ def generate_sydney_test():
     states = add_batting_teams(states, first_batting='England')
 
     # Manually specify wicket fall overs based on actual scorecard
+    # Innings 1 from actual ball-by-ball data
+    # Innings 2 wickets extrapolated linearly (7 wickets over 124 overs)
     wicket_falls = [
         # Innings 1: England 384 all out
         {'innings': 1, 'xOver': 5, 'wickets': 1},      # Duckett at 35
@@ -1170,14 +1125,14 @@ def generate_sydney_test():
         {'innings': 1, 'xOver': 96, 'wickets': 9},     # Root at 384
         {'innings': 1, 'xOver': 97, 'wickets': 10},    # Tongue at 384
         
-        # Innings 2: Australia 518/7 at end of Day 3
-        {'innings': 2, 'xOver': 97 + 57, 'wickets': 1},     # Weatherald at 57
-        {'innings': 2, 'xOver': 97 + 162, 'wickets': 2},    # Labuschagne at 162
-        {'innings': 2, 'xOver': 97 + 234, 'wickets': 3},    # Neser at 234
-        {'innings': 2, 'xOver': 97 + 288, 'wickets': 4},    # Head at 288
-        {'innings': 2, 'xOver': 97 + 339, 'wickets': 5},    # Khawaja at 339
-        {'innings': 2, 'xOver': 97 + 366, 'wickets': 6},    # Carey at 366
-        {'innings': 2, 'xOver': 97 + 437, 'wickets': 7},    # Green at 437
+        # Innings 2: Australia 518/7 (linear extrapolation of 7 wickets over 124 overs)
+        {'innings': 2, 'xOver': 97 + 18, 'wickets': 1},    # ~18 overs
+        {'innings': 2, 'xOver': 97 + 35, 'wickets': 2},    # ~35 overs
+        {'innings': 2, 'xOver': 97 + 53, 'wickets': 3},    # ~53 overs
+        {'innings': 2, 'xOver': 97 + 71, 'wickets': 4},    # ~71 overs
+        {'innings': 2, 'xOver': 97 + 88, 'wickets': 5},    # ~88 overs
+        {'innings': 2, 'xOver': 97 + 106, 'wickets': 6},   # ~106 overs
+        {'innings': 2, 'xOver': 97 + 120, 'wickets': 7},   # ~120 overs
     ]
 
     return {
