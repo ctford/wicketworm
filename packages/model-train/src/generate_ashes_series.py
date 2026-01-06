@@ -1082,24 +1082,62 @@ def generate_sydney_test():
             'isChasing': False
         })
 
-    # Innings 2: Australia 166-2 (starting reply)
-    # Early batting, team was 166/2 when stumps came on Day 2
-    aus_overs = 40  # Approximate overs bowled on Day 2
-    for over in range(0, aus_overs + 1, 5):
+    # Innings 2: Australia 518/7 (Day 2-3)
+    # Strong reply, still batting at end of Day 3
+    aus_overs = 124  # Australia at 124 overs, 7 wickets down
+    overs_aus_list = sorted(set(list(range(0, 125, 5)) + [57, 162, 234, 288, 339, 366, 437, 124]))
+    for over in sorted(set(overs_aus_list)):
         if over == 0:
             runs, wickets = 0, 0
-        elif over <= 15:
-            # Opening partnership: steady start
-            runs = int(over * 4.0)
-            wickets = 0
-        elif over <= 30:
-            # Lost first wicket around over 20
-            runs = int(60 + (over - 15) * 3.5)
-            wickets = min(2, 1 if over > 20 else 0)
+        elif over == 57:
+            # Weatherald 21, first wicket falls
+            runs, wickets = 57, 1
+        elif over <= 162:
+            # Labuschagne batting: 57/1 to 162/2
+            if over < 162:
+                runs = int(57 + (162 - 57) * (over - 57) / (162 - 57))
+            else:
+                runs = 162
+            wickets = 2 if over >= 162 else 1
+        elif over <= 234:
+            # Neser batting: 162/2 to 234/3
+            if over < 234:
+                runs = int(162 + (234 - 162) * (over - 162) / (234 - 162))
+            else:
+                runs = 234
+            wickets = 3 if over >= 234 else 2
+        elif over <= 288:
+            # Head's innings: 234/3 to 288/4
+            if over < 288:
+                runs = int(234 + (288 - 234) * (over - 288) / (288 - 234))
+            else:
+                runs = 288
+            wickets = 4 if over >= 288 else 3
+        elif over <= 339:
+            # Khawaja batting: 288/4 to 339/5
+            if over < 339:
+                runs = int(288 + (339 - 288) * (over - 288) / (339 - 288))
+            else:
+                runs = 339
+            wickets = 5 if over >= 339 else 4
+        elif over <= 366:
+            # Carey batting: 339/5 to 366/6
+            if over < 366:
+                runs = int(339 + (366 - 339) * (over - 339) / (366 - 339))
+            else:
+                runs = 366
+            wickets = 6 if over >= 366 else 5
+        elif over <= 437:
+            # Green batting: 366/6 to 437/7
+            if over < 437:
+                runs = int(366 + (437 - 366) * (over - 366) / (437 - 366))
+            else:
+                runs = 437
+            wickets = 7 if over >= 437 else 6
         else:
-            # Second wicket lost, approaching 166/2
-            runs = int(112 + (over - 30) * 3.4)
-            wickets = 2
+            # Smith and Webster continuing: 437/7 to 518/7
+            runs = int(437 + (518 - 437) * (over - 437) / (124 - 437))
+            wickets = 7
 
         states.append({
             'matchId': 'sydney-test-2026',
@@ -1118,31 +1156,36 @@ def generate_sydney_test():
     # Add batting teams (England batted first)
     states = add_batting_teams(states, first_batting='England')
 
-    # Manually specify wicket fall overs based on Guardian live blog
+    # Manually specify wicket fall overs based on actual scorecard
     wicket_falls = [
         # Innings 1: England 384 all out
-        {'innings': 1, 'xOver': 5, 'wickets': 1},      # Early wicket (~22/1)
-        {'innings': 1, 'xOver': 9, 'wickets': 2},      # Second wicket (~39/2)
-        {'innings': 1, 'xOver': 13, 'wickets': 3},     # Third wicket (57/3)
-        {'innings': 1, 'xOver': 60, 'wickets': 4},     # 4th wicket (Root continuing)
-        {'innings': 1, 'xOver': 75, 'wickets': 5},     # 5th wicket
-        {'innings': 1, 'xOver': 82, 'wickets': 6},     # Stokes
-        {'innings': 1, 'xOver': 88, 'wickets': 7},     # Jacks
-        {'innings': 1, 'xOver': 93, 'wickets': 8},     # Lower order
-        {'innings': 1, 'xOver': 95, 'wickets': 9},     # Tail
-        {'innings': 1, 'xOver': 97, 'wickets': 10},    # All out 384
+        {'innings': 1, 'xOver': 5, 'wickets': 1},      # Duckett at 35
+        {'innings': 1, 'xOver': 9, 'wickets': 2},      # Crawley at 51
+        {'innings': 1, 'xOver': 13, 'wickets': 3},     # Bethell at 57
+        {'innings': 1, 'xOver': 60, 'wickets': 4},     # Brook at 226
+        {'innings': 1, 'xOver': 65, 'wickets': 5},     # Stokes at 229
+        {'innings': 1, 'xOver': 82, 'wickets': 6},     # Smith at 323
+        {'innings': 1, 'xOver': 88, 'wickets': 7},     # Jacks at 375
+        {'innings': 1, 'xOver': 93, 'wickets': 8},     # Carse at 382
+        {'innings': 1, 'xOver': 96, 'wickets': 9},     # Root at 384
+        {'innings': 1, 'xOver': 97, 'wickets': 10},    # Tongue at 384
         
-        # Innings 2: Australia 166-2
-        {'innings': 2, 'xOver': 105, 'wickets': 1},    # First wicket lost
-        {'innings': 2, 'xOver': 120, 'wickets': 2},    # Second wicket (166/2 at stumps)
+        # Innings 2: Australia 518/7 at end of Day 3
+        {'innings': 2, 'xOver': 97 + 57, 'wickets': 1},     # Weatherald at 57
+        {'innings': 2, 'xOver': 97 + 162, 'wickets': 2},    # Labuschagne at 162
+        {'innings': 2, 'xOver': 97 + 234, 'wickets': 3},    # Neser at 234
+        {'innings': 2, 'xOver': 97 + 288, 'wickets': 4},    # Head at 288
+        {'innings': 2, 'xOver': 97 + 339, 'wickets': 5},    # Khawaja at 339
+        {'innings': 2, 'xOver': 97 + 366, 'wickets': 6},    # Carey at 366
+        {'innings': 2, 'xOver': 97 + 437, 'wickets': 7},    # Green at 437
     ]
 
     return {
         'matchId': 'sydney-test-2026',
         'city': 'Sydney',
         'dates': 'Jan 4-8, 2026',
-        'result': 'In progress (Day 2)',
-        'days': 2,
+        'result': 'In progress (Day 3)',
+        'days': 3,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
