@@ -1012,10 +1012,11 @@ def generate_melbourne_test():
 
 def generate_sydney_test():
     """
-    Sydney Test (Jan 4-8, 2026) - In progress
+    Sydney Test (Jan 4-8, 2026) - In progress (Day 4)
     England won toss and batted
-    England: 384 all out (97 overs, Day 2)
-    Australia: 166-2 (start of reply)
+    England: 384 all out (97.3 overs, Day 2)
+    Australia: 567 all out (133.5 overs, Day 4) - lead 183 runs
+    England: 302-8 (75 overs, Day 4)
     
     Day 1 summary:
     - Early movement: Australia took 3/57 in first 13 overs
@@ -1025,8 +1026,19 @@ def generate_sydney_test():
     Day 2 summary:
     - Root continued to 153* off 241 balls
     - England lower-middle order additions: Stokes, Jacks, and tail
-    - Final: England 384 all out in 97 overs
+    - Final: England 384 all out in 97.3 overs
     - Australia 166-2 in reply
+    
+    Day 3 summary:
+    - Australia continued: Head 163, Smith 129*, Webster 42*
+    - Final: Australia 518/7 at stumps (124 overs)
+    - England lead 134 runs
+    
+    Day 4 summary:
+    - Australia completed innings: 567 all out (133.5 overs)
+    - Head 163, Smith 138, Webster 71
+    - Australia lead by 183 runs
+    - England 2nd innings: Bethell 142*, currently 302-8 (75 overs)
     """
     states = []
 
@@ -1082,15 +1094,23 @@ def generate_sydney_test():
             'isChasing': False
         })
 
-    # Innings 2: Australia 518/7 (Day 2-3, end of play)
-    # Linear interpolation from 0 to 518/7 at over 124
-    for over in range(0, 125, 5):
+    # Innings 2: Australia 567 all out (Day 2-4)
+    # From 166/2 at 34 overs (Day 2) through 518/7 at 124 overs (Day 3) to 567/10 at 133.5 overs (Day 4)
+    for over in range(0, 135, 5):
         if over == 0:
             runs, wickets = 0, 0
+        elif over <= 34:
+            # Day 2: 166/2 at over 34
+            runs = int(166 * over / 34)
+            wickets = min(2, int(2 * over / 34))
+        elif over <= 124:
+            # Day 3: 166/2 (over 34) to 518/7 (over 124)
+            runs = int(166 + (518 - 166) * (over - 34) / (124 - 34))
+            wickets = min(7, int(2 + (7 - 2) * (over - 34) / (124 - 34)))
         else:
-            # Linear interpolation to final state at over 124
-            runs = int(518 * over / 124)
-            wickets = min(7, int(7 * over / 124)) if over < 124 else 7
+            # Day 4: 518/7 (over 124) to 567/10 (over 133.5)
+            runs = int(518 + (567 - 518) * (over - 124) / (133 - 124))
+            wickets = min(10, int(7 + (10 - 7) * (over - 124) / (133 - 124)))
 
         states.append({
             'matchId': 'sydney-test-2026',
@@ -1105,13 +1125,47 @@ def generate_sydney_test():
             'completedInnings': 1,
             'isChasing': True
         })
+    
+    # Innings 3: England 302-8 (75 overs on Day 4)
+    # Crawley 1, Duckett 42, Root 6, Bethell 142*, Brook 42, Jacks 0, Smith run out, Stokes c, Carse 16, Potts 0*
+    for over in range(0, 76, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        elif over <= 20:
+            # Early overs: Crawley out at 1, Duckett and Bethell build to ~80 at over 20
+            runs = int(over * 3.5)
+            wickets = min(1, 1 if over > 2 else 0)
+        elif over <= 40:
+            # Bethell and Duckett partnership: 80 to 140
+            runs = int(80 + (140 - 80) * (over - 20) / 20)
+            wickets = 1 if over <= 30 else min(2, 1 + int((over - 30) / 15))
+        elif over <= 60:
+            # Root, Bethell, Brook partnership: 140 to 260
+            runs = int(140 + (260 - 140) * (over - 40) / 20)
+            wickets = min(4, int(2 + (over - 40) / 10))
+        else:
+            # Final overs: 260 to 302-8
+            runs = int(260 + (302 - 260) * (over - 60) / 15)
+            wickets = min(8, int(4 + (over - 60) / 3))
+
+        states.append({
+            'matchId': 'sydney-test-2026',
+            'innings': 3,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': 384 + 567 - 384 + runs,  # First innings lead + runs in this innings
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (97 + 134 + over) * 6,
+            'completedInnings': 2,
+            'isChasing': True
+        })
 
     # Add batting teams (England batted first)
     states = add_batting_teams(states, first_batting='England')
 
     # Manually specify wicket fall overs based on actual scorecard
-    # Innings 1 from actual ball-by-ball data
-    # Innings 2 wickets extrapolated linearly (7 wickets over 124 overs)
     wicket_falls = [
         # Innings 1: England 384 all out
         {'innings': 1, 'xOver': 5, 'wickets': 1},      # Duckett at 35
@@ -1125,22 +1179,35 @@ def generate_sydney_test():
         {'innings': 1, 'xOver': 96, 'wickets': 9},     # Root at 384
         {'innings': 1, 'xOver': 97, 'wickets': 10},    # Tongue at 384
         
-        # Innings 2: Australia 518/7 (linear extrapolation of 7 wickets over 124 overs)
-        {'innings': 2, 'xOver': 97 + 18, 'wickets': 1},    # ~18 overs
-        {'innings': 2, 'xOver': 97 + 35, 'wickets': 2},    # ~35 overs
-        {'innings': 2, 'xOver': 97 + 53, 'wickets': 3},    # ~53 overs
-        {'innings': 2, 'xOver': 97 + 71, 'wickets': 4},    # ~71 overs
-        {'innings': 2, 'xOver': 97 + 88, 'wickets': 5},    # ~88 overs
-        {'innings': 2, 'xOver': 97 + 106, 'wickets': 6},   # ~106 overs
-        {'innings': 2, 'xOver': 97 + 120, 'wickets': 7},   # ~120 overs
+        # Innings 2: Australia 567 all out
+        {'innings': 2, 'xOver': 97 + 12, 'wickets': 1},    # Weatherald ~12 overs
+        {'innings': 2, 'xOver': 97 + 21, 'wickets': 2},    # Labuschagne ~21 overs
+        {'innings': 2, 'xOver': 97 + 35, 'wickets': 3},    # Neser ~35 overs
+        {'innings': 2, 'xOver': 97 + 52, 'wickets': 4},    # Head ~52 overs
+        {'innings': 2, 'xOver': 97 + 72, 'wickets': 5},    # Khawaja ~72 overs
+        {'innings': 2, 'xOver': 97 + 92, 'wickets': 6},    # Carey ~92 overs
+        {'innings': 2, 'xOver': 97 + 113, 'wickets': 7},   # Green ~113 overs
+        {'innings': 2, 'xOver': 97 + 131, 'wickets': 8},   # 8th wicket ~131 overs
+        {'innings': 2, 'xOver': 97 + 133, 'wickets': 9},   # 9th wicket ~133 overs
+        {'innings': 2, 'xOver': 97 + 134, 'wickets': 10},  # All out 567 at 133.5 overs
+        
+        # Innings 3: England 302-8
+        {'innings': 3, 'xOver': 97 + 134 + 2, 'wickets': 1},     # Crawley ~2 overs
+        {'innings': 3, 'xOver': 97 + 134 + 25, 'wickets': 2},    # Duckett ~25 overs
+        {'innings': 3, 'xOver': 97 + 134 + 38, 'wickets': 3},    # Root ~38 overs
+        {'innings': 3, 'xOver': 97 + 134 + 42, 'wickets': 4},    # Brook ~42 overs
+        {'innings': 3, 'xOver': 97 + 134 + 44, 'wickets': 5},    # Jacks ~44 overs
+        {'innings': 3, 'xOver': 97 + 134 + 55, 'wickets': 6},    # Smith run out ~55 overs
+        {'innings': 3, 'xOver': 97 + 134 + 60, 'wickets': 7},    # Stokes ~60 overs
+        {'innings': 3, 'xOver': 97 + 134 + 72, 'wickets': 8},    # Carse ~72 overs
     ]
 
     return {
         'matchId': 'sydney-test-2026',
         'city': 'Sydney',
         'dates': 'Jan 4-8, 2026',
-        'result': 'In progress (Day 3)',
-        'days': 3,
+        'result': 'In progress (Day 4)',
+        'days': 4,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
