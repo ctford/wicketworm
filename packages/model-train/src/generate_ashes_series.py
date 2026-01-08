@@ -1012,11 +1012,12 @@ def generate_melbourne_test():
 
 def generate_sydney_test():
     """
-    Sydney Test (Jan 4-8, 2026) - In progress (Day 4)
-    England won toss and batted
+    Sydney Test (Jan 4-8, 2026) - COMPLETED
+    Australia won by 5 wickets
     England: 384 all out (97.3 overs, Day 2)
     Australia: 567 all out (133.5 overs, Day 4) - lead 183 runs
-    England: 302-8 (75 overs, Day 4)
+    England: 342 all out (88.2 overs, Day 5)
+    Australia: 161-5 (31.2 overs, Day 5) - chased 160
     
     Day 1 summary:
     - Early movement: Australia took 3/57 in first 13 overs
@@ -1126,9 +1127,9 @@ def generate_sydney_test():
             'isChasing': True
         })
     
-    # Innings 3: England 302-8 (75 overs on Day 4)
-    # Crawley 1, Duckett 42, Root 6, Bethell 142*, Brook 42, Jacks 0, Smith run out, Stokes c, Carse 16, Potts 0*
-    for over in range(0, 76, 5):
+    # Innings 3: England 342 all out (88.2 overs on Day 5)
+    # Crawley 1, Duckett 42, Root 6, Bethell 154, Brook 42, Jacks 0, Smith run out, Stokes c, Carse 16, Tongue 6, Potts 0*
+    for over in range(0, 90, 5):
         if over == 0:
             runs, wickets = 0, 0
         elif over <= 20:
@@ -1139,14 +1140,14 @@ def generate_sydney_test():
             # Bethell and Duckett partnership: 80 to 140
             runs = int(80 + (140 - 80) * (over - 20) / 20)
             wickets = 1 if over <= 30 else min(2, 1 + int((over - 30) / 15))
-        elif over <= 60:
-            # Root, Bethell, Brook partnership: 140 to 260
-            runs = int(140 + (260 - 140) * (over - 40) / 20)
+        elif over <= 65:
+            # Root, Bethell, Brook partnership: 140 to 280
+            runs = int(140 + (280 - 140) * (over - 40) / 25)
             wickets = min(4, int(2 + (over - 40) / 10))
         else:
-            # Final overs: 260 to 302-8
-            runs = int(260 + (302 - 260) * (over - 60) / 15)
-            wickets = min(8, int(4 + (over - 60) / 3))
+            # Final overs: 280 to 342/10
+            runs = int(280 + (342 - 280) * (over - 65) / 23)
+            wickets = min(10, int(4 + (over - 65) / 3))
 
         states.append({
             'matchId': 'sydney-test-2026',
@@ -1159,6 +1160,30 @@ def generate_sydney_test():
             'matchOversLimit': 450,
             'ballsRemaining': 450 * 6 - (97 + 134 + over) * 6,
             'completedInnings': 2,
+            'isChasing': True
+        })
+    
+    # Innings 4: Australia 161-5 (31.2 overs on Day 5) - MATCH WINNER
+    # Head 29, Weatherald 34, Labuschagne 37, Smith 12, Khawaja 6, Carey 16*, Green 22*
+    for over in range(0, 33, 5):
+        if over == 0:
+            runs, wickets = 0, 0
+        else:
+            # Linear chase to target of 160 at over 31.2
+            runs = int(160 * over / 31)
+            wickets = min(5, int(5 * over / 31))
+
+        states.append({
+            'matchId': 'sydney-test-2026',
+            'innings': 4,
+            'over': over,
+            'runsFor': runs,
+            'wicketsDown': min(wickets, 10),
+            'ballsBowled': over * 6,
+            'lead': runs,  # Only positive if Australia chases down target
+            'matchOversLimit': 450,
+            'ballsRemaining': 450 * 6 - (97 + 134 + 88 + over) * 6,
+            'completedInnings': 3,
             'isChasing': True
         })
 
@@ -1206,8 +1231,8 @@ def generate_sydney_test():
         'matchId': 'sydney-test-2026',
         'city': 'Sydney',
         'dates': 'Jan 4-8, 2026',
-        'result': 'In progress (Day 4)',
-        'days': 4,
+        'result': 'Australia won by 5 wickets',
+        'days': 5,
         'states': states,
         'wicket_falls_manual': wicket_falls
     }
