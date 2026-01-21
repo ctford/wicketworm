@@ -582,6 +582,155 @@
           "battingTeam": "England"
         }
       ]
+    },
+    {
+      "matchId": "sydney-test-2026",
+      "city": "Sydney",
+      "dates": "Jan 4-8, 2026",
+      "result": "Australia won by 5 wickets",
+      "days": 5,
+      "states": [
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 0,
+          "runsFor": 0,
+          "wicketsDown": 0,
+          "ballsBowled": 0,
+          "lead": 0,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2700,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 24,
+          "runsFor": 114,
+          "wicketsDown": 3,
+          "ballsBowled": 144,
+          "lead": 114,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2556,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 42,
+          "runsFor": 200,
+          "wicketsDown": 3,
+          "ballsBowled": 252,
+          "lead": 200,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2448,
+          "completedInnings": 0,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 1,
+          "over": 80,
+          "runsFor": 384,
+          "wicketsDown": 10,
+          "ballsBowled": 480,
+          "lead": 384,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2220,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "Australia"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 2,
+          "over": 34,
+          "runsFor": 166,
+          "wicketsDown": 2,
+          "ballsBowled": 204,
+          "lead": 550,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2496,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "Australia"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 2,
+          "over": 65,
+          "runsFor": 281,
+          "wicketsDown": 3,
+          "ballsBowled": 390,
+          "lead": 665,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2310,
+          "completedInnings": 1,
+          "isChasing": false,
+          "battingTeam": "Australia"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 2,
+          "over": 134,
+          "runsFor": 567,
+          "wicketsDown": 10,
+          "ballsBowled": 804,
+          "lead": 951,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1596,
+          "completedInnings": 2,
+          "isChasing": false,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 3,
+          "over": 45,
+          "runsFor": 211,
+          "wicketsDown": 3,
+          "ballsBowled": 270,
+          "lead": 951,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2430,
+          "completedInnings": 2,
+          "isChasing": true,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 3,
+          "over": 88,
+          "runsFor": 342,
+          "wicketsDown": 10,
+          "ballsBowled": 528,
+          "lead": 1293,
+          "matchOversLimit": 450,
+          "ballsRemaining": 1872,
+          "completedInnings": 3,
+          "isChasing": true,
+          "battingTeam": "England"
+        },
+        {
+          "matchId": "sydney-test-2026",
+          "innings": 4,
+          "over": 31,
+          "runsFor": 161,
+          "wicketsDown": 5,
+          "ballsBowled": 186,
+          "lead": 161,
+          "matchOversLimit": 450,
+          "ballsRemaining": 2214,
+          "completedInnings": 4,
+          "isChasing": true,
+          "battingTeam": "Australia"
+        }
+      ]
     }
   ]
 }
