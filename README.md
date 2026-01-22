@@ -1,4 +1,4 @@
-# WicketWorm
+# WicketWorm (Ashes 2025-26)
 
 [![CI](https://github.com/ctford/wicketworm/actions/workflows/ci.yml/badge.svg)](https://github.com/ctford/wicketworm/actions/workflows/ci.yml)
 
